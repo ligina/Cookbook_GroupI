@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.mappers.RecipeIngredientMapper">
+
+    <!-- add recipe ingredient -->
+    <insert id="addRecipeIngredient" parameterType="RecipeIngredient">
+        INSERT INTO ingredient (recipe_id, name, quantity, unit, description, unit_calories, unit_protein, unit_fat, unit_carbohydrates)
+        VALUES (#{recipeIngredient.recipeId}, #{recipeIngredient.name}, #{recipeIngredient.quantity}, #{recipeIngredient.unit}, #{recipeIngredient.description}, #{recipeIngredient.unitCalories}, #{recipeIngredient.unitProtein}, #{recipeIngredient.unitFat}, #{recipeIngredient.unitCarbohydrates})
+    </insert>
+
+    <!-- delete recipe ingredient -->
+    <delete id="deleteRecipeIngredient" parameterType="Integer">
+        DELETE FROM ingredient
+        WHERE recipe_id = #{recipeID}
+    </delete>
+
+    <!-- update recipe ingredient -->
+    <update id="updateRecipeIngredient" parameterType="RecipeIngredient">
+        UPDATE ingredient
+        SET quantity = #{quantity}, unit = #{unit}, description = #{description}, unit_calories = #{unitCalories}, unit_protein = #{unitProtein}, unit_fat = #{unitFat}, unit_carbohydrates = #{unitCarbohydrates}
+        WHERE recipe_id = #{recipeId} AND name = #{name}
+    </update>
+
+    <!-- select recipe ingreident by recipe id -->
+    <select id="getRecipeIngredientsByRecipeId" parameterType="int" resultType="RecipeIngredient">
+        SELECT *
+        FROM ingredient
+        WHERE recipe_id = #{recipeId}
+    </select>
+
+</mapper>
