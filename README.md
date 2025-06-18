@@ -18,7 +18,7 @@ Cookbook_GroupI/
 │   ├── vcs.xml            # 版本控制系统映射
 │   ├── misc.xml           # 杂项项目设置
 │   ├── encodings.xml      # 文件编码设置
-│   └── .gitignore         # .idea 目录的忽略文件
+│   └── .gitignore         
 ├── src/
 │   └── main/
 │       ├── java/          # Java 源代码
@@ -83,5 +83,3 @@ Cookbook_GroupI/
 - **用户个人资料**：添加用户个人资料，保存喜爱的食谱和个人设置。
 - **营养分析**：提供更详细的食谱营养信息。
 
-## 贡献者
-- Ziang Liu
