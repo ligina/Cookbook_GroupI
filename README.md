@@ -67,8 +67,10 @@ Cookbook_GroupI/
     git clone <repository-url>
     cd Cookbook_GroupI
     ```
+    -建议使用github destop 进行操作
 2. **配置数据库**：
     - 创建一个 MySQL 数据库，并在 `mybatis-config.xml` 文件中更新数据库连接详细信息。
+    - 建议使用datagrid进行数据库管理（信息办上有相关激活手册）
 3. **构建项目**：
     ```sh
     mvn clean install
