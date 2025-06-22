@@ -15,10 +15,10 @@
         <environment id="development">
             <transactionManager type="JDBC"/>
             <dataSource type="POOLED">
-                <property name="driver" value="${database.driver}"/>
-                <property name="url" value="${database.url}"/>
-                <property name="username" value="${database.username}"/>
-                <property name="password" value="${database.password}"/>
+                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://localhost:3306/cookbook_db?useSSL=false"/>
+                <property name="username" value="cookbook_user"/>
+                <property name="password" value="Project@Pass123!"/>
             </dataSource>
         </environment>
     </environments>
