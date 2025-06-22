@@ -6,7 +6,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.PasswordField;
 import javafx.event.ActionEvent;
 import model.Model; // 导入 Model 类
-import view.MainPageView; // 导入 MainPageView 类
 import javafx.stage.Stage; // 导入 Stage 类
 import javafx.scene.Node; // 导入 Node 类
 import javafx.fxml.FXMLLoader;
