@@ -68,25 +68,25 @@
                   </columnConstraints>
 
                   <VBox alignment="CENTER" spacing="8" style="-fx-background-color: linear-gradient(135deg, #FF6B6B, #FF5252); -fx-background-radius: 15; -fx-padding: 15;" GridPane.columnIndex="0" GridPane.rowIndex="0">
-                     <Label style="-fx-font-size: 20;" text="Fire" />
+                     <Label style="-fx-font-size: 20;" text=" " />
                      <Label fx:id="previewCaloriesLabel" style="-fx-font-size: 20; -fx-font-weight: bold;" text="0" textFill="white" />
                      <Label style="-fx-font-size: 12;" text="kcal" textFill="rgba(255,255,255,0.8)" />
                   </VBox>
 
                   <VBox alignment="CENTER" spacing="8" style="-fx-background-color: linear-gradient(135deg, #4ECDC4, #44A08D); -fx-background-radius: 15; -fx-padding: 15;" GridPane.columnIndex="1" GridPane.rowIndex="0">
-                     <Label style="-fx-font-size: 20;" text="Meat" />
+                     <Label style="-fx-font-size: 20;" text=" " />
                      <Label fx:id="previewProteinLabel" style="-fx-font-size: 20; -fx-font-weight: bold;" text="0.0" textFill="white" />
                      <Label style="-fx-font-size: 12;" text="g protein" textFill="rgba(255,255,255,0.8)" />
                   </VBox>
 
                   <VBox alignment="CENTER" prefWidth="175.0" spacing="8" style="-fx-background-color: linear-gradient(135deg, #FFA726, #FF9800); -fx-background-radius: 15; -fx-padding: 15;" GridPane.columnIndex="0" GridPane.rowIndex="1">
-                     <Label style="-fx-font-size: 20;" text="Oil" />
+                     <Label style="-fx-font-size: 20;" text=" " />
                      <Label fx:id="previewFatLabel" style="-fx-font-size: 20; -fx-font-weight: bold;" text="0.0" textFill="white" />
                      <Label style="-fx-font-size: 12;" text="g fat" textFill="rgba(255,255,255,0.8)" />
                   </VBox>
 
                   <VBox alignment="CENTER" prefHeight="108.0" prefWidth="169.0" spacing="8" style="-fx-background-color: linear-gradient(135deg, #AB47BC, #9C27B0); -fx-background-radius: 15; -fx-padding: 15;" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                     <Label style="-fx-font-size: 20;" text="Bread" />
+                     <Label style="-fx-font-size: 20;" text=" " />
                      <Label fx:id="previewCarbsLabel" style="-fx-font-size: 20; -fx-font-weight: bold;" text="0.0" textFill="white" />
                      <Label style="-fx-font-size: 12;" text="g carbs" textFill="rgba(255,255,255,0.8)" />
                   </VBox>
