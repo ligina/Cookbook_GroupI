@@ -5,8 +5,8 @@
 <mapper namespace="dao.mappers.RecipeMapper">
     <!-- add recipe preparation step -->
     <insert id="addRecipe" parameterType="Recipe">
-        insert into recipe (name, serveamount, preparationTime, cookingTime, image_url)
-        values  (#{recipe.recipeName}, #{recipe.serveAmount}, #{recipe.preparationTime}, #{recipe.cookingTime}, #{recipe.imageUrl})
+        insert into recipe (name, serveamount, preparationTime, cookingTime, image_url, calories, protein, carbohydrates, fat, fiber)
+        values  (#{recipe.recipeName}, #{recipe.serveAmount}, #{recipe.preparationTime}, #{recipe.cookingTime}, #{recipe.imageUrl}, #{recipe.calories}, #{recipe.protein}, #{recipe.carbohydrates}, #{recipe.fat}, #{recipe.fiber})
     </insert>
     <!-- delete recipe by id -->
     <delete id="deleteRecipe" parameterType="Integer">
@@ -15,32 +15,32 @@
     </delete>
     <!-- select all recipes-->
     <select id="getAllRecipes" resultType="Recipe">
-        select recipe_id as recipeId, name as recipeName, serveamount as serveAmount, preparationTime, cookingTime, image_url as imageUrl
+        select recipe_id as recipeId, name as recipeName, serveamount as serveAmount, preparationTime, cookingTime, image_url as imageUrl, calories, protein, carbohydrates, fat, fiber
         from recipe
         order by recipe_id asc
     </select>
     <!-- update recipe by id-->
     <update id="updateRecipe" parameterType="Recipe">
         update recipe
-        set name = #{recipe.recipeName}, serveamount = #{recipe.serveAmount}, preparationTime = #{recipe.preparationTime}, cookingTime = #{recipe.cookingTime}, image_url = #{recipe.imageUrl}
+        set name = #{recipe.recipeName}, serveamount = #{recipe.serveAmount}, preparationTime = #{recipe.preparationTime}, cookingTime = #{recipe.cookingTime}, image_url = #{recipe.imageUrl}, calories = #{recipe.calories}, protein = #{recipe.protein}, carbohydrates = #{recipe.carbohydrates}, fat = #{recipe.fat}, fiber = #{recipe.fiber}
         where recipe_id = #{recipe.recipeId}
     </update>
     <!-- update recipe by id-->
     <select id="getRecipeById" parameterType="int" resultType="Recipe">
-        select recipe_id as recipeId, name as recipeName, serveamount as serveAmount, preparationTime, cookingTime,image_url as imageUrl
+        select recipe_id as recipeId, name as recipeName, serveamount as serveAmount, preparationTime, cookingTime,image_url as imageUrl, calories, protein, carbohydrates, fat, fiber
         from recipe
         where recipe_id = #{recipeId}
     </select>
     <!-- select recipe by name-->
     <select id="getRecipeByName" parameterType="string" resultType="Recipe">
-        select recipe_id as recipeId, name as recipeName, serveamount as serveAmount, preparationTime, cookingTime,image_url as imageUrl
+        select recipe_id as recipeId, name as recipeName, serveamount as serveAmount, preparationTime, cookingTime,image_url as imageUrl, calories, protein, carbohydrates, fat, fiber
         from recipe
         where name like concat('%', #{recipeName}, '%')
     </select>
     <!-- select the newest recipe-->
     <select id="getNewRecipe" resultType="Recipe">
         select recipe_id as recipeId, name as recipeName, serveamount as serveAmount,
-               preparationTime, cookingTime, image_url as imageUrl
+               preparationTime, cookingTime, image_url as imageUrl, calories, protein, carbohydrates, fat, fiber
         from recipe
         order by recipe_id desc
             limit 1

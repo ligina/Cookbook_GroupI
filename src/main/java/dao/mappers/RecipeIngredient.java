@@ -288,6 +288,62 @@ public class RecipeIngredient {
     }
 
     /**
+     * Sets the total calories by calculating unit calories based on quantity.
+     * This allows direct editing of total nutrition values.
+     *
+     * @param totalCalories The total calories to set.
+     */
+    public void setTotalCalories(Float totalCalories) {
+        if (quantity != null && quantity > 0) {
+            this.unitCalories = totalCalories / quantity;
+        } else {
+            this.unitCalories = totalCalories != null ? totalCalories : 0.0f;
+        }
+    }
+
+    /**
+     * Sets the total protein by calculating unit protein based on quantity.
+     * This allows direct editing of total nutrition values.
+     *
+     * @param totalProtein The total protein to set.
+     */
+    public void setTotalProtein(Float totalProtein) {
+        if (quantity != null && quantity > 0) {
+            this.unitProtein = totalProtein / quantity;
+        } else {
+            this.unitProtein = totalProtein != null ? totalProtein : 0.0f;
+        }
+    }
+
+    /**
+     * Sets the total fat by calculating unit fat based on quantity.
+     * This allows direct editing of total nutrition values.
+     *
+     * @param totalFat The total fat to set.
+     */
+    public void setTotalFat(Float totalFat) {
+        if (quantity != null && quantity > 0) {
+            this.unitFat = totalFat / quantity;
+        } else {
+            this.unitFat = totalFat != null ? totalFat : 0.0f;
+        }
+    }
+
+    /**
+     * Sets the total carbohydrates by calculating unit carbohydrates based on quantity.
+     * This allows direct editing of total nutrition values.
+     *
+     * @param totalCarbohydrates The total carbohydrates to set.
+     */
+    public void setTotalCarbohydrates(Float totalCarbohydrates) {
+        if (quantity != null && quantity > 0) {
+            this.unitCarbohydrates = totalCarbohydrates / quantity;
+        } else {
+            this.unitCarbohydrates = totalCarbohydrates != null ? totalCarbohydrates : 0.0f;
+        }
+    }
+
+    /**
      * Returns a string representation of the RecipeIngredient object.
      *
      * @return A string containing all attributes of the RecipeIngredient.
