@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.RecipeCreateController">
+
+    <!-- 头部标题 -->
+    <Label layoutX="117.0" layoutY="26.0" text="Recipe Name:">
+        <font>
+            <Font name="System Bold" size="20.0" />
+        </font>
+    </Label>
+    <HBox alignment="CENTER" layoutX="276.0" layoutY="20.0" maxHeight="40.0" minHeight="40.0" prefHeight="40.0" prefWidth="504.0">
+        <TextField fx:id="recipeNameTextField" alignment="CENTER" maxHeight="40.0" minHeight="40.0" prefHeight="40.0" prefWidth="515.0" style="-fx-text-fill: #333;">
+            <font>
+                <Font name="Comic Sans MS" size="50" />
+            </font>
+        </TextField>
+    </HBox>
+
+    <!-- 图片区域 -->
+    <Pane layoutX="580.0" layoutY="132.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #f8f5f5; -fx-background-radius: 10;">
+        <effect>
+            <DropShadow color="#00000080" radius="5.0" />
+        </effect>
+        <ImageView fx:id="recipeImage" fitHeight="200.0" fitWidth="200.0" />
+    </Pane>
+
+    <!-- 时间输入区域 -->
+    <Label layoutX="276.0" layoutY="85.0" text="Cooking(min):">
+        <font>
+            <Font name="System Bold" size="18.0" />
+        </font>
+    </Label>
+    <TextField fx:id="cookingTimeTextField" alignment="CENTER" layoutX="413.0" layoutY="85.0" prefHeight="20.0" prefWidth="80.0" />
+
+    <Label layoutX="528.0" layoutY="85.0" text="Preparation(min):">
+        <font>
+            <Font name="System Bold" size="18.0" />
+        </font>
+    </Label>
+    <TextField fx:id="preparationTextField" alignment="CENTER" layoutX="698.0" layoutY="85.0" prefHeight="20.0" prefWidth="80.0" />
+
+    <Label fx:id="serveNumberLabel" layoutX="20.0" layoutY="85.0" text="Serve number:">
+        <font>
+            <Font name="System Bold" size="18.0" />
+        </font>
+    </Label>
+    <TextField fx:id="serveNumberField" alignment="CENTER" layoutX="160.0" layoutY="85.0" prefHeight="23.0" prefWidth="80.0" />
+
+    <!-- 标签页区域 -->
+    <TabPane fx:id="tabPane" layoutX="20.0" layoutY="132.0" prefHeight="452.0" prefWidth="540.0" style="-fx-background-color: transparent;" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+            <!-- 食材标签页 -->
+            <Tab fx:id="ingredientsTab" text="Ingredients">
+                <content>
+                    <AnchorPane style="-fx-background-color: transparent;">
+                        <TableView fx:id="tableView" editable="true" layoutX="0.0" layoutY="0.0" prefHeight="426.0" prefWidth="540.0">
+                            <effect>
+                                <DropShadow color="#00000080" radius="5.0" />
+                            </effect>
+                            <columns>
+                                <TableColumn prefWidth="47.0" text="Name">
+                                    <cellValueFactory>
+                                        <PropertyValueFactory property="name" />
+                                    </cellValueFactory>
+                                </TableColumn>
+                                <TableColumn prefWidth="62.0" text="Quantity">
+                                    <cellValueFactory>
+                                        <PropertyValueFactory property="quantity" />
+                                    </cellValueFactory>
+                                </TableColumn>
+                                <TableColumn prefWidth="42.0" text="Units">
+                                    <cellValueFactory>
+                                        <PropertyValueFactory property="unit" />
+                                    </cellValueFactory>
+                                </TableColumn>
+                                <TableColumn prefWidth="77.0" text="Description">
+                                    <cellValueFactory>
+                                        <PropertyValueFactory property="description" />
+                                    </cellValueFactory>
+                                </TableColumn>
+                                <TableColumn prefWidth="87.0" text="Calories/unit">
+                                    <cellValueFactory>
+                                        <PropertyValueFactory property="unitCalories" />
+                                    </cellValueFactory>
+                                </TableColumn>
+                                <TableColumn prefWidth="87.0" text="Protein/unit">
+                                    <cellValueFactory>
+                                        <PropertyValueFactory property="unitProtein" />
+                                    </cellValueFactory>
+                                </TableColumn>
+                                <TableColumn prefWidth="62.0" text="Fat/unit">
+                                    <cellValueFactory>
+                                        <PropertyValueFactory property="unitFat" />
+                                    </cellValueFactory>
+                                </TableColumn>
+                                <TableColumn prefWidth="72.0" text="Carbs/unit">
+                                    <cellValueFactory>
+                                        <PropertyValueFactory property="unitCarbohydrates" />
+                                    </cellValueFactory>
+                                </TableColumn>
+                            </columns>
+                        </TableView>
+                    </AnchorPane>
+                </content>
+            </Tab>
+
+            <!-- 步骤标签页 -->
+            <Tab fx:id="instructionTab" text="Instructions">
+                <content>
+                    <AnchorPane style="-fx-background-color: transparent;">
+                        <TableView fx:id="instructionTableView" editable="true" layoutX="0.0" layoutY="0.0" prefHeight="422.0" prefWidth="540.0">
+                            <effect>
+                                <DropShadow color="#00000080" radius="5.0" />
+                            </effect>
+                            <columns>
+                                <TableColumn prefWidth="50.0" text="Step">
+                                    <cellValueFactory>
+                                        <PropertyValueFactory property="step" />
+                                    </cellValueFactory>
+                                </TableColumn>
+                                <TableColumn prefWidth="490.0" text="Description">
+                                    <cellValueFactory>
+                                        <PropertyValueFactory property="description" />
+                                    </cellValueFactory>
+                                </TableColumn>
+                            </columns>
+                        </TableView>
+                    </AnchorPane>
+                </content>
+            </Tab>
+        </tabs>
+    </TabPane>
+
+    <!-- 按钮区域 -->
+    <Button fx:id="backButton" layoutX="20.0" layoutY="20.0" mnemonicParsing="false" onAction="#handleBack" prefHeight="40.0" prefWidth="81.0" style="-fx-background-color: #667eea; -fx-text-fill: white; -fx-background-radius: 10; -fx-font-size: 16; -fx-font-weight: bold; -fx-cursor: hand;" text="←Back" />
+    <Button fx:id="uploadButton" layoutX="580.0" layoutY="344.0" mnemonicParsing="false" onAction="#handleUpload" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #667eea; -fx-text-fill: white; -fx-background-radius: 10; -fx-font-size: 16; -fx-font-weight: bold; -fx-cursor: hand;" text="Upload Pictures" />
+    <Button fx:id="addButton" layoutX="580.0" layoutY="394.0" mnemonicParsing="false" onAction="#handleAdd" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #667eea; -fx-text-fill: white; -fx-background-radius: 10; -fx-font-size: 16; -fx-font-weight: bold; -fx-cursor: hand;" text="Add Recipe" />
+    <Button fx:id="deleteButton" layoutX="580.0" layoutY="444.0" mnemonicParsing="false" onAction="#handleDelete" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #667eea; -fx-text-fill: white; -fx-background-radius: 10; -fx-font-size: 16; -fx-font-weight: bold; -fx-cursor: hand;" text="Delete Recipe" />
+    <Button fx:id="clearButton" layoutX="580.0" layoutY="494.0" mnemonicParsing="false" onAction="#handleClear" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #667eea; -fx-text-fill: white; -fx-background-radius: 10; -fx-font-size: 16; -fx-font-weight: bold; -fx-cursor: hand;" text="Remove All" />
+    <Button fx:id="submitButton" layoutX="580.0" layoutY="544.0" mnemonicParsing="false" onAction="#handleSubmit" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #667eea; -fx-text-fill: white; -fx-background-radius: 10; -fx-font-size: 16; -fx-font-weight: bold; -fx-cursor: hand;" text="Save Recipes" />
+</AnchorPane>

@@ -6,24 +6,24 @@
 
 <AnchorPane fx:id="rootPane" prefHeight="600" prefWidth="800" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.RecipeSelectController">
     <children>
-        <Label fx:id="titleLabel" layoutX="158.0" layoutY="20.0" text="Choose your recipe">
+        <Label fx:id="titleLabel" layoutX="158.0" layoutY="21.0" text="Choose your recipe">
             <font>
                 <Font name="System Bold" size="50.0" />
             </font>
         </Label>
 
-        <TextField fx:id="searchField" layoutX="158.0" layoutY="100" prefHeight="40" prefWidth="434.0" />
+        <TextField fx:id="searchField" layoutX="158.0" layoutY="100.0" prefHeight="40" prefWidth="434.0" />
 
-        <Button fx:id="searchButton" layoutX="602.0" layoutY="100" mnemonicParsing="false" onAction="#handleSearch" prefHeight="40" prefWidth="40" text="Go" />
+        <Button fx:id="searchButton" layoutX="596.0" layoutY="100.0" mnemonicParsing="false" onAction="#handleSearch" prefHeight="40.0" prefWidth="45.0" style="-fx-background-color: #764ba2; -fx-text-fill: white; -fx-background-radius: 10; -fx-font-size: 16px; -fx-font-weight: bold; -fx-cursor: hand;" text="Go" />
 
-        <Button fx:id="backButton" layoutX="20" layoutY="33.0" mnemonicParsing="false" onAction="#handleBack" prefHeight="40" prefWidth="80.0" text="Back" />
+        <Button fx:id="backButton" layoutX="20" layoutY="33.0" mnemonicParsing="false" onAction="#handleBack" prefHeight="40" prefWidth="81.0" style="-fx-background-color: #667eea; -fx-text-fill: white; -fx-background-radius: 10; -fx-font-size: 16; -fx-font-weight: bold; -fx-cursor: hand;" text="←Back" />
 
-        <Button fx:id="createButton" layoutX="317.5" layoutY="500" mnemonicParsing="false" onAction="#handleCreate" prefHeight="40" prefWidth="165.0" text="Create your own recipe" />
+        <Button fx:id="createButton" layoutX="278.0" layoutY="499.0" mnemonicParsing="false" onAction="#handleCreate" prefHeight="40" prefWidth="243.0" style="-fx-background-color: #764ba2; -fx-text-fill: white; -fx-background-radius: 10; -fx-font-size: 16px; -fx-font-weight: bold; -fx-cursor: hand;" text="Create Your Own Recipe" />
 
         <!-- 分页按钮容器 -->
         <HBox fx:id="paginationBox" layoutX="350.0" layoutY="450" spacing="20">
-            <Button fx:id="prevButton" mnemonicParsing="false" onAction="#handlePrev" prefHeight="40" prefWidth="40.0" text="&lt;" />
-            <Button fx:id="nextButton" mnemonicParsing="false" onAction="#handleNext" prefHeight="40" prefWidth="40.0" text="&gt;" />
+            <Button fx:id="prevButton" mnemonicParsing="false" onAction="#handlePrev" prefHeight="40" prefWidth="40.0" style="-fx-background-color: #667eea; -fx-text-fill: white; -fx-background-radius: 10; -fx-font-size: 16px; -fx-font-weight: bold; -fx-cursor: hand;" text="&lt;" />
+            <Button fx:id="nextButton" mnemonicParsing="false" onAction="#handleNext" prefHeight="40" prefWidth="40.0" style="-fx-background-color: #667eea; -fx-text-fill: white; -fx-background-radius: 10; -fx-font-size: 16px; -fx-font-weight: bold; -fx-cursor: hand;" text="&gt;" />
         </HBox>
 
         <!-- 菜谱按钮容器 -->

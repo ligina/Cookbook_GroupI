@@ -1,234 +1,285 @@
 package control;
+
 import dao.mappers.PreparationStep;
 import dao.mappers.Recipe;
 import dao.mappers.RecipeIngredient;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Tab;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.util.converter.FloatStringConverter;
+import javafx.util.converter.IntegerStringConverter;
 import model.Model;
-import view.RecipeCreateView;
+import view.RecipeSelectView;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 
-/**
- * Controller for handling actions on the Recipe Create page.
- *
- * @author 
- */
-
-public class RecipeCreateController implements EventHandler<ActionEvent> {
+public class RecipeCreateController {
 
     private int preparationStepNumber = 0;
-    private final RecipeCreateView recipeCreateView;
-    private final Model model;
-    public  String imageUrl = "";
+    private Model model = new Model();
+    private String imageUrl = "";
+    private boolean isEdited = false;
+    private Integer editedRecipeId = 0;
 
-    /**
-     * Constructs a RecipeCreateController with a RecipeCreateView instance.
-     *
-     * @param recipeCreateView The RecipeCreateView associated with this controller.
-     */
-    public RecipeCreateController(RecipeCreateView recipeCreateView) {
-        this.recipeCreateView = recipeCreateView;
-        this.model = new Model();
-        // Initialize preparation step number based on existing steps for edited recipes
-        List<PreparationStep> preparationSteps = model.getRecipePreparationSteps(recipeCreateView.editedRecipeId);
-        for(PreparationStep preparationStep : preparationSteps){
-            preparationStepNumber = Math.max(preparationStepNumber,preparationStep.getStep());
-        }
-        preparationStepNumber++;
+    @FXML private TextField recipeNameTextField;
+    @FXML private TextField cookingTimeTextField;
+    @FXML private TextField preparationTextField;
+    @FXML private ImageView recipeImage;
+    @FXML private TabPane tabPane;
+    @FXML private Tab ingredientsTab;
+    @FXML private Tab instructionTab;
+    @FXML private TableView<RecipeIngredient> tableView;
+    @FXML private TableView<PreparationStep> instructionTableView;
+    @FXML private Button submitButton;
+    @FXML private Button backButton;
+    @FXML private Button uploadButton;
+    @FXML private Button addButton;
+    @FXML private Button deleteButton;
+    @FXML private Button clearButton;
+    @FXML private Label serveNumberLabel;
+
+    private ObservableList<RecipeIngredient> ingredientList = FXCollections.observableArrayList();
+    private ObservableList<PreparationStep> instructionList = FXCollections.observableArrayList();
+
+    @FXML
+    public void initialize() {
+        setupTableViewColumns();
+        setupInstructionTableViewColumns();
+        tableView.setItems(ingredientList);
+        instructionTableView.setItems(instructionList);
     }
 
-    @Override
-    public void handle(ActionEvent event) {
-        if (event.getSource() == recipeCreateView.uploadButton){
-            imageUrl = imageChoose(recipeCreateView);
-            if(imageUrl != null) {
-                recipeCreateView.updateImage(model.duplicateImage(imageUrl).toString());
-            }
-
-        }
-        // Handle back button click
-        if(event.getSource() == recipeCreateView.backButton){
-            recipeCreateView.close();
-        }
-        // Handle add button click
-        if (event.getSource() == recipeCreateView.addButton){
-            handleAddButtonAction();
-        }
-        // Handle delete button click
-        if (event.getSource() == recipeCreateView.deleteButton){
-            handleDeleteButtonAction();
-        }
-        // Handle clear button click
-        if (event.getSource() == recipeCreateView.clearButton) {
-            handleClearButtonAction();
-        }
-        // Handle submit button click
-        if(event.getSource() == recipeCreateView.submitButton){
-            // Retrieve input values
-            String recipeName = recipeCreateView.recipeNameTextField.getText();
-            String cookingTime = recipeCreateView.cookingTimeTextField.getText();
-            String preparationTime = recipeCreateView.preparationTextField.getText();
-            // Validate input
-            if (!model.validateRecipe(
-                    recipeName,
-                    cookingTime,
-                    preparationTime,
-                    recipeCreateView.recipeImage.getImage() == null ? "" : recipeCreateView.recipeImage.getImage().getUrl()
-            ))   {
-                return;
-            }
-            Recipe recipe;
-            Integer recipeId = 0;
-            String fullImageUrl = recipeCreateView.recipeImage.getImage().getUrl().replace("file:", "");
-            String fileName = Paths.get(fullImageUrl).getFileName().toString();
-            // Create or update recipe based on editing status
-            if(!recipeCreateView.isEdited) {
-                System.out.println(fileName);
-                recipe = new Recipe(0,recipeCreateView.recipeNameTextField.getText(),1,Integer.parseInt(recipeCreateView.cookingTimeTextField.getText()),Integer.parseInt(recipeCreateView.preparationTextField.getText()), "src/images/dishes/" + fileName);
-                recipeId = model.addRecipe(recipe);
-            }
-            else{
-                recipe = new Recipe(recipeCreateView.editedRecipeId,recipeCreateView.recipeNameTextField.getText(),1,Integer.parseInt(recipeCreateView.cookingTimeTextField.getText()),Integer.parseInt(recipeCreateView.preparationTextField.getText()),recipeCreateView.recipeImage.getImage().getUrl().replace("file:", ""));
-                recipeId = recipeCreateView.editedRecipeId;
-                model.updateRecipe(recipe);
-            }
-            // Prepare updated recipe ingredients
-            List<RecipeIngredient> updatedRecipeIngredients = new ArrayList<>();
-            for(RecipeIngredient recipeIngredient: recipeCreateView.tableView.getItems()){
-                recipeIngredient.setRecipeId(recipeId);
-                // Validate ingredient fields
-
-
-                if(!model.validateRecipeIngredient(recipeIngredient.getName(),recipeIngredient.getQuantity(),recipeIngredient.getUnit())){
-                    if(!recipeCreateView.isEdited) {
-                        model.deleteRecipe(recipeId);
-                    }
-                    return;
-                }
-                // Directly add recipe ingredient when creating recipe
-                if(!recipeCreateView.isEdited) {
-                    model.addRecipeIngredient(recipeIngredient);
-                }
-                // Temporarily store recipe ingredient to List when editing recipe
-                else {
-                    updatedRecipeIngredients.add(recipeIngredient);
-
-                }
-
-            }
-            // Update recipe ingredients if editing
-            if(recipeCreateView.isEdited){
-                model.updateRecipeIngredient(recipeId,updatedRecipeIngredients);
-            }
-
-            // Prepare updated preparationTime steps
-            List<PreparationStep> updatedPreparationSteps = new ArrayList<>();
-            for(PreparationStep preparationStep : recipeCreateView.instructionTableView.getItems()){
-                preparationStep.setRecipeId(recipeId);
-                // Directly add recipe preparationTime step when creating recipe
-                if(!recipeCreateView.isEdited) {
-                    model.addRecipePreparationStep(preparationStep);
-                }
-                // Temporarily store recipe preparationTime step to List when editing recipe
-                else{
-                    updatedPreparationSteps.add(preparationStep);
-
-                }
-            }
-            // Update preparationTime steps if editing
-            if(recipeCreateView.isEdited){
-                model.updateRecipePreparationStep(recipeId, updatedPreparationSteps);
-            }
-            // Show success message
-            Model.displayAlert(Alert.AlertType.INFORMATION,"Success","Recipe and ingredients added successfully!");
-            // Close the stage
-            recipeCreateView.close();
-            RecipeSelectView recipeSelectView = new RecipeSelectView();
-            recipeSelectView.show();
-
-        }
-
-
+    public void setEdited(boolean edited) {
+        isEdited = edited;
     }
 
-    /**
-     * Opens a file chooser dialog for selecting an image file.
-     *
-     * @param stage The stage to show the file chooser dialog on.
-     * @return The absolute path of the selected image file, or null if no file selected.
-     */
-    public String imageChoose(Stage stage){
+    public void setEditedRecipeId(Integer editedRecipeId) {
+        this.editedRecipeId = editedRecipeId;
+        loadRecipeData();
+    }
+
+    private void loadRecipeData() {
+        // 实现加载食谱数据的逻辑
+    }
+
+    private void setupTableViewColumns() {
+        TableColumn<RecipeIngredient, String> nameColumn = new TableColumn<>("Ingredient name");
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        nameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        nameColumn.setOnEditCommit(event -> {
+            RecipeIngredient ingredient = event.getRowValue();
+            ingredient.setName(event.getNewValue());
+        });
+
+        TableColumn<RecipeIngredient, Float> quantityColumn = new TableColumn<>("Quantity");
+        quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        quantityColumn.setCellFactory(column -> createFloatTableCell());
+
+        TableColumn<RecipeIngredient, String> unitsColumn = new TableColumn<>("Units");
+        unitsColumn.setCellValueFactory(new PropertyValueFactory<>("unit"));
+        unitsColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        unitsColumn.setOnEditCommit(event -> {
+            RecipeIngredient ingredient = event.getRowValue();
+            ingredient.setUnit(event.getNewValue());
+        });
+
+        TableColumn<RecipeIngredient, String> descriptionColumn = new TableColumn<>("Description");
+        descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+        descriptionColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        descriptionColumn.setOnEditCommit(event -> {
+            RecipeIngredient ingredient = event.getRowValue();
+            ingredient.setDescription(event.getNewValue());
+        });
+
+        TableColumn<RecipeIngredient, Float> caloriesColumn = new TableColumn<>("Calories/unit");
+        caloriesColumn.setCellValueFactory(new PropertyValueFactory<>("unitCalories"));
+        caloriesColumn.setCellFactory(column -> createFloatTableCell());
+
+        TableColumn<RecipeIngredient, Float> proteinColumn = new TableColumn<>("Protein/unit");
+        proteinColumn.setCellValueFactory(new PropertyValueFactory<>("unitProtein"));
+        proteinColumn.setCellFactory(column -> createFloatTableCell());
+
+        TableColumn<RecipeIngredient, Float> fatColumn = new TableColumn<>("Fat/unit");
+        fatColumn.setCellValueFactory(new PropertyValueFactory<>("unitFat"));
+        fatColumn.setCellFactory(column -> createFloatTableCell());
+
+        TableColumn<RecipeIngredient, Float> carbsColumn = new TableColumn<>("Carbs/unit");
+        carbsColumn.setCellValueFactory(new PropertyValueFactory<>("unitCarbohydrates"));
+        carbsColumn.setCellFactory(column -> createFloatTableCell());
+
+        tableView.getColumns().setAll(nameColumn, quantityColumn, unitsColumn, descriptionColumn,
+                caloriesColumn, proteinColumn, fatColumn, carbsColumn);
+        tableView.setEditable(true);
+    }
+
+    private TextFieldTableCell<RecipeIngredient, Float> createFloatTableCell() {
+        TextFieldTableCell<RecipeIngredient, Float> cell = new TextFieldTableCell<>(new FloatStringConverter());
+        cell.setConverter(new FloatStringConverter() {
+            @Override
+            public Float fromString(String value) {
+                if (value.matches("-?\\d*(\\.\\d+)?")) {
+                    return super.fromString(value);
+                } else {
+                    showAlert("Warn", "Please input number");
+                    return null;
+                }
+            }
+        });
+        return cell;
+    }
+
+    private void setupInstructionTableViewColumns() {
+        TableColumn<PreparationStep, Integer> stepColumn = new TableColumn<>("Step");
+        stepColumn.setCellValueFactory(new PropertyValueFactory<>("step"));
+        stepColumn.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+        stepColumn.setOnEditCommit(event -> {
+            PreparationStep step = event.getRowValue();
+            step.setStep(event.getNewValue());
+        });
+
+        TableColumn<PreparationStep, String> descriptionColumn = new TableColumn<>("Description");
+        descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+        descriptionColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        descriptionColumn.setOnEditCommit(event -> {
+            PreparationStep step = event.getRowValue();
+            step.setDescription(event.getNewValue());
+        });
+
+        instructionTableView.getColumns().setAll(stepColumn, descriptionColumn);
+        instructionTableView.setEditable(true);
+    }
+
+    @FXML
+    private void handleUpload(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
-        stage.setOpacity(0);
-        Stage tempWindow = new Stage();
-        File temp = fileChooser.showOpenDialog(tempWindow);
-        stage.setOpacity(1);
-        if (imageStore(temp)) {
-            return temp.getAbsolutePath();
-        }
-        return null;
-    }
-
-    private boolean imageStore(File file) {
-        return file != null && file.exists();
-    }
-
-    /**
-     * Handles adding new rows to the table based on the currently selected tab.
-     */
-    private void handleAddButtonAction() {
-
-        Tab selectedTab = recipeCreateView.tabPane.getSelectionModel().getSelectedItem();
-        if(selectedTab.equals(recipeCreateView.ingredientsTab)){
-            RecipeIngredient newIngredient = new RecipeIngredient(0,"",new Float(0.0),"","", 0.0f, 0.0f, 0.0f, 0.0f); // Include nutritional information with default values
-            recipeCreateView.tableView.getItems().add(newIngredient);
-        }
-        else if(selectedTab.equals(recipeCreateView.instructionTab)){
-            PreparationStep newInstruction = new PreparationStep(0, preparationStepNumber++,"");
-            recipeCreateView.instructionTableView.getItems().add(newInstruction);
+        File file = fileChooser.showOpenDialog(uploadButton.getScene().getWindow());
+        if (file != null && file.exists()) {
+            imageUrl = file.getAbsolutePath();
+            recipeImage.setImage(new Image("file:" + imageUrl));
         }
     }
 
-    /**
-     * Handles deleting selected rows from the table based on the currently selected tab.
-     */
-    private void handleDeleteButtonAction() {
-        Tab selectedTab = recipeCreateView.tabPane.getSelectionModel().getSelectedItem();
+    @FXML
+    private void handleBack(ActionEvent event) {
+        ((Stage) backButton.getScene().getWindow()).close();
+    }
 
-        if (selectedTab.equals(recipeCreateView.ingredientsTab)) {
-            int selectedIndex = recipeCreateView.tableView.getSelectionModel().getSelectedIndex();
-            if (selectedIndex >= 0) {
-                recipeCreateView.tableView.getItems().remove(selectedIndex);
+    @FXML
+    private void handleAdd(ActionEvent event) {
+        Tab selectedTab = tabPane.getSelectionModel().getSelectedItem();
+        if (selectedTab.equals(ingredientsTab)) {
+            ingredientList.add(new RecipeIngredient(0, "", 0.0f, "", "", 0.0f, 0.0f, 0.0f, 0.0f));
+        } else if (selectedTab.equals(instructionTab)) {
+            instructionList.add(new PreparationStep(0, preparationStepNumber++, ""));
+        }
+    }
+
+    @FXML
+    private void handleDelete(ActionEvent event) {
+        Tab selectedTab = tabPane.getSelectionModel().getSelectedItem();
+        if (selectedTab.equals(ingredientsTab)) {
+            RecipeIngredient selected = tableView.getSelectionModel().getSelectedItem();
+            if (selected != null) ingredientList.remove(selected);
+        } else if (selectedTab.equals(instructionTab)) {
+            PreparationStep selected = instructionTableView.getSelectionModel().getSelectedItem();
+            if (selected != null) instructionList.remove(selected);
+        }
+    }
+
+    @FXML
+    private void handleClear(ActionEvent event) {
+        recipeNameTextField.clear();
+        preparationTextField.clear();
+        cookingTimeTextField.clear();
+        ingredientList.clear();
+        instructionList.clear();
+        recipeImage.setImage(null);
+    }
+
+    @FXML
+    private void handleSubmit(ActionEvent event) {
+        String recipeName = recipeNameTextField.getText();
+        String cookingTime = cookingTimeTextField.getText();
+        String preparationTime = preparationTextField.getText();
+        String imagePath = recipeImage.getImage() == null ? "" : recipeImage.getImage().getUrl();
+
+        if (!model.validateRecipe(recipeName, cookingTime, preparationTime, imagePath)) {
+            return;
+        }
+
+        String fileName = Paths.get(imagePath.replace("file:", "")).getFileName().toString();
+        Recipe recipe = new Recipe(
+                isEdited ? editedRecipeId : 0,
+                recipeName,
+                1,
+                Integer.parseInt(cookingTime),
+                Integer.parseInt(preparationTime),
+                isEdited ? imagePath.replace("file:", "") : "src/images/dishes/" + fileName
+        );
+
+        int recipeId = isEdited ?
+                model.updateRecipe(recipe) :
+                model.addRecipe(recipe);
+
+        if (recipeId > 0) {
+            saveIngredients(recipeId);
+            saveInstructions(recipeId);
+            showAlert("Success", "Recipe saved successfully!");
+            closeAndOpenRecipeSelect();
+        } else {
+            showAlert("Error", "Failed to save recipe");
+        }
+    }
+
+    private void saveIngredients(int recipeId) {
+        for (RecipeIngredient ingredient : ingredientList) {
+            ingredient.setRecipeId(recipeId);
+            if (isEdited) {
+                model.updateRecipeIngredient(ingredient);
             } else {
-                Model.displayAlert(Alert.AlertType.INFORMATION, "No rows selected", "Please select a row to delete.");
-            }
-        } else if (selectedTab.equals(recipeCreateView.instructionTab)) {
-            int selectedIndex = recipeCreateView.instructionTableView.getSelectionModel().getSelectedIndex();
-            if (selectedIndex >= 0) {
-                recipeCreateView.instructionTableView.getItems().remove(selectedIndex);
-            } else {
-                Model.displayAlert(Alert.AlertType.INFORMATION, "No rows selected", "Please select a row to delete.");
+                model.addRecipeIngredient(ingredient);
             }
         }
     }
 
-    /**
-     * Handles clearing all input fields and tables.
-     */
-    private void handleClearButtonAction() {
-        recipeCreateView.recipeNameTextField.clear();
-        recipeCreateView.preparationTextField.clear();
-        recipeCreateView.cookingTimeTextField.clear();
-        recipeCreateView.tableView.getItems().clear();
-        recipeCreateView.instructionTableView.getItems().clear();
-        recipeCreateView.recipeImage.setImage(null);
+    private void saveInstructions(int recipeId) {
+        for (PreparationStep step : instructionList) {
+            step.setRecipeId(recipeId);
+            if (isEdited) {
+                model.updateRecipePreparationStep(step);
+            } else {
+                model.addRecipePreparationStep(step);
+            }
+        }
+    }
+
+    private void closeAndOpenRecipeSelect() {
+        Stage stage = (Stage) submitButton.getScene().getWindow();
+        stage.close();
+        try {
+            new RecipeSelectView().start(new Stage());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }
