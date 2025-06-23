@@ -375,5 +375,51 @@ public class Model implements ModelMethod{
 
     }
 
+    // Additional methods for RecipeDisplayFXMLController
+    private Recipe currentRecipe;
+    private List<RecipeIngredient> currentIngredients;
+    private String currentInstructions;
+
+    public void getRecipes() {
+        // This method is called to initialize recipe loading
+        // Implementation can be empty if not needed
+    }
+
+    public void getRecipeBasicData(Integer recipeId) {
+        this.currentRecipe = recipeMapper.getRecipeById(recipeId);
+    }
+
+    public String getRecipeName() {
+        return currentRecipe != null ? currentRecipe.getRecipeName() : "";
+    }
+
+    public String getCookingTime() {
+        return currentRecipe != null ? String.valueOf(currentRecipe.getCookingTime()) : "0";
+    }
+
+    public String getPreparationTime() {
+        return currentRecipe != null ? String.valueOf(currentRecipe.getPreparationTime()) : "0";
+    }
+
+    public String getImagePath() {
+        return currentRecipe != null ? currentRecipe.getImageUrl() : "";
+    }
+
+    public List<RecipeIngredient> getIngredients(Integer recipeId) {
+        this.currentIngredients = recipeIngredientMapper.getRecipeIngredientsByRecipeId(recipeId);
+        return currentIngredients;
+    }
+
+    public String getInstructions(Integer recipeId) {
+        List<PreparationStep> steps = preparationStepMapper.getPreparationStepsByRecipeId(recipeId);
+        StringBuilder instructions = new StringBuilder();
+        for (PreparationStep step : steps) {
+            instructions.append("Step ").append(step.getStep()).append(": ")
+                       .append(step.getDescription()).append("\n\n");
+        }
+        this.currentInstructions = instructions.toString();
+        return currentInstructions;
+    }
+
 }
 

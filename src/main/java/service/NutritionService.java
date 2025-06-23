@@ -6,17 +6,17 @@ import java.util.Map;
 /**
  * Service class for handling nutritional information calculations and lookups.
  * Provides automatic nutrition calculation based on ingredient mass and type.
- *
+ * 
  * @author Claude
  */
 public class NutritionService {
-
+    
     /**
      * Nutrition data per 100g for common ingredients.
      * Format: {ingredient_name: {calories, protein, fat, carbohydrates}}
      */
     private static final Map<String, NutritionData> NUTRITION_DATABASE = new HashMap<>();
-
+    
     static {
         // Initialize nutrition database with common ingredients (per 100g)
         NUTRITION_DATABASE.put("chicken breast", new NutritionData(165, 31.0f, 3.6f, 0));
@@ -59,36 +59,36 @@ public class NutritionService {
         NUTRITION_DATABASE.put("coca-cola", new NutritionData(42, 0, 0, 10.6f));
         NUTRITION_DATABASE.put("bay leaves", new NutritionData(313, 7.6f, 8.4f, 75.0f));
     }
-
+    
     /**
      * Gets nutrition information for a given ingredient name.
-     *
+     * 
      * @param ingredientName The name of the ingredient (case-insensitive)
      * @return NutritionData for the ingredient, or null if not found
      */
     public static NutritionData getNutritionData(String ingredientName) {
         if (ingredientName == null) return null;
-
+        
         String cleanName = ingredientName.toLowerCase().trim();
-
+        
         // Direct match first
         if (NUTRITION_DATABASE.containsKey(cleanName)) {
             return NUTRITION_DATABASE.get(cleanName);
         }
-
+        
         // Partial match - find ingredients containing the search term
         for (Map.Entry<String, NutritionData> entry : NUTRITION_DATABASE.entrySet()) {
             if (entry.getKey().contains(cleanName) || cleanName.contains(entry.getKey())) {
                 return entry.getValue();
             }
         }
-
+        
         return null;
     }
-
+    
     /**
      * Calculates nutrition values based on ingredient quantity and unit.
-     *
+     * 
      * @param ingredientName Name of the ingredient
      * @param quantity Quantity of the ingredient
      * @param unit Unit of measurement (g, kg, ml, l, etc.)
@@ -99,36 +99,36 @@ public class NutritionService {
         if (baseNutrition == null || quantity == null || quantity <= 0) {
             return null;
         }
-
+        
         // Convert quantity to grams (base unit is per 100g)
         float quantityInGrams = convertToGrams(quantity, unit);
         if (quantityInGrams <= 0) {
             return null;
         }
-
+        
         // Calculate nutrition for the actual quantity
         float multiplier = quantityInGrams / 100.0f;
-
+        
         return new NutritionData(
-                Math.round(baseNutrition.calories * multiplier),
-                baseNutrition.protein * multiplier,
-                baseNutrition.fat * multiplier,
-                baseNutrition.carbohydrates * multiplier
+            Math.round(baseNutrition.calories * multiplier),
+            baseNutrition.protein * multiplier,
+            baseNutrition.fat * multiplier,
+            baseNutrition.carbohydrates * multiplier
         );
     }
-
+    
     /**
      * Converts various units to grams.
-     *
+     * 
      * @param quantity The quantity value
      * @param unit The unit string
      * @return Equivalent weight in grams
      */
     private static float convertToGrams(Float quantity, String unit) {
         if (unit == null) return quantity; // Assume grams if no unit
-
+        
         String unitLower = unit.toLowerCase().trim();
-
+        
         switch (unitLower) {
             case "g":
             case "gram":
@@ -182,17 +182,17 @@ public class NutritionService {
                 return quantity;
         }
     }
-
+    
     /**
      * Checks if an ingredient exists in the nutrition database.
-     *
+     * 
      * @param ingredientName Name of the ingredient
      * @return true if ingredient has nutrition data available
      */
     public static boolean hasNutritionData(String ingredientName) {
         return getNutritionData(ingredientName) != null;
     }
-
+    
     /**
      * Data class to hold nutrition information.
      */
@@ -201,18 +201,18 @@ public class NutritionService {
         public final float protein;
         public final float fat;
         public final float carbohydrates;
-
+        
         public NutritionData(int calories, float protein, float fat, float carbohydrates) {
             this.calories = calories;
             this.protein = protein;
             this.fat = fat;
             this.carbohydrates = carbohydrates;
         }
-
+        
         @Override
         public String toString() {
-            return String.format("Calories: %d, Protein: %.1fg, Fat: %.1fg, Carbs: %.1fg",
-                    calories, protein, fat, carbohydrates);
+            return String.format("Calories: %d, Protein: %.1fg, Fat: %.1fg, Carbs: %.1fg", 
+                               calories, protein, fat, carbohydrates);
         }
     }
 }

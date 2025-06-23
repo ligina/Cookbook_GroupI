@@ -23,9 +23,11 @@
         WHERE recipe_id = #{recipeId} AND name = #{name}
     </update>
 
-    <!-- select recipe ingreident by recipe id -->
+    <!-- select recipe ingredient by recipe id -->
     <select id="getRecipeIngredientsByRecipeId" parameterType="int" resultType="RecipeIngredient">
-        SELECT *
+        SELECT recipe_id as recipeId, name, quantity, unit, description, 
+               unit_calories as unitCalories, unit_protein as unitProtein, 
+               unit_fat as unitFat, unit_carbohydrates as unitCarbohydrates
         FROM ingredient
         WHERE recipe_id = #{recipeId}
     </select>

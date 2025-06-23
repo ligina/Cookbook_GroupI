@@ -10,7 +10,8 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.Model;
 import view.RecipeCreateView;
-
+import view.RecipeSelectView;
+import service.NutritionService;
 import java.io.File;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -43,6 +44,9 @@ public class RecipeCreateController implements EventHandler<ActionEvent> {
             preparationStepNumber = Math.max(preparationStepNumber,preparationStep.getStep());
         }
         preparationStepNumber++;
+        
+        // Set up listeners to update nutrition preview in real-time
+        setupNutritionPreviewListeners();
     }
 
     @Override
@@ -89,66 +93,108 @@ public class RecipeCreateController implements EventHandler<ActionEvent> {
             Integer recipeId = 0;
             String fullImageUrl = recipeCreateView.recipeImage.getImage().getUrl().replace("file:", "");
             String fileName = Paths.get(fullImageUrl).getFileName().toString();
+            // Calculate total nutrition from ingredients
+            int totalCalories = 0;
+            double totalProtein = 0.0;
+            double totalCarbohydrates = 0.0;
+            double totalFat = 0.0;
+            double totalFiber = 0.0;
+            
+            for(RecipeIngredient ingredient : recipeCreateView.tableView.getItems()) {
+                if (ingredient.getUnitCalories() != null && ingredient.getUnitCalories() > 0) {
+                    totalCalories += ingredient.getUnitCalories() * ingredient.getQuantity();
+                    totalProtein += ingredient.getUnitProtein() * ingredient.getQuantity();
+                    totalCarbohydrates += ingredient.getUnitCarbohydrates() * ingredient.getQuantity();
+                    totalFat += ingredient.getUnitFat() * ingredient.getQuantity();
+                }
+            }
+            
             // Create or update recipe based on editing status
             if(!recipeCreateView.isEdited) {
                 System.out.println(fileName);
                 recipe = new Recipe(0,recipeCreateView.recipeNameTextField.getText(),1,Integer.parseInt(recipeCreateView.cookingTimeTextField.getText()),Integer.parseInt(recipeCreateView.preparationTextField.getText()), "src/images/dishes/" + fileName);
+
+                recipe.setCalories(totalCalories);
+                recipe.setProtein(totalProtein);
+                recipe.setCarbohydrates(totalCarbohydrates);
+                recipe.setFat(totalFat);
+                recipe.setFiber(totalFiber);
                 recipeId = model.addRecipe(recipe);
             }
             else{
                 recipe = new Recipe(recipeCreateView.editedRecipeId,recipeCreateView.recipeNameTextField.getText(),1,Integer.parseInt(recipeCreateView.cookingTimeTextField.getText()),Integer.parseInt(recipeCreateView.preparationTextField.getText()),recipeCreateView.recipeImage.getImage().getUrl().replace("file:", ""));
+                recipe.setCalories(totalCalories);
+                recipe.setProtein(totalProtein);
+                recipe.setCarbohydrates(totalCarbohydrates);
+                recipe.setFat(totalFat);
+                recipe.setFiber(totalFiber);
                 recipeId = recipeCreateView.editedRecipeId;
                 model.updateRecipe(recipe);
             }
-            // Prepare updated recipe ingredients
             List<RecipeIngredient> updatedRecipeIngredients = new ArrayList<>();
             for(RecipeIngredient recipeIngredient: recipeCreateView.tableView.getItems()){
                 recipeIngredient.setRecipeId(recipeId);
                 // Validate ingredient fields
-
-
                 if(!model.validateRecipeIngredient(recipeIngredient.getName(),recipeIngredient.getQuantity(),recipeIngredient.getUnit())){
                     if(!recipeCreateView.isEdited) {
                         model.deleteRecipe(recipeId);
                     }
                     return;
                 }
-                // Directly add recipe ingredient when creating recipe
+                
+                // Auto-fill nutrition data if not manually entered and ingredient is recognized
+                if (recipeIngredient.getUnitCalories() == null || recipeIngredient.getUnitCalories() == 0.0f) {
+                    NutritionService.NutritionData nutritionData = NutritionService.calculateNutritionForQuantity(
+                        recipeIngredient.getName(), recipeIngredient.getQuantity(), recipeIngredient.getUnit());
+                    if (nutritionData != null) {
+                        // Set unit nutrition values (per unit of measurement)
+                        recipeIngredient.setUnitCalories((float) nutritionData.calories / recipeIngredient.getQuantity());
+                        recipeIngredient.setUnitProtein(nutritionData.protein / recipeIngredient.getQuantity());
+                        recipeIngredient.setUnitFat(nutritionData.fat / recipeIngredient.getQuantity());
+                        recipeIngredient.setUnitCarbohydrates(nutritionData.carbohydrates / recipeIngredient.getQuantity());
+                    }
+                }
                 if(!recipeCreateView.isEdited) {
                     model.addRecipeIngredient(recipeIngredient);
                 }
-                // Temporarily store recipe ingredient to List when editing recipe
                 else {
                     updatedRecipeIngredients.add(recipeIngredient);
 
                 }
 
             }
-            // Update recipe ingredients if editing
+
             if(recipeCreateView.isEdited){
                 model.updateRecipeIngredient(recipeId,updatedRecipeIngredients);
             }
 
-            // Prepare updated preparationTime steps
             List<PreparationStep> updatedPreparationSteps = new ArrayList<>();
             for(PreparationStep preparationStep : recipeCreateView.instructionTableView.getItems()){
                 preparationStep.setRecipeId(recipeId);
-                // Directly add recipe preparationTime step when creating recipe
                 if(!recipeCreateView.isEdited) {
                     model.addRecipePreparationStep(preparationStep);
                 }
-                // Temporarily store recipe preparationTime step to List when editing recipe
                 else{
                     updatedPreparationSteps.add(preparationStep);
 
                 }
             }
-            // Update preparationTime steps if editing
+
             if(recipeCreateView.isEdited){
                 model.updateRecipePreparationStep(recipeId, updatedPreparationSteps);
             }
-            // Show success message
-            Model.displayAlert(Alert.AlertType.INFORMATION,"Success","Recipe and ingredients added successfully!");
+            String message = "Recipe saved successfully!";
+            int autoFilledCount = 0;
+            for(RecipeIngredient ingredient : recipeCreateView.tableView.getItems()) {
+                if (NutritionService.hasNutritionData(ingredient.getName())) {
+                    autoFilledCount++;
+                }
+            }
+            if (autoFilledCount > 0) {
+                message += "\n\nAuto-filled nutrition data for " + autoFilledCount + " ingredients.";
+            }
+            Model.displayAlert(Alert.AlertType.INFORMATION,"Success", message);
+            
             // Close the stage
             recipeCreateView.close();
             RecipeSelectView recipeSelectView = new RecipeSelectView();
@@ -159,12 +205,6 @@ public class RecipeCreateController implements EventHandler<ActionEvent> {
 
     }
 
-    /**
-     * Opens a file chooser dialog for selecting an image file.
-     *
-     * @param stage The stage to show the file chooser dialog on.
-     * @return The absolute path of the selected image file, or null if no file selected.
-     */
     public String imageChoose(Stage stage){
         FileChooser fileChooser = new FileChooser();
         stage.setOpacity(0);
@@ -181,15 +221,14 @@ public class RecipeCreateController implements EventHandler<ActionEvent> {
         return file != null && file.exists();
     }
 
-    /**
-     * Handles adding new rows to the table based on the currently selected tab.
-     */
     private void handleAddButtonAction() {
-
         Tab selectedTab = recipeCreateView.tabPane.getSelectionModel().getSelectedItem();
         if(selectedTab.equals(recipeCreateView.ingredientsTab)){
-            RecipeIngredient newIngredient = new RecipeIngredient(0,"",new Float(0.0),"","", 0.0f, 0.0f, 0.0f, 0.0f); // Include nutritional information with default values
+            // Create new ingredient with default values
+            RecipeIngredient newIngredient = new RecipeIngredient(0,"",1.0f,"g","", 0.0f, 0.0f, 0.0f, 0.0f);
             recipeCreateView.tableView.getItems().add(newIngredient);
+            // Update nutrition preview
+            recipeCreateView.updateNutritionPreview();
         }
         else if(selectedTab.equals(recipeCreateView.instructionTab)){
             PreparationStep newInstruction = new PreparationStep(0, preparationStepNumber++,"");
@@ -197,9 +236,7 @@ public class RecipeCreateController implements EventHandler<ActionEvent> {
         }
     }
 
-    /**
-     * Handles deleting selected rows from the table based on the currently selected tab.
-     */
+
     private void handleDeleteButtonAction() {
         Tab selectedTab = recipeCreateView.tabPane.getSelectionModel().getSelectedItem();
 
@@ -207,6 +244,8 @@ public class RecipeCreateController implements EventHandler<ActionEvent> {
             int selectedIndex = recipeCreateView.tableView.getSelectionModel().getSelectedIndex();
             if (selectedIndex >= 0) {
                 recipeCreateView.tableView.getItems().remove(selectedIndex);
+                // Update nutrition preview after deletion
+                recipeCreateView.updateNutritionPreview();
             } else {
                 Model.displayAlert(Alert.AlertType.INFORMATION, "No rows selected", "Please select a row to delete.");
             }
@@ -220,9 +259,7 @@ public class RecipeCreateController implements EventHandler<ActionEvent> {
         }
     }
 
-    /**
-     * Handles clearing all input fields and tables.
-     */
+
     private void handleClearButtonAction() {
         recipeCreateView.recipeNameTextField.clear();
         recipeCreateView.preparationTextField.clear();
@@ -230,5 +267,24 @@ public class RecipeCreateController implements EventHandler<ActionEvent> {
         recipeCreateView.tableView.getItems().clear();
         recipeCreateView.instructionTableView.getItems().clear();
         recipeCreateView.recipeImage.setImage(null);
+        // Update nutrition preview after clearing
+        recipeCreateView.updateNutritionPreview();
+    }
+
+
+    private void setupNutritionPreviewListeners() {
+        // Check if tableView is available before setting up listeners
+        if (recipeCreateView.tableView != null) {
+            // Listen for changes in the ingredients table
+            recipeCreateView.tableView.itemsProperty().addListener((obs, oldList, newList) -> {
+                if (newList != null) {
+                    newList.addListener((javafx.collections.ListChangeListener<RecipeIngredient>) change -> {
+                        recipeCreateView.updateNutritionPreview();
+                    });
+                }
+            });
+
+            recipeCreateView.updateNutritionPreview();
+        }
     }
 }

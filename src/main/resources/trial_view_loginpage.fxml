@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<<<<<<< Updated upstream
-=======
 
->>>>>>> Stashed changes
 <?import javafx.scene.control.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.layout.*?>
@@ -12,16 +9,10 @@
    <children>
       <VBox alignment="CENTER" layoutX="150.0" layoutY="50.0" prefHeight="400.0" prefWidth="400.0" spacing="25.0" style="-fx-background-color: rgba(255, 255, 255, 0.95); -fx-background-radius: 20; -fx-padding: 40;">
          <children>
-<<<<<<< Updated upstream
-            <Label alignment="CENTER" prefHeight="37.0" prefWidth="436.0" text="Welcome to Digital Cookbook!" textAlignment="CENTER" wrapText="true">
-               <font>
-                  <Font name="System Bold" size="20.0" />
-=======
 
             <Label alignment="CENTER" prefHeight="37.0" prefWidth="436.0" text="Welcome to Digital Cookbook!" textAlignment="CENTER" wrapText="true">
                <font>
                   <Font name="System Bold" size="28.0" />
->>>>>>> Stashed changes
                </font>
                <effect>
                   <DropShadow color="#00000020" />
@@ -30,10 +21,7 @@
 
             <VBox alignment="CENTER" spacing="20.0" style="-fx-padding: 20 0 0 0;">
                <children>
-<<<<<<< Updated upstream
-=======
                   <!-- Username Section -->
->>>>>>> Stashed changes
                   <VBox alignment="CENTER_LEFT" spacing="8.0">
                      <children>
                         <Label style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #333333;" text="Username" />

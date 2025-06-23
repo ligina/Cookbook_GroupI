@@ -17,6 +17,11 @@ public class Recipe implements Serializable {
     private int preparationTime;
     private int cookingTime;
     private String imageUrl;
+    private int calories;
+    private double protein;
+    private double carbohydrates;
+    private double fat;
+    private double fiber;
 
     /**
      * Default constructor for the Recipe class.
@@ -38,7 +43,11 @@ public class Recipe implements Serializable {
         this.serveAmount = serveAmount;
         this.preparationTime = preparationTime;
         this.cookingTime = cookingTime;
-
+        this.calories = 0;
+        this.protein = 0.0;
+        this.carbohydrates = 0.0;
+        this.fat = 0.0;
+        this.fiber = 0.0;
     }
 
     /**
@@ -58,6 +67,11 @@ public class Recipe implements Serializable {
         this.preparationTime = preparationTime;
         this.cookingTime = cookingTime;
         this.imageUrl = imageUrl;
+        this.calories = 0;
+        this.protein = 0.0;
+        this.carbohydrates = 0.0;
+        this.fat = 0.0;
+        this.fiber = 0.0;
     }
 
     /**
@@ -160,6 +174,105 @@ public class Recipe implements Serializable {
     }
 
     /**
+     * Sets the image URL associated with the recipe.
+     *
+     * @param imageUrl The image URL to set.
+     */
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    /**
+     * Retrieves the calories of the recipe.
+     *
+     * @return The calories.
+     */
+    public int getCalories() {
+        return this.calories;
+    }
+
+    /**
+     * Sets the calories of the recipe.
+     *
+     * @param calories The calories to set.
+     */
+    public void setCalories(int calories) {
+        this.calories = calories;
+    }
+
+    /**
+     * Retrieves the protein content of the recipe.
+     *
+     * @return The protein content in grams.
+     */
+    public double getProtein() {
+        return this.protein;
+    }
+
+    /**
+     * Sets the protein content of the recipe.
+     *
+     * @param protein The protein content to set, in grams.
+     */
+    public void setProtein(double protein) {
+        this.protein = protein;
+    }
+
+    /**
+     * Retrieves the carbohydrates content of the recipe.
+     *
+     * @return The carbohydrates content in grams.
+     */
+    public double getCarbohydrates() {
+        return this.carbohydrates;
+    }
+
+    /**
+     * Sets the carbohydrates content of the recipe.
+     *
+     * @param carbohydrates The carbohydrates content to set, in grams.
+     */
+    public void setCarbohydrates(double carbohydrates) {
+        this.carbohydrates = carbohydrates;
+    }
+
+    /**
+     * Retrieves the fat content of the recipe.
+     *
+     * @return The fat content in grams.
+     */
+    public double getFat() {
+        return this.fat;
+    }
+
+    /**
+     * Sets the fat content of the recipe.
+     *
+     * @param fat The fat content to set, in grams.
+     */
+    public void setFat(double fat) {
+        this.fat = fat;
+    }
+
+    /**
+     * Retrieves the fiber content of the recipe.
+     *
+     * @return The fiber content in grams.
+     */
+    public double getFiber() {
+        return this.fiber;
+    }
+
+    /**
+     * Sets the fiber content of the recipe.
+     *
+     * @param fiber The fiber content to set, in grams.
+     */
+    public void setFiber(double fiber) {
+        this.fiber = fiber;
+    }
+
+    /**
      * Returns a string representation of the Recipe object.
      *
      * @return A string containing all attributes of the Recipe.
@@ -173,6 +286,11 @@ public class Recipe implements Serializable {
                 ", preparationTime=" + preparationTime +
                 ", cookingTime=" + cookingTime +
                 ", imageUrl='" + imageUrl + '\'' +
+                ", calories=" + calories +
+                ", protein=" + protein +
+                ", carbohydrates=" + carbohydrates +
+                ", fat=" + fat +
+                ", fiber=" + fiber +
                 '}';
     }
 }
