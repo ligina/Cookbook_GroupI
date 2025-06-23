@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: linear-gradient(to bottom right, #667eea, #764ba2);" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.RecipeSelectFXMLController">
+
+   <top>
+      <VBox alignment="CENTER" spacing="25" style="-fx-padding: 30 20 20 20;">
+
+         <VBox alignment="CENTER" spacing="10">
+            <Label fx:id="titleLabel" text="My Recipe Collection" textAlignment="CENTER" textFill="white">
+               <font>
+                  <Font name="System Bold" size="42.0" />
+               </font>
+               <effect>
+                  <DropShadow blurType="GAUSSIAN" color="#00000050" offsetX="2.0" offsetY="2.0" radius="8.0" />
+               </effect>
+            </Label>
+            <Label text="Discover, Create, and Share Delicious Recipes" textAlignment="CENTER" textFill="#E8EAF6">
+               <font>
+                  <Font name="System" size="16.0" />
+               </font>
+            </Label>
+         </VBox>
+
+         <HBox alignment="CENTER" spacing="15" style="-fx-padding: 15; -fx-background-color: rgba(255,255,255,0.15); -fx-background-radius: 25; -fx-border-color: rgba(255,255,255,0.3); -fx-border-radius: 25; -fx-border-width: 1;">
+            <TextField fx:id="searchField" prefHeight="45.0" prefWidth="450.0" promptText="Search your favorite recipes..." style="-fx-background-color: rgba(255,255,255,0.9); -fx-background-radius: 22; -fx-padding: 12; -fx-font-size: 15; -fx-prompt-text-fill: #666; -fx-border-color: rgba(0,0,0,0.1); -fx-border-radius: 22; -fx-border-width: 1;">
+               <effect>
+                  <DropShadow blurType="GAUSSIAN" color="#00000015" offsetX="1.0" offsetY="1.0" radius="3.0" />
+               </effect>
+            </TextField>
+            <Button fx:id="searchButton" onAction="#handleSearchButton" prefHeight="45.0" prefWidth="80.0" style="-fx-background-color: linear-gradient(to bottom, #FF6B6B, #FF5252); -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 22; -fx-cursor: hand; -fx-font-size: 16;" text="🔍">
+               <effect>
+                  <DropShadow blurType="GAUSSIAN" color="#00000040" offsetX="2.0" offsetY="2.0" radius="4.0" />
+               </effect>
+            </Button>
+            <Button fx:id="createRecipeButton" onAction="#handleCreateRecipeButton" prefHeight="45.0" prefWidth="200.0" style="-fx-background-color: linear-gradient(to bottom, #4ECDC4, #44A08D); -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 22; -fx-cursor: hand; -fx-font-size: 15;" text="+ Create New Recipe">
+               <effect>
+                  <DropShadow blurType="GAUSSIAN" color="#00000040" offsetX="2.0" offsetY="2.0" radius="4.0" />
+               </effect>
+            </Button>
+         </HBox>
+      </VBox>
+   </top>
+
+   <center>
+      <VBox alignment="CENTER" spacing="25" style="-fx-padding: 20;">
+         <!-- Recipe Cards Container -->
+         <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED" style="-fx-background: transparent; -fx-background-color: transparent;">
+            <VBox fx:id="recipeContainer" alignment="CENTER" spacing="20" style="-fx-background-color: transparent; -fx-padding: 20;">
+               <Pane fx:id="recipePane" prefHeight="400.0" prefWidth="1000.0" style="-fx-background-color: rgba(255,255,255,0.1); -fx-background-radius: 20; -fx-border-color: rgba(255,255,255,0.2); -fx-border-radius: 20; -fx-border-width: 1;">
+                  <effect>
+                     <DropShadow blurType="GAUSSIAN" color="#00000025" offsetX="0.0" offsetY="4.0" radius="15.0" />
+                  </effect>
+               </Pane>
+            </VBox>
+         </ScrollPane>
+
+         <HBox alignment="CENTER" spacing="20">
+            <Button fx:id="prevButton" onAction="#handlePrevButton" prefHeight="50.0" prefWidth="120.0" style="-fx-background-color: linear-gradient(to bottom, #667eea, #764ba2); -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 25; -fx-cursor: hand; -fx-font-size: 16; -fx-border-color: rgba(255,255,255,0.3); -fx-border-radius: 25; -fx-border-width: 1;" text="◀ Previous">
+               <effect>
+                  <DropShadow blurType="GAUSSIAN" color="#00000030" offsetX="2.0" offsetY="2.0" radius="5.0" />
+               </effect>
+            </Button>
+            <Label fx:id="pageLabel" text="Page 1" textFill="white" style="-fx-font-size: 16; -fx-font-weight: bold; -fx-background-color: rgba(255,255,255,0.2); -fx-background-radius: 15; -fx-padding: 10 20;" />
+            <Button fx:id="nextButton" onAction="#handleNextButton" prefHeight="50.0" prefWidth="120.0" style="-fx-background-color: linear-gradient(to bottom, #667eea, #764ba2); -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 25; -fx-cursor: hand; -fx-font-size: 16; -fx-border-color: rgba(255,255,255,0.3); -fx-border-radius: 25; -fx-border-width: 1;" text="Next ▶">
+               <effect>
+                  <DropShadow blurType="GAUSSIAN" color="#00000030" offsetX="2.0" offsetY="2.0" radius="5.0" />
+               </effect>
+            </Button>
+         </HBox>
+      </VBox>
+   </center>
+
+   <bottom>
+      <HBox alignment="CENTER" spacing="30" style="-fx-padding: 20; -fx-background-color: rgba(0,0,0,0.1);">
+         <Button fx:id="refreshButton" onAction="#handleRefreshButton" prefHeight="40.0" prefWidth="100.0" style="-fx-background-color: rgba(255,255,255,0.2); -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-cursor: hand; -fx-font-size: 14; -fx-border-color: rgba(255,255,255,0.3); -fx-border-radius: 20; -fx-border-width: 1;" text="🔄 Refresh">
+            <effect>
+               <DropShadow blurType="GAUSSIAN" color="#00000020" offsetX="1.0" offsetY="1.0" radius="3.0" />
+            </effect>
+         </Button>
+         
+         <Region HBox.hgrow="ALWAYS" />
+         
+         <Label fx:id="recipeCountLabel" text="0 recipes found" textFill="rgba(255,255,255,0.8)" style="-fx-font-size: 14;" />
+         
+         <Region HBox.hgrow="ALWAYS" />
+         
+         <Button fx:id="backButton" onAction="#handleBackButton" prefHeight="40.0" prefWidth="100.0" style="-fx-background-color: rgba(255,255,255,0.2); -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-cursor: hand; -fx-font-size: 14; -fx-border-color: rgba(255,255,255,0.3); -fx-border-radius: 20; -fx-border-width: 1;" text="← Logout">
+            <effect>
+               <DropShadow blurType="GAUSSIAN" color="#00000020" offsetX="1.0" offsetY="1.0" radius="3.0" />
+            </effect>
+         </Button>
+      </HBox>
+   </bottom>
+   
+</BorderPane>
