@@ -115,29 +115,45 @@ public class RecipeDisplayFXMLController implements Initializable {
     @FXML
     private void handleEditButton(ActionEvent event) {
         if (selectedRecipeNumber != null) {
-            RecipeCreateView recipeCreateView = new RecipeCreateView(selectedRecipeNumber);
-            recipeCreateView.show();
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Do you want to edit this recipe?", ButtonType.YES, ButtonType.NO);
+            alert.setTitle("Confirmation");
+            alert.setHeaderText(null);
+
+            alert.showAndWait().ifPresent(response -> {
+                if (response == ButtonType.YES) {
+                    // Close current window
+                    Stage stage = (Stage) editRecipeButton.getScene().getWindow();
+                    stage.close();
+                    
+                    // Open edit view with pre-filled data
+                    RecipeCreateView recipeCreateView = new RecipeCreateView(selectedRecipeNumber);
+                    recipeCreateView.show();
+                }
+            });
         }
     }
 
     @FXML
     private void handleDeleteButton(ActionEvent event) {
         if (selectedRecipeNumber != null) {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Delete Recipe");
-            alert.setHeaderText("Are you sure you want to delete this recipe?");
-            alert.setContentText("This action cannot be undone.");
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete this recipe?", ButtonType.YES, ButtonType.NO);
+            alert.setTitle("Confirmation");
+            alert.setHeaderText(null);
             
-            if (alert.showAndWait().get() == ButtonType.OK) {
-                Model model = new Model();
-                model.deleteRecipe(selectedRecipeNumber);
-
-                Stage stage = (Stage) deleteRecipeButton.getScene().getWindow();
-                stage.close();
-
-                RecipeSelectView recipeSelectView = new RecipeSelectView();
-                recipeSelectView.show();
-            }
+            alert.showAndWait().ifPresent(response -> {
+                if (response == ButtonType.YES) {
+                    Model model = new Model();
+                    model.deleteRecipe(selectedRecipeNumber);
+                    Model.displayAlert(Alert.AlertType.INFORMATION, "Info", "Successfully deleted this recipe");
+                    
+                    // Close current window and return to recipe select
+                    Stage stage = (Stage) deleteRecipeButton.getScene().getWindow();
+                    stage.close();
+                    
+                    RecipeSelectView recipeSelectView = new RecipeSelectView();
+                    recipeSelectView.show();
+                }
+            });
         }
     }
 
