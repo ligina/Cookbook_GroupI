@@ -75,7 +75,7 @@
                                         <PropertyValueFactory property="quantity" />
                                     </cellValueFactory>
                                 </TableColumn>
-                                <TableColumn prefWidth="42.0" text="Units">
+                                <TableColumn prefWidth="43.0" text="Units">
                                     <cellValueFactory>
                                         <PropertyValueFactory property="unit" />
                                     </cellValueFactory>
