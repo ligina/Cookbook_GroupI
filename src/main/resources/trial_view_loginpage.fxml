@@ -10,9 +10,9 @@
       <VBox alignment="CENTER" layoutX="150.0" layoutY="50.0" prefHeight="400.0" prefWidth="400.0" spacing="25.0" style="-fx-background-color: rgba(255, 255, 255, 0.95); -fx-background-radius: 20; -fx-padding: 40;">
          <children>
 
-            <Label alignment="CENTER" prefHeight="37.0" prefWidth="436.0" text="Welcome to Digital Cookbook!" textAlignment="CENTER" wrapText="true">
+            <Label alignment="CENTER" prefHeight="58.0" prefWidth="331.0" text="Welcome to Digital Cookbook!" textAlignment="CENTER" wrapText="true">
                <font>
-                  <Font name="System Bold" size="28.0" />
+                  <Font name="System Bold" size="20.0" />
                </font>
                <effect>
                   <DropShadow color="#00000020" />
