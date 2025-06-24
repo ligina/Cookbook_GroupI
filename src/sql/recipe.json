@@ -1,0 +1,463 @@
+[
+  {
+    "dish_name": "Beef Brisket Stew with Tomatoes and Potatoes",
+    "ingredients": [
+      {
+        "name": "Beef brisket",
+        "quantity": 100,
+        "unit": "g",
+        "description": "cut into chunks"
+      },
+      {
+        "name": "Potato",
+        "quantity": 50,
+        "unit": "g",
+        "description": "peeled,diced"
+      },
+      {
+        "name": "Tomato",
+        "quantity": 50,
+        "unit": "g",
+        "description": "chopped"
+      },
+      {
+        "name": "Light Soy Sauce",
+        "quantity": 2.5,
+        "unit": "teaspoon",
+        "description": "null"
+      },
+      {
+        "name": "Dark Soy Sauce",
+        "quantity": 2.5,
+        "unit": "teaspoon",
+        "description": "null"
+      },
+      {
+        "name": "Spring Onion",
+        "quantity": 5,
+        "unit": "g",
+        "description": "null"
+      },
+      {
+        "name": "Ginger",
+        "quantity": 5,
+        "unit": "g",
+        "description": "null"
+      },
+      {
+        "name": "Salt",
+        "quantity": 4,
+        "unit": "g",
+        "description": "null"
+      }
+    ],
+    "preparation_steps": [
+      "1. Put ginger and scallions in cold water, blanch the beef and then remove it",
+      "2. Stir-fry the tomatoes until they release their juice",
+      "3. Pour the beef into the pot, add light soy sauce, dark soy sauce and salt",
+      "4. Add water to cover the ingredients and simmer over low heat for 1 hour",
+      "5. Add the potatoes and cook for another 15 minutes",
+      "6. Season it according to your own taste"
+    ]
+  },
+  {
+    "dish_name": "crispy pork",
+    "ingredients": [
+      {
+        "name": "Pork belly",
+        "quantity": 150,
+        "unit": "g",
+        "description": "diced,skin removed"
+      },
+      {
+        "name": "Refined flour",
+        "quantity": 30,
+        "unit": "g",
+        "description": "null"
+      },
+      {
+        "name": "Oil",
+        "quantity": 10,
+        "unit": "g",
+        "description": "null"
+      },
+      {
+        "name": "Light Soy Sauce",
+        "quantity": 2.5,
+        "unit": "teaspoon",
+        "description": "null"
+      },
+      {
+        "name": "Dark Soy Sauce",
+        "quantity": 2.5,
+        "unit": "teaspoon",
+        "description": "null"
+      },
+      {
+        "name": "Pepper Powder",
+        "quantity": 3,
+        "unit": "g",
+        "description": "null"
+      }
+    ],
+    "preparation_steps": [
+      "1. Marinate the pork with light soy sauce, dark soy sauce and pepper",
+      "2. Mix the eggs, flour and water to form a batter",
+      "3. Coat the marinated pork with batter and fry it in hot oil for 3 minutes, then remove it",
+      "4. Re-fry for 30 seconds to one minute and then remove",
+      "5. Sprinkle with your favorite seasonings"
+    ]
+  },
+  {
+    "dish_name": "Beef and Bean Curd Lettuce Casserole",
+    "ingredients": [
+      {
+        "name": "Beef",
+        "quantity": 100,
+        "unit": "g",
+        "description": "cut into chunks"
+      },
+      {
+        "name": "Tofu",
+        "quantity": 50,
+        "unit": "g",
+        "description": "cut into chunks"
+      },
+      {
+        "name": "Chinese lettuce",
+        "quantity": 50,
+        "unit": "g",
+        "description": "wash clean"
+      },
+      {
+        "name": "Light Soy Sauce",
+        "quantity": 2.5,
+        "unit": "teaspoon",
+        "description": "null"
+      },
+      {
+        "name": "Dark Soy Sauce",
+        "quantity": 2.5,
+        "unit": "teaspoon",
+        "description": "null"
+      },
+      {
+        "name": "Salt",
+        "quantity": 4,
+        "unit": "g",
+        "description": "null"
+      }
+    ],
+    "preparation_steps": [
+      "1. Put ginger and scallions in cold water, blanch the beef and then remove it",
+      "2. Put the beef, tofu and lettuce into the pot and add water",
+      "3. Add light soy sauce, dark soy sauce and salt to season, and simmer for a while",
+      "4. Season it according to your own taste"
+    ]
+  },
+  {
+    "dish_name": "Chicken Wing Casserole",
+    "ingredients": [
+      {
+        "name": "Chicken wings",
+        "quantity": 100,
+        "unit": "g",
+        "description": "mid-joint,skin on"
+      },
+      {
+        "name": "Potato",
+        "quantity": 50,
+        "unit": "g",
+        "description": "peeled,diced"
+      },
+      {
+        "name": "Light Soy Sauce",
+        "quantity": 2.5,
+        "unit": "teaspoon",
+        "description": "null"
+      },
+      {
+        "name": "Dark Soy Sauce",
+        "quantity": 2.5,
+        "unit": "teaspoon",
+        "description": "null"
+      },
+      {
+        "name": "Salt",
+        "quantity": 2.5,
+        "unit": "g",
+        "description": "null"
+      },
+      {
+        "name": "Oil",
+        "quantity": 5,
+        "unit": "g",
+        "description": "null"
+      }
+    ],
+    "preparation_steps": [
+      "1. Put ginger and scallions in cold water, blanch the chicken wings and then remove them",
+      "2. Pour oil into the pan and fry the chicken wings until both sides are golden brown",
+      "3. Add enough cold water to cover the chicken wings, then add 2 tablespoons of light soy sauce, 1 tablespoon of dark soy sauce and salt",
+      "4. Cover the pot and simmer over medium heat for 10 minutes",
+      "5. Add the potatoes and cook for another 15 to 20 minutes",
+      "6. After the sauce thickens over high heat, remove from the heat"
+    ]
+  },
+  {
+    "dish_name": "Pickled Cabbage Fish",
+    "ingredients": [
+      {
+        "name": "White fish fillet",
+        "quantity": 150,
+        "unit": "g",
+        "description": "white fish,diced"
+      },
+      {
+        "name": "Pickled mustard green",
+        "quantity": 50,
+        "unit": "g",
+        "description": "sliced"
+      },
+      {
+        "name": "Oil",
+        "quantity": 5,
+        "unit": "g",
+        "description": "null"
+      },
+      {
+        "name": "Light Soy Sauce",
+        "quantity": 2.5,
+        "unit": "teaspoon",
+        "description": "null"
+      },
+      {
+        "name": "Salt",
+        "quantity": 4,
+        "unit": "g",
+        "description": "null"
+      }
+    ],
+    "preparation_steps": [
+      "1. Pour oil into the pan and fry the fish until golden brown",
+      "2. Add the pickled cabbage and stir-fry until fragrant",
+      "3. Pour in light soy sauce and salt, add water, and bring to a boil over high heat for 5 minutes",
+      "4. You can add your favorite ingredients according to your own preferences"
+    ]
+  },
+  {
+    "dish_name": "Spicy Chicken",
+    "ingredients": [
+      {
+        "name": "Chicken",
+        "quantity": 150,
+        "unit": "g",
+        "description": "bone-in,skin-on"
+      },
+      {
+        "name": "Chili Pepper",
+        "quantity": 10,
+        "unit": "g",
+        "description": "null"
+      },
+      {
+        "name": "Salt",
+        "quantity": 4,
+        "unit": "g",
+        "description": "null"
+      },
+      {
+        "name": "Egg",
+        "quantity": 50,
+        "unit": "g",
+        "description": "null"
+      },
+      {
+        "name": "Starch",
+        "quantity": 10,
+        "unit": "g",
+        "description": "null"
+      },
+      {
+        "name": "Oil",
+        "quantity": 5,
+        "unit": "g",
+        "description": "null"
+      }
+    ],
+    "preparation_steps": [
+      "1. Marinate the chicken with salt, pepper, eggs and starch for 20 minutes",
+      "2. Pour oil into the pan and fry the chicken until it turns golden and crispy",
+      "3. Add dried chili peppers and continue to stir-fry for about 2 minutes",
+      "4. Sprinkle with your favorite seasonings"
+    ]
+  },
+  {
+    "dish_name": "sweet and sour chops",
+    "ingredients": [
+      {
+        "name": "Pork spare ribs",
+        "quantity": 150,
+        "unit": "g",
+        "description": "cut into chunks"
+      },
+      {
+        "name": "Sugar",
+        "quantity": 15,
+        "unit": "g",
+        "description": "null"
+      },
+      {
+        "name": "Ginger",
+        "quantity": 5,
+        "unit": "g",
+        "description": "null"
+      },
+      {
+        "name": "Light Soy Sauce",
+        "quantity": 2.5,
+        "unit": "teaspoon",
+        "description": "null"
+      },
+      {
+        "name": "Dark Soy Sauce",
+        "quantity": 2.5,
+        "unit": "teaspoon",
+        "description": "null"
+      },
+      {
+        "name": "Salt",
+        "quantity": 4,
+        "unit": "g",
+        "description": "null"
+      }
+    ],
+    "preparation_steps": [
+      "1. Put ginger and scallions in cold water, blanch the pork ribs and then remove them",
+      "2. In a cold pan with oil, melt a handful of sugar until it caramelizes.",
+      "3. Add the pork ribs and stir-fry until evenly mixed.",
+      "4. Add 1 tablespoon of light soy sauce, 1 tablespoon of dark soy sauce and salt, pour in hot water to cover the ribs, cover the pot and simmer for 35 minutes.",
+      "5. After the sauce thickens over high heat, remove from the heat"
+    ]
+  },
+  {
+    "dish_name": "Stuffed Mushrooms",
+    "ingredients": [
+      {
+        "name": "Button mushroom",
+        "quantity": 100,
+        "unit": "g",
+        "description": "stems removed"
+      },
+      {
+        "name": "Ground pork",
+        "quantity": 80,
+        "unit": "g",
+        "description": "Chop up"
+      },
+      {
+        "name": "Light Soy Sauce",
+        "quantity": 2.5,
+        "unit": "teaspoon",
+        "description": "null"
+      },
+      {
+        "name": "Starch",
+        "quantity": 10,
+        "unit": "g",
+        "description": "null"
+      },
+      {
+        "name": "Pepper Powder",
+        "quantity": 3,
+        "unit": "g",
+        "description": "null"
+      }
+    ],
+    "preparation_steps": [
+      "1. Marinate the minced meat with light soy sauce and starch for 10 minutes",
+      "2. Place the minced meat on the mushrooms",
+      "3. Pour oil into the pan and fry the beef side down until cooked",
+      "4. Fry the reverse side for another 3 minutes",
+      "5. Add light soy sauce, pepper and a little water, and simmer for a while",
+      "6. Pour in the water thickened with starch to thicken the sauce"
+    ]
+  },
+  {
+    "dish_name": "Sauteed Beef with Celery",
+    "ingredients": [
+      {
+        "name": "Beef",
+        "quantity": 100,
+        "unit": "g",
+        "description": "thinly sliced"
+      },
+      {
+        "name": "Celery",
+        "quantity": 70,
+        "unit": "g",
+        "description": "sliced"
+      },
+      {
+        "name": "Light Soy Sauce",
+        "quantity": 2.5,
+        "unit": "teaspoon",
+        "description": "null"
+      },
+      {
+        "name": "Dark Soy Sauce",
+        "quantity": 2.5,
+        "unit": "teaspoon",
+        "description": "null"
+      }
+    ],
+    "preparation_steps": [
+      "1. Marinate the minced meat with light soy sauce and dark soy sauce",
+      "2. Pour oil into the pan and stir-fry the minced meat until cooked",
+      "3. Season with light soy sauce and salt to your taste",
+      "4. Add the celery and stir-fry until it is cooked through"
+    ]
+  },
+  {
+    "dish_name": "scrambled eggs with tomatoes",
+    "ingredients": [
+      {
+        "name": "Egg",
+        "quantity": 70,
+        "unit": "g",
+        "description": "null"
+      },
+      {
+        "name": "Tomato",
+        "quantity": 70,
+        "unit": "g",
+        "description": "cut into chunks"
+      },
+      {
+        "name": "Oil",
+        "quantity": 5,
+        "unit": "g",
+        "description": "null"
+      },
+      {
+        "name": "Salt",
+        "quantity": 4,
+        "unit": "g",
+        "description": "null"
+      },
+      {
+        "name": "sugar",
+        "quantity": 5,
+        "unit": "g",
+        "description": "null"
+      }
+    ],
+    "preparation_steps": [
+      "1. Beat the eggs and pour them into a hot pan with oil. ",
+      "2. Cook until it just solidifies, then take it out.",
+      "3. In the same pot, add a little more oil, then add diced tomatoes, salt, sugar and a little soy sauce.",
+      "4. Stir-fry until the tomatoes become soft and juicy, then pour the eggs back into the pan and continue to stir-fry",
+      "5. You can add a little tomato sauce appropriately to make the flavor more intense"
+    ]
+  }
+]
