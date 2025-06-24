@@ -169,7 +169,6 @@ public class NutritionService {
             case "piece":
             case "pieces":
             case "个":
-                // Default weight per piece for common items
                 return quantity * 50; // Assume 50g per piece if not specified
             case "slice":
             case "slices":
@@ -178,7 +177,6 @@ public class NutritionService {
             case "spoons":
                 return quantity * 10; // Assume 10g per spoon
             default:
-                // If unit is not recognized, assume it's already in grams
                 return quantity;
         }
     }

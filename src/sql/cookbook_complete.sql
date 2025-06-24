@@ -112,7 +112,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `recipe` WRITE;
 /*!40000 ALTER TABLE `recipe` DISABLE KEYS */;
-INSERT INTO `recipe` VALUES (85,'hongshaorou',1,20,40,'src/images/dishes/1720076093234.png',1750,182,399,119,0),(86,'Stir-fried meat with chili',1,30,30,'src/images/dishes/1720076724647.png',1672,25,16,135,0),(87,'Coca-Cola chicken wings',1,40,30,'src/images/dishes/1720076975228.png',1044,153,33,41,0),(88,'scrambled egg with tomato',1,10,20,'src/images/dishes/1720077197871.png',330,19,31,14,0);
+INSERT INTO `recipe` VALUES (85,'hongshaorou',1,20,40,'src/images/dishes/hongshaorou.png',1750,182,399,119,0),(86,'Stir-fried meat with chili',1,30,30,'src/images/dishes/1720076724647.png',1672,25,16,135,0),(87,'Coca-Cola chicken wings',1,40,30,'src/images/dishes/1720076975228.png',1044,153,33,41,0),(88,'scrambled egg with tomato',1,10,20,'src/images/dishes/1720077197871.png',330,19,31,14,0);
 /*!40000 ALTER TABLE `recipe` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -125,10 +125,6 @@ LOCK TABLES `ingredient` WRITE;
 INSERT INTO `ingredient` VALUES (85,'Bay leaves',2,'pieces','optional',5.00,0.50,0.10,1.20),(85,'Ginger slices',4,'slices','',20.00,0.40,0.20,4.00),(85,'Pork',700,'grams','with skin',250.00,26.00,17.00,0.00),(85,'Soy sauce',2,'spoons','',10.00,1.50,0.00,1.00),(85,'Sugar',4,'spoons','small pieces',387.00,0.00,0.00,99.80),(86,'Pepper',150,'g','',251.00,10.39,3.26,63.95),(86,'Pork belly',250,'g','cut it to slices',518.00,9.34,53.00,0.00),(86,'Salt',2,'g','small slices',0.00,0.00,0.00,0.00),(86,'Soy',5,'g','',60.00,8.14,0.05,5.57),(87,'Chicken wings',500,'g','',203.00,30.54,8.10,0.00),(87,'Coca-Cola',300,'ml','',42.00,0.00,0.00,10.60),(87,'Ketchup',2,'spoons','',112.00,1.74,0.49,25.78),(87,'Oyster sauce',2,'spoons','',51.00,2.38,0.26,11.85),(87,'Soy sauce',2,'spoons','',8.00,1.30,0.01,0.79),(88,'Eggs',120,'g','Break up eggs and stir.',155.00,13.00,11.00,1.10),(88,'Salt',2,'spoons','',0.00,0.00,0.00,0.00),(88,'Tomatoes',800,'g','Remove the stalk.',18.00,0.88,0.20,3.89);
 /*!40000 ALTER TABLE `ingredient` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Sample data for table `preparationstep`
---
 
 LOCK TABLES `preparationstep` WRITE;
 /*!40000 ALTER TABLE `preparationstep` DISABLE KEYS */;
