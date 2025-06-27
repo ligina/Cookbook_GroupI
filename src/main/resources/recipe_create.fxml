@@ -35,7 +35,6 @@
          </HBox>
       </VBox>
    </top>
-
    <center>
       <HBox spacing="25" style="-fx-padding: 20;">
 
@@ -100,11 +99,8 @@
                   <DropShadow blurType="GAUSSIAN" color="#00000025" offsetX="0.0" offsetY="4.0" radius="15.0" />
                </effect>
             </VBox>
-            
          </VBox>
-
          <VBox spacing="20" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
-
             <TabPane fx:id="tabPane" prefHeight="1000.0" style="-fx-background-color: rgba(255,255,255,0.1); -fx-background-radius: 20; -fx-border-color: rgba(255,255,255,0.2); -fx-border-radius: 20; -fx-border-width: 1;" tabClosingPolicy="UNAVAILABLE">
                <tabs>
                   <Tab fx:id="ingredientsTab" style="-fx-background-color: rgba(255,255,255,0.05);" text="Ingredients">
@@ -126,9 +122,7 @@
                   <DropShadow blurType="GAUSSIAN" color="#00000020" offsetX="0.0" offsetY="4.0" radius="15.0" />
                </effect>
             </TabPane>
-            
          </VBox>
-         
       </HBox>
    </center>
 
@@ -141,7 +135,7 @@
          </Button>
          
          <Region HBox.hgrow="ALWAYS" />
-         
+
          <Button fx:id="clearButton" onAction="#handleClearButton" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: linear-gradient(to bottom, #ff7b7b, #ff5252); -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 25; -fx-cursor: hand; -fx-font-size: 14;" text="Remove All">
             <effect>
                <DropShadow blurType="GAUSSIAN" color="#00000040" offsetX="3.0" offsetY="3.0" radius="8.0" />
@@ -153,7 +147,6 @@
                <DropShadow blurType="GAUSSIAN" color="#00000040" offsetX="3.0" offsetY="3.0" radius="8.0" />
             </effect>
          </Button>
-         
          <Region HBox.hgrow="ALWAYS" />
       </HBox>
    </bottom>
