@@ -32,9 +32,12 @@ public class RecipeDisplayView extends Stage {
     private RecipeDisplayFXMLController controller;
     public RecipeDisplayView(Integer recipeNumber) {
         this.setTitle("Recipe Details");
+        this.setMinWidth(1000);
+        this.setMinHeight(700);
         this.setResizable(true);
-        //this.setWidth(1400);
-        //this.setHeight(1100);
+        this.setWidth(1400);
+        this.setHeight(1100);
+        this.setMaximized(false);
         this.selectedRecipeNumber = recipeNumber;
         init();
     }
