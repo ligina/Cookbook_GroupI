@@ -111,8 +111,13 @@ public class RecipeSelectFXMLController implements Initializable {
 
     @FXML
     private void handleBackButton(ActionEvent event) {
+        // Close current recipe select window
         Stage stage = (Stage) backButton.getScene().getWindow();
         stage.close();
+        
+        // Open login view
+        view.LoginView loginView = new view.LoginView();
+        loginView.show();
     }
 
     @FXML
