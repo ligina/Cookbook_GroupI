@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.Alert; // 导入 Alert 类
 import javafx.event.ActionEvent;
 import model.Model; // 导入 Model 类
 import view.RecipeSelectView; // 导入 RecipeSelectView 类
@@ -35,6 +36,18 @@ public class TrialViewLoginpage {
         String username = usernameField.getText();
         String password = passwordField.getText();
 
+        // EC V3: Username cannot be empty
+        if (username == null || username.isEmpty()) {
+            Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Username cannot be empty!");
+            return;
+        }
+
+        // EC V6: Password cannot be empty
+        if (password == null || password.isEmpty()) {
+            Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Password cannot be empty!");
+            return;
+        }
+
         boolean loginSuccessful = model.login(username, password);
 
         if (loginSuccessful) {
@@ -44,6 +57,7 @@ public class TrialViewLoginpage {
             RecipeSelectView recipeSelectView = new RecipeSelectView();
             recipeSelectView.show();
         } else {
+            // Error messages are handled in model.login method
         }
     }
 

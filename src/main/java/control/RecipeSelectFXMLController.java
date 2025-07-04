@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -63,6 +64,19 @@ public class RecipeSelectFXMLController implements Initializable {
     @FXML
     private void handleSearchButton(ActionEvent event) {
         String recipeName = searchField.getText();
+        
+        // EC V3: Search term cannot be empty
+        if (recipeName == null || recipeName.isEmpty()) {
+            Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Search term cannot be empty!");
+            return;
+        }
+        
+        // EC V2: Search term length cannot exceed 30 characters
+        if (recipeName.length() > 30) {
+            Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Search term length cannot exceed 30 characters!");
+            return;
+        }
+        
         updateImageData(model.updateImageUrls(recipeName), model.updateImageNames(recipeName));
         updateRecipeButtons();
         searchField.setText(recipeName);

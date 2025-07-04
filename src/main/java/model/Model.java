@@ -49,48 +49,36 @@ public class Model implements ModelMethod{
 
     @Override
     public boolean sign(String name, String password) {
+        // EC V3: Check if username already exists
         if (userMapper.getUserByName(name) != null) {
-            Model.displayAlert(Alert.AlertType.WARNING, "warn","user already exist");
-
+            Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Username already exists!");
             return false;
         }
-        else  if(name.matches("-?\\d+")){
-            Model.displayAlert(Alert.AlertType.WARNING, "warn","user name can't be pure integer");
+        
+        try {
+            User user = new User();
+            user.setUser(name, password);
+            userMapper.addUser(user);
+            sqlSession.commit();
+            return true;
+        } catch (Exception e) {
+            sqlSession.rollback();
             return false;
         }
-        else  if(password.matches("-?\\d+")){
-            Model.displayAlert(Alert.AlertType.WARNING, "warn","password can't be pure integer");
-            return false;
-
-        }
-        else {
-            try {
-                User user = new User();
-                user.setUser(name, password);
-                userMapper.addUser(user);
-                sqlSession.commit();
-                return true;
-            } catch (Exception e) {
-                sqlSession.rollback();
-                return false;
-            }
-        }
-
     }
 
     @Override
     public boolean login(String name, String password) {
         try {
             User user = userMapper.getUserByName(name);
-            if(name.isEmpty()){
-                displayAlert(Alert.AlertType.ERROR, "Error", "Please input username!");
-                return false;
-            }
+            // EC V2: Username does not exist in database
             if (user == null) {
-                displayAlert(Alert.AlertType.ERROR, "Error", "Username error!");
+                displayAlert(Alert.AlertType.ERROR, "Error", "Username does not exist!");
                 return false;
-            } else if (!user.getPassword().equals(password)) {
-                displayAlert(Alert.AlertType.ERROR, "Error", "Password error!");
+            } 
+            // EC V5: Password does not match username
+            else if (!user.getPassword().equals(password)) {
+                displayAlert(Alert.AlertType.ERROR, "Error", "Password is incorrect!");
                 return false;
             } else {
                 SessionManager.setCurrentUserName(name);
@@ -290,6 +278,89 @@ public class Model implements ModelMethod{
             return false;
         }
     }
+    
+    /**
+     * Validates serving number according to requirements
+     * @param serveNumber the serving number string to validate
+     * @return true if valid, false otherwise
+     */
+    public boolean validateServingNumber(String serveNumber) {
+        // Cannot be empty
+        if (serveNumber == null || serveNumber.isEmpty()) {
+            Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Serving number cannot be empty!");
+            return false;
+        }
+        
+        // Must be pure numbers
+        if (!serveNumber.matches("^\\d+$")) {
+            Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Serving number must contain only numbers!");
+            return false;
+        }
+        
+        try {
+            int servings = Integer.parseInt(serveNumber);
+            
+            // Cannot be 0
+            if (servings == 0) {
+                Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Serving number cannot be 0!");
+                return false;
+            }
+            
+            // Cannot exceed 10
+            if (servings > 10) {
+                Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Serving number cannot exceed 10!");
+                return false;
+            }
+            
+            return true;
+        } catch (NumberFormatException e) {
+            Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Invalid serving number format!");
+            return false;
+        }
+    }
+    
+    /**
+     * Validates if a string is a valid URL format
+     * @param url the URL string to validate
+     * @return true if valid URL format, false otherwise
+     */
+    private boolean isValidURL(String url) {
+        if (url == null || url.isEmpty()) {
+            return false;
+        }
+        
+        // Basic URL pattern check
+        String urlPattern = "^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
+        return url.matches(urlPattern) || url.startsWith("file:");
+    }
+    
+    /**
+     * Validates nutrition values (calories, protein, fat, carbs)
+     * @param value the nutrition value to validate
+     * @param fieldName the name of the field for error messages
+     * @return true if valid, false otherwise
+     */
+    public boolean validateNutritionValue(String value, String fieldName) {
+        // EC V16: Cannot be empty
+        if (value == null || value.isEmpty()) {
+            Model.displayAlert(Alert.AlertType.WARNING, "Warning", fieldName + " cannot be empty!");
+            return false;
+        }
+        
+        // EC V14: Must be pure numbers
+        if (!value.matches("^\\d*\\.?\\d+$")) {
+            Model.displayAlert(Alert.AlertType.WARNING, "Warning", fieldName + " must contain only numbers!");
+            return false;
+        }
+        
+        // EC V15: String length cannot exceed 10 digits
+        if (value.length() > 10) {
+            Model.displayAlert(Alert.AlertType.WARNING, "Warning", fieldName + " cannot exceed 10 digits!");
+            return false;
+        }
+        
+        return true;
+    }
 
     public static  TextFormatter<String> textFieldFormatter(int maxLength) {
         TextFormatter<String> temp;
@@ -308,71 +379,113 @@ public class Model implements ModelMethod{
 
     @Override
     public boolean validateRecipeIngredient(String recipeName, Float quantity, String unit){
-        if(recipeName.isEmpty()){
-            Model.displayAlert(Alert.AlertType.WARNING, "Warn", "Please input ingredient name！");
+        // EC V4: Ingredient name cannot be empty
+        if(recipeName == null || recipeName.isEmpty()){
+            Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Ingredient name cannot be empty!");
             return false;
         }
-        if (recipeName.length() > MAX_LENGTH) {
-            Model.displayAlert(Alert.AlertType.WARNING, "Warn", "Ingredient name is too long！");
+        
+        // EC V2: Ingredient name length cannot exceed 30 characters
+        if (recipeName.length() > 30) {
+            Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Ingredient name length cannot exceed 30 characters!");
             return false;
         }
+        
+        // EC V8: Quantity cannot be empty
         if(quantity == null || quantity == 0.0){
-            Model.displayAlert(Alert.AlertType.WARNING, "Warn", "Please input ingredient quantity ！");
+            Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Ingredient quantity cannot be empty!");
             return false;
         }
-        if(quantity>MAX_QUANTITY){
-            Model.displayAlert(Alert.AlertType.WARNING, "WARN", "quantity is too large!");
+        
+        // EC V7: Quantity string length cannot exceed 10 digits
+        if(String.valueOf(quantity).length() > 10){
+            Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Quantity cannot exceed 10 digits!");
+            return false;
+        }
 
+        // EC V12: Unit cannot be empty
+        if(unit == null || unit.isEmpty()){
+            Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Unit cannot be empty!");
             return false;
         }
-
-
-        if(unit.isEmpty()){
-            Model.displayAlert(Alert.AlertType.WARNING, "Warn", "Please input ingredient unit！");
-
+        
+        // EC V11: Unit length cannot exceed 10 characters
+        if(unit.length() > 10){
+            Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Unit length cannot exceed 10 characters!");
             return false;
         }
-        if(unit.length() > MAX_LENGTH){
-            Model.displayAlert(Alert.AlertType.WARNING, "Warn", "Unit is too long！");
+        
+        // EC V10: Unit must contain only letters
+        if (!unit.matches("^[a-zA-Z]+$")) {
+            Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Unit must contain only letters!");
             return false;
         }
-        if (unit.matches("\\d+")) {
-            Model.displayAlert(Alert.AlertType.WARNING, "Warn", "Unit cannot be pure numbers！");
-            return false;
-        }
+        
         return true;
     }
     @Override
     public boolean validateRecipe(String recipeName, String cookingTime, String preparationTime, String recipeImage){
-        if (recipeName.isEmpty()) {
-                Model.displayAlert(Alert.AlertType.WARNING, "Warn", "Please input recipe name！");
-                return false;
-            }
-        if(recipeName.length() > MAX_LENGTH){
-                Model.displayAlert(Alert.AlertType.WARNING,"Warn","Recipe name is too long");
-                return false;
+        // EC V3: Recipe name cannot be empty
+        if (recipeName == null || recipeName.isEmpty()) {
+            Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Recipe name cannot be empty!");
+            return false;
         }
-            if (cookingTime.isEmpty()) {
-                Model.displayAlert(Alert.AlertType.WARNING, "Warn", "Please input cooking time！");
-                return false;
-            }
-            if (preparationTime.isEmpty()) {
-                Model.displayAlert(Alert.AlertType.WARNING, "Warn", "Please input preparationTime time！");
-                return false;
+        
+        // EC V2: Recipe name length cannot exceed 70 characters
+        if(recipeName.length() > 70){
+            Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Recipe name length cannot exceed 70 characters!");
+            return false;
+        }
+        
+        // EC V7: Preparation time cannot be empty
+        if (preparationTime == null || preparationTime.isEmpty()) {
+            Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Preparation time cannot be empty!");
+            return false;
+        }
+        
+        // EC V11: Cooking time cannot be empty
+        if (cookingTime == null || cookingTime.isEmpty()) {
+            Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Cooking time cannot be empty!");
+            return false;
+        }
+        
+        // EC V5: Preparation time must be pure numbers
+        if (!preparationTime.matches("^\\d+$")) {
+            Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Preparation time must contain only numbers!");
+            return false;
+        }
+        
+        // EC V9: Cooking time must be pure numbers
+        if (!cookingTime.matches("^\\d+$")) {
+            Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Cooking time must contain only numbers!");
+            return false;
+        }
+        
+        // EC V6: Preparation time string length cannot exceed 5 digits
+        if(preparationTime.length() > 5){
+            Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Preparation time cannot exceed 5 digits!");
+            return false;
+        }
+        
+        // EC V10: Cooking time string length cannot exceed 5 digits
+        if(cookingTime.length() > 5){
+            Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Cooking time cannot exceed 5 digits!");
+            return false;
+        }
+        
+        // EC V14: Image URL cannot be empty
+        if (recipeImage == null || recipeImage.isEmpty()) {
+            Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Recipe image cannot be empty!");
+            return false;
+        }
+        
+        // EC V13: Image URL must be valid URL format
+        if (!isValidURL(recipeImage)) {
+            Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Image URL is not in valid format!");
+            return false;
+        }
 
-            }
-            if(cookingTime.length() > MAX_LENGTH || preparationTime.length() > MAX_LENGTH){
-                Model.displayAlert(Alert.AlertType.WARNING, "Warn", "Time number is too large！");
-                return false;
-            }
-            if (!cookingTime.matches("\\d+") || !preparationTime.matches("\\d+")) {
-                Model.displayAlert(Alert.AlertType.WARNING, "Warn", "Please input number！");
-                return false;
-            }
-
-
-            return true;
-
+        return true;
     }
 
     // Additional methods for RecipeDisplayFXMLController

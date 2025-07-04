@@ -38,18 +38,72 @@ public class TrailViewSignuppage {
         String password = passwordField.getText();
         String repeatPassword = repeatPasswordField.getText();
 
-        // 检查是否有空字段
-        if (username.isEmpty() || password.isEmpty() || repeatPassword.isEmpty()) {
-            Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Username and password cannot be empty!");
-            return; // 停止执行后续代码
+        // EC V5: Username cannot be empty
+        if (username == null || username.isEmpty()) {
+            Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Username cannot be empty!");
+            return;
         }
 
-        // 检查两次输入的密码是否一致
+        // EC V10: Password cannot be empty
+        if (password == null || password.isEmpty()) {
+            Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Password cannot be empty!");
+            return;
+        }
+
+        // EC V13: Confirm password cannot be empty
+        if (repeatPassword == null || repeatPassword.isEmpty()) {
+            Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Confirm password cannot be empty!");
+            return;
+        }
+
+        // EC V4: Username length cannot exceed 15 characters
+        if (username.length() > 15) {
+            Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Username length cannot exceed 15 characters!");
+            return;
+        }
+
+        // EC V2: Username cannot be pure numbers (must contain at least one letter)
+        if (username.matches("^\\d+$")) {
+            Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Username cannot be pure numbers! Must contain at least one letter.");
+            return;
+        }
+
+        // EC V1: Username can only contain letters and numbers
+        if (!username.matches("^[a-zA-Z0-9]+$")) {
+            Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Username can only contain letters and numbers!");
+            return;
+        }
+
+        // EC V9: Password length cannot exceed 15 characters
+        if (password.length() > 15) {
+            Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Password length cannot exceed 15 characters!");
+            return;
+        }
+
+        // EC V7: Password cannot contain only numbers
+        if (password.matches("^\\d+$")) {
+            Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Password cannot contain only numbers! Must contain both letters and numbers.");
+            return;
+        }
+
+        // EC V8: Password cannot contain only letters
+        if (password.matches("^[a-zA-Z]+$")) {
+            Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Password cannot contain only letters! Must contain both letters and numbers.");
+            return;
+        }
+
+        // EC V6: Password must contain both letters and numbers
+        if (!password.matches("^(?=.*[a-zA-Z])(?=.*\\d)[a-zA-Z\\d]+$")) {
+            Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Password must contain both letters and numbers!");
+            return;
+        }
+
+        // EC V12: Confirm password must match password
         if (!password.equals(repeatPassword)) {
             Model.displayAlert(Alert.AlertType.WARNING, "Warning", "The passwords entered twice do not match!");
-            passwordField.clear(); // 清空密码字段
-            repeatPasswordField.clear(); // 清空重复密码字段
-            return; // 停止执行后续代码
+            passwordField.clear();
+            repeatPasswordField.clear();
+            return;
         }
 
         // 调用 Model 的 sign 方法进行注册
@@ -57,7 +111,7 @@ public class TrailViewSignuppage {
 
         // 根据注册结果给出提示
         if (signupSuccessful) {
-            Model.displayAlert(Alert.AlertType.INFORMATION, "success", "Registration successful!");
+            Model.displayAlert(Alert.AlertType.INFORMATION, "Success", "Registration successful!");
             // 注册成功后，关闭注册窗口
             Node source = (Node) event.getSource();
             Stage currentStage = (Stage) source.getScene().getWindow();

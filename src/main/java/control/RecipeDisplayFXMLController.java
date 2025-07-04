@@ -435,9 +435,20 @@ public class RecipeDisplayFXMLController implements Initializable {
     }
 
     private float getServingSize() {
+        String serveText = serveNumberTextField.getText();
+        
+        // Validate serving number using Model validation
+        Model model = new Model();
+        if (!model.validateServingNumber(serveText)) {
+            // Reset to 1 if invalid
+            serveNumberTextField.setText("1");
+            return 1.0f;
+        }
+        
         try {
-            return Float.parseFloat(serveNumberTextField.getText());
+            return Float.parseFloat(serveText);
         } catch (NumberFormatException e) {
+            serveNumberTextField.setText("1");
             return 1.0f;
         }
     }
