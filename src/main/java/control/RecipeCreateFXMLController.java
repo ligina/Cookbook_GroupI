@@ -137,21 +137,26 @@ public class RecipeCreateFXMLController implements Initializable {
     @FXML
     private void handleSubmitButton(ActionEvent event) {
         // Handle the save logic directly in this controller
-        saveRecipe();
+        boolean saveSuccessful = saveRecipe();
         
-        // Close this window after saving
-        Stage stage = (Stage) submitButton.getScene().getWindow();
-        stage.close();
-        
-        // Open recipe select view
-        view.RecipeSelectView recipeSelectView = new view.RecipeSelectView();
-        recipeSelectView.show();
+        // Only close window and navigate if save was successful
+        if (saveSuccessful) {
+            // Close this window after saving
+            Stage stage = (Stage) submitButton.getScene().getWindow();
+            stage.close();
+            
+            // Open recipe select view
+            view.RecipeSelectView recipeSelectView = new view.RecipeSelectView();
+            recipeSelectView.show();
+        }
+        // If save failed, stay on current window so user can fix errors
     }
 
     /**
      * Save the recipe with all its ingredients and preparation steps
+     * @return true if save was successful, false if validation failed
      */
-    private void saveRecipe() {
+    private boolean saveRecipe() {
         Model model = new Model();
         
         // Retrieve input values
@@ -166,7 +171,9 @@ public class RecipeCreateFXMLController implements Initializable {
                 preparationTime,
                 recipeImage.getImage() == null ? "" : recipeImage.getImage().getUrl()
         )) {
-            return;
+            // Clear invalid fields but keep valid data
+            clearInvalidRecipeFields(recipeName, cookingTime, preparationTime);
+            return false; // Validation failed, stay on current window
         }
         
         Recipe recipe;
@@ -219,10 +226,12 @@ public class RecipeCreateFXMLController implements Initializable {
             recipeIngredient.setRecipeId(recipeId);
             // Validate ingredient fields
             if(!model.validateRecipeIngredient(recipeIngredient.getName(), recipeIngredient.getQuantity(), recipeIngredient.getUnit())){
+                // Clear invalid ingredient fields but keep valid data
+                clearInvalidIngredientFields(recipeIngredient);
                 if(!isEdited) {
                     model.deleteRecipe(recipeId);
                 }
-                return;
+                return false; // Validation failed, stay on current window
             }
             
             // Auto-fill nutrition data if not manually entered and ingredient is recognized
@@ -283,6 +292,8 @@ public class RecipeCreateFXMLController implements Initializable {
             message += "\n\nAuto-filled nutrition data for " + autoFilledCount + " ingredients.";
         }
         Model.displayAlert(Alert.AlertType.INFORMATION,"Success", message);
+        
+        return true; // Save was successful
     }
 
     private void setupIngredientsTable() {
@@ -448,6 +459,56 @@ public class RecipeCreateFXMLController implements Initializable {
         if (editedRecipeId != null && editedRecipeId > 0) {
             loadRecipeDataForEditing();
         }
+    }
+    
+    /**
+     * Clear invalid recipe fields while preserving valid data
+     */
+    private void clearInvalidRecipeFields(String recipeName, String cookingTime, String preparationTime) {
+        // Clear recipe name if invalid
+        if (recipeName == null || recipeName.isEmpty() || recipeName.length() > 70) {
+            recipeNameTextField.clear();
+        }
+        
+        // Clear cooking time if invalid
+        if (cookingTime == null || cookingTime.isEmpty() || !cookingTime.matches("^\\d+$") || cookingTime.length() > 5) {
+            cookingTimeTextField.clear();
+        }
+        
+        // Clear preparation time if invalid
+        if (preparationTime == null || preparationTime.isEmpty() || !preparationTime.matches("^\\d+$") || preparationTime.length() > 5) {
+            preparationTextField.clear();
+        }
+        
+        // Clear image if invalid (no valid URL)
+        if (recipeImage.getImage() == null) {
+            recipeImage.setImage(null);
+        }
+    }
+    
+    /**
+     * Clear invalid ingredient fields while preserving valid data
+     */
+    private void clearInvalidIngredientFields(RecipeIngredient ingredient) {
+        // Clear ingredient name if invalid
+        if (ingredient.getName() == null || ingredient.getName().isEmpty() || ingredient.getName().length() > 30) {
+            ingredient.setName("");
+        }
+        
+        // Clear quantity if invalid
+        if (ingredient.getQuantity() == null || ingredient.getQuantity() == 0.0f || 
+            String.valueOf(ingredient.getQuantity()).length() > 10) {
+            ingredient.setQuantity(1.0f); // Set to default value instead of null
+        }
+        
+        // Clear unit if invalid
+        if (ingredient.getUnit() == null || ingredient.getUnit().isEmpty() || 
+            ingredient.getUnit().length() > 10 || !ingredient.getUnit().matches("^[a-zA-Z]+$")) {
+            ingredient.setUnit("");
+        }
+        
+        // Refresh the table to show cleared fields
+        tableView.refresh();
     }
     
     /**
