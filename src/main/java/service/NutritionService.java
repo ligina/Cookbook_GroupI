@@ -7,7 +7,7 @@ import java.util.Map;
  * Service class for handling nutritional information calculations and lookups.
  * Provides automatic nutrition calculation based on ingredient mass and type.
  * 
- * @author Claude
+ * @author 
  */
 public class NutritionService {
     
