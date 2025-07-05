@@ -36,7 +36,7 @@
                   <DropShadow blurType="GAUSSIAN" color="#00000040" offsetX="2.0" offsetY="2.0" radius="4.0" />
                </effect>
             </Button>
-            <Button fx:id="createRecipeButton" onAction="#handleCreateRecipeButton" prefHeight="45.0" prefWidth="200.0" style="-fx-background-color: linear-gradient(to bottom, #4ECDC4, #44A08D); -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 22; -fx-cursor: hand; -fx-font-size: 15;" text="+ Create New Recipe">
+            <Button fx:id="createRecipeButton" onAction="#handleCreateRecipeButton" prefHeight="45.0" prefWidth="200.0" style="-fx-background-color: linear-gradient(to bottom, #4ECDC4, #44A08D); -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 22; -fx-cursor: hand; -fx-font-size: 15;" text="Create New Recipe">
                <effect>
                   <DropShadow blurType="GAUSSIAN" color="#00000040" offsetX="2.0" offsetY="2.0" radius="4.0" />
                </effect>
