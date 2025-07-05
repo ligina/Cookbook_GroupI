@@ -32,8 +32,8 @@ public class RecipeCreateView extends Stage {
         this.setMinWidth(1000);
         this.setMinHeight(700);
         this.setResizable(true);
-        this.setWidth(1400);
-        this.setHeight(1000);
+        this.setWidth(1100);
+        this.setHeight(800);
         this.setMaximized(false);
         init();
     }
