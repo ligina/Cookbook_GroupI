@@ -28,8 +28,8 @@
             <VBox alignment="CENTER" spacing="4">
                <Label fx:id="serveNumberLabel" style="-fx-font-size: 11; -fx-font-weight: bold;" text="Serves: 1 person" textFill="white" />
                <HBox alignment="CENTER" spacing="8">
-                  <Button fx:id="addButton" onAction="#handleAddButton" prefHeight="28.0" prefWidth="28.0" style="-fx-background: linear-gradient(to bottom, #4CAF50, #45a049); -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-background-radius: 40; -fx-border-radius: 40; -fx-cursor: hand;" text="+" />
-                  <Button fx:id="deleteButton" onAction="#handleDeleteButton" prefHeight="28.0" prefWidth="28.0" style="-fx-background: linear-gradient(to bottom, #ff7b7b, #ff5252); -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-background-radius: 40; -fx-border-radius: 40; -fx-cursor: hand;" text="-" />
+                  <Button fx:id="addButton" onAction="#handleAddButton" prefHeight="28.0" prefWidth="28.0" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-background-radius: 40; -fx-border-radius: 40; -fx-cursor: hand;" text="+" />
+                  <Button fx:id="deleteButton" onAction="#handleDeleteButton" prefHeight="28.0" prefWidth="28.0" style="-fx-background-color: #ff5252; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-background-radius: 40; -fx-border-radius: 40; -fx-cursor: hand;" text="-" />
                </HBox>
             </VBox>
          </HBox>
@@ -46,7 +46,7 @@
                      <javafx.scene.shape.Rectangle arcHeight="16" arcWidth="16" height="224" width="224" />
                   </clip>
                </ImageView>
-               <Button fx:id="uploadButton" onAction="#handleUploadButton" prefHeight="32.0" prefWidth="176.0" style="-fx-background: linear-gradient(to bottom, #2196F3, #1976D2); -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 11px; -fx-background-radius: 20; -fx-border-radius: 20; -fx-cursor: hand;" text="Upload Picture" />
+               <Button fx:id="uploadButton" onAction="#handleUploadButton" prefHeight="32.0" prefWidth="176.0" style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 11px; -fx-background-radius: 20; -fx-border-radius: 20; -fx-cursor: hand;" text="Upload Picture" />
                <effect>
                   <DropShadow blurType="GAUSSIAN" color="#00000020" offsetX="0.0" offsetY="4.0" radius="15.0" />
                </effect>
@@ -134,13 +134,13 @@
          
          <Region HBox.hgrow="ALWAYS" />
 
-         <Button fx:id="clearButton" onAction="#handleClearButton" prefHeight="40.0" prefWidth="120.0" style="-fx-background-color: linear-gradient(to bottom, #ff7b7b, #ff5252); -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-cursor: hand; -fx-font-size: 11;" text="Remove All">
+         <Button fx:id="clearButton" onAction="#handleClearButton" prefHeight="40.0" prefWidth="120.0" style="-fx-background-color: #ff5252; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-cursor: hand; -fx-font-size: 11;" text="Remove All">
             <effect>
                <DropShadow blurType="GAUSSIAN" color="#00000040" offsetX="3.0" offsetY="3.0" radius="8.0" />
             </effect>
          </Button>
          
-         <Button fx:id="submitButton" onAction="#handleSubmitButton" prefHeight="40.0" prefWidth="144.0" style="-fx-background-color: linear-gradient(to bottom, #4CAF50, #45a049); -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-cursor: hand; -fx-font-size: 13;" text="Save Recipe">
+         <Button fx:id="submitButton" onAction="#handleSubmitButton" prefHeight="40.0" prefWidth="144.0" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-cursor: hand; -fx-font-size: 13;" text="Save Recipe">
             <effect>
                <DropShadow blurType="GAUSSIAN" color="#00000040" offsetX="3.0" offsetY="3.0" radius="8.0" />
             </effect>

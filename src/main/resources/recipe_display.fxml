@@ -29,7 +29,7 @@
                   <ComboBox fx:id="unitFromCombo" prefWidth="80" promptText="From" style="-fx-background-color: rgba(255,255,255,0.9); -fx-background-radius: 12;" />
                   <Label style="-fx-font-size: 13; -fx-font-weight: bold;" text="→" textFill="white" />
                   <ComboBox fx:id="unitToCombo" prefWidth="80" promptText="To" style="-fx-background-color: rgba(255,255,255,0.9); -fx-background-radius: 12;" />
-                  <Button fx:id="convertButton" onAction="#handleConvertButton" style="-fx-background-color: linear-gradient(to bottom, #667eea, #764ba2); -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 12; -fx-cursor: hand;" text="Convert" />
+                  <Button fx:id="convertButton" onAction="#handleConvertButton" style="-fx-background-color: #667eea; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 12; -fx-cursor: hand;" text="Convert" />
                </HBox>
             </VBox>
             <VBox alignment="CENTER" spacing="4">
@@ -158,19 +158,19 @@
          
          <Region HBox.hgrow="ALWAYS" />
          
-         <Button fx:id="saveNutritionButton" onAction="#handleSaveNutritionButton" prefHeight="40.0" prefWidth="144.0" style="-fx-background-color: linear-gradient(to bottom, #4ECDC4, #44A08D); -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-cursor: hand; -fx-font-size: 11;" text="Save Nutrition">
+         <Button fx:id="saveNutritionButton" onAction="#handleSaveNutritionButton" prefHeight="40.0" prefWidth="144.0" style="-fx-background-color: #4ECDC4; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-cursor: hand; -fx-font-size: 11;" text="Save Nutrition">
             <effect>
                <DropShadow blurType="GAUSSIAN" color="#00000040" offsetX="3.0" offsetY="3.0" radius="8.0" />
             </effect>
          </Button>
          
-         <Button fx:id="editRecipeButton" onAction="#handleEditButton" prefHeight="40.0" prefWidth="120.0" style="-fx-background-color: linear-gradient(to bottom, #FFA726, #FF9800); -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-cursor: hand; -fx-font-size: 11;" text="Edit Recipe">
+         <Button fx:id="editRecipeButton" onAction="#handleEditButton" prefHeight="40.0" prefWidth="120.0" style="-fx-background-color: #FFA726; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-cursor: hand; -fx-font-size: 11;" text="Edit Recipe">
             <effect>
                <DropShadow blurType="GAUSSIAN" color="#00000040" offsetX="3.0" offsetY="3.0" radius="8.0" />
             </effect>
          </Button>
          
-         <Button fx:id="deleteRecipeButton" onAction="#handleDeleteButton" prefHeight="40.0" prefWidth="120.0" style="-fx-background-color: linear-gradient(to bottom, #FF6B6B, #FF5252); -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-cursor: hand; -fx-font-size: 11;" text="Delete">
+         <Button fx:id="deleteRecipeButton" onAction="#handleDeleteButton" prefHeight="40.0" prefWidth="120.0" style="-fx-background-color: #FF6B6B; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-cursor: hand; -fx-font-size: 11;" text="Delete">
             <effect>
                <DropShadow blurType="GAUSSIAN" color="#00000040" offsetX="3.0" offsetY="3.0" radius="8.0" />
             </effect>

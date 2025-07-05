@@ -31,12 +31,12 @@
                   <DropShadow blurType="GAUSSIAN" color="#00000015" offsetX="1.0" offsetY="1.0" radius="3.0" />
                </effect>
             </TextField>
-            <Button fx:id="searchButton" onAction="#handleSearchButton" prefHeight="45.0" prefWidth="80.0" style="-fx-background-color: linear-gradient(to bottom, #FF6B6B, #FF5252); -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 22; -fx-cursor: hand; -fx-font-size: 16;" text="Search">
+            <Button fx:id="searchButton" onAction="#handleSearchButton" prefHeight="45.0" prefWidth="80.0" style="-fx-background-color: #FF6B6B; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 22; -fx-cursor: hand; -fx-font-size: 16;" text="Search">
                <effect>
                   <DropShadow blurType="GAUSSIAN" color="#00000040" offsetX="2.0" offsetY="2.0" radius="4.0" />
                </effect>
             </Button>
-            <Button fx:id="createRecipeButton" onAction="#handleCreateRecipeButton" prefHeight="45.0" prefWidth="200.0" style="-fx-background-color: linear-gradient(to bottom, #4ECDC4, #44A08D); -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 22; -fx-cursor: hand; -fx-font-size: 15;" text="Create New Recipe">
+            <Button fx:id="createRecipeButton" onAction="#handleCreateRecipeButton" prefHeight="45.0" prefWidth="200.0" style="-fx-background-color: #4ECDC4; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 22; -fx-cursor: hand; -fx-font-size: 15;" text="Create New Recipe">
                <effect>
                   <DropShadow blurType="GAUSSIAN" color="#00000040" offsetX="2.0" offsetY="2.0" radius="4.0" />
                </effect>
@@ -59,13 +59,13 @@
          </ScrollPane>
 
          <HBox alignment="CENTER" spacing="20">
-            <Button fx:id="prevButton" onAction="#handlePrevButton" prefHeight="50.0" prefWidth="120.0" style="-fx-background-color: linear-gradient(to bottom, #667eea, #764ba2); -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 25; -fx-cursor: hand; -fx-font-size: 16; -fx-border-color: rgba(255,255,255,0.3); -fx-border-radius: 25; -fx-border-width: 1;" text="◀ Previous">
+            <Button fx:id="prevButton" onAction="#handlePrevButton" prefHeight="50.0" prefWidth="120.0" style="-fx-background-color: #667eea; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 25; -fx-cursor: hand; -fx-font-size: 16; -fx-border-color: rgba(255,255,255,0.3); -fx-border-radius: 25; -fx-border-width: 1;" text="◀ Previous">
                <effect>
                   <DropShadow blurType="GAUSSIAN" color="#00000030" offsetX="2.0" offsetY="2.0" radius="5.0" />
                </effect>
             </Button>
             <Label fx:id="pageLabel" text="Page 1" textFill="white" style="-fx-font-size: 16; -fx-font-weight: bold; -fx-background-color: rgba(255,255,255,0.2); -fx-background-radius: 15; -fx-padding: 10 20;" />
-            <Button fx:id="nextButton" onAction="#handleNextButton" prefHeight="50.0" prefWidth="120.0" style="-fx-background-color: linear-gradient(to bottom, #667eea, #764ba2); -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 25; -fx-cursor: hand; -fx-font-size: 16; -fx-border-color: rgba(255,255,255,0.3); -fx-border-radius: 25; -fx-border-width: 1;" text="Next ▶">
+            <Button fx:id="nextButton" onAction="#handleNextButton" prefHeight="50.0" prefWidth="120.0" style="-fx-background-color: #667eea; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 25; -fx-cursor: hand; -fx-font-size: 16; -fx-border-color: rgba(255,255,255,0.3); -fx-border-radius: 25; -fx-border-width: 1;" text="Next ▶">
                <effect>
                   <DropShadow blurType="GAUSSIAN" color="#00000030" offsetX="2.0" offsetY="2.0" radius="5.0" />
                </effect>
