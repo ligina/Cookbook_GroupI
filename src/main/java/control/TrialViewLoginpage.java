@@ -69,20 +69,15 @@ public class TrialViewLoginpage {
             Stage signupStage = new Stage();
             signupStage.setTitle("Sign Up");
             signupStage.setScene(signupScene);
+            signupStage.setResizable(false);
+            signupStage.setWidth(700);
+            signupStage.setHeight(650);
             signupStage.show();
 
-            // 关闭当前的登录窗口（如果希望打开注册界面时关闭登录界面）
-            // Node source = (Node) event.getSource();
-            // Stage currentStage = (Stage) source.getScene().getWindow();
-            // currentStage.close();
-            // 测试下来感觉不是很必要
         } catch (IOException e) {
             e.printStackTrace();
-            // 处理加载 FXML 文件的错误
+
         }
     }
-
-    // 如果在 FXML 中设置了其他组件的事件处理方法，也在这里实现
-    // 后续再添加
 
 }

@@ -31,7 +31,6 @@ public class TrailViewSignuppage {
         model = new Model(); // 实例化 Model 类
     }
 
-    // 处理注册按钮点击事件的方法
     @FXML
     private void handleCreateButton(ActionEvent event) {
         String username = usernameField.getText();
@@ -130,15 +129,5 @@ public class TrailViewSignuppage {
         Stage currentStage = (Stage) source.getScene().getWindow();
         currentStage.close();
 
-        // 如果需要在这里打开登录页面，可以添加相应的代码：
-        // try {
-        //     FXMLLoader loader = new FXMLLoader(getClass().getResource("/path/to/your/login_view.fxml"));
-        //     Parent root = loader.load();
-        //     Stage loginStage = new Stage();
-        //     loginStage.setScene(new Scene(root));
-        //     loginStage.show();
-        //     currentStage.close(); // 关闭注册窗口
-        // } catch (IOException e) {
-        //     e.printStackTrace();
     }
 }

@@ -19,6 +19,9 @@ public class LoginView extends Stage {
             Scene scene = new Scene(root);
             this.setScene(scene);
             this.setTitle("login");
+            this.setResizable(false);
+            this.setWidth(700);
+            this.setHeight(550);
 
         } catch (IOException e) {
             e.printStackTrace();
