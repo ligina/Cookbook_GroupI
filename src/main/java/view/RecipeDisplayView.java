@@ -34,7 +34,7 @@ public class RecipeDisplayView extends Stage {
         this.setTitle("Recipe Details");
         this.setMinWidth(1000);
         this.setMinHeight(700);
-        this.setResizable(true);
+        this.setResizable(false);
         this.setWidth(1100);
         this.setHeight(830);
         this.setMaximized(false);

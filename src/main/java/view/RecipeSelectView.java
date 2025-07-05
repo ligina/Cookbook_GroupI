@@ -27,7 +27,7 @@ public class RecipeSelectView extends Stage {
         this.setMinHeight(600);
         this.setWidth(1200);
         this.setHeight(930);
-        this.setResizable(true);
+        this.setResizable(false);
         this.setMaximized(false);
         init();
     }
