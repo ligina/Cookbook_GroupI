@@ -314,7 +314,17 @@ public class RecipeCreateFXMLController implements Initializable {
         quantityColumn.setCellFactory(column -> new TextFieldTableCell<>(new FloatStringConverter()));
         quantityColumn.setOnEditCommit(event -> {
             RecipeIngredient ingredient = event.getRowValue();
-            ingredient.setQuantity(event.getNewValue());
+            Float newValue = event.getNewValue();
+            
+            // Validate quantity value
+            if (newValue != null && newValue < 0) {
+                Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Quantity cannot be negative!");
+                // Reset to previous value
+                tableView.refresh();
+                return;
+            }
+            
+            ingredient.setQuantity(newValue);
             autoFillNutrition(ingredient);
             updateNutritionPreview();
         });
@@ -345,7 +355,17 @@ public class RecipeCreateFXMLController implements Initializable {
         caloriesColumn.setCellFactory(column -> new TextFieldTableCell<>(new FloatStringConverter()));
         caloriesColumn.setOnEditCommit(event -> {
             RecipeIngredient ingredient = event.getRowValue();
-            ingredient.setUnitCalories(event.getNewValue());
+            Float newValue = event.getNewValue();
+            
+            // Validate nutrition value
+            if (newValue != null && newValue < 0) {
+                Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Calories cannot be negative!");
+                // Reset to previous value
+                tableView.refresh();
+                return;
+            }
+            
+            ingredient.setUnitCalories(newValue);
             updateNutritionPreview();
         });
 
@@ -355,7 +375,17 @@ public class RecipeCreateFXMLController implements Initializable {
         proteinColumn.setCellFactory(column -> new TextFieldTableCell<>(new FloatStringConverter()));
         proteinColumn.setOnEditCommit(event -> {
             RecipeIngredient ingredient = event.getRowValue();
-            ingredient.setUnitProtein(event.getNewValue());
+            Float newValue = event.getNewValue();
+            
+            // Validate nutrition value
+            if (newValue != null && newValue < 0) {
+                Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Protein cannot be negative!");
+                // Reset to previous value
+                tableView.refresh();
+                return;
+            }
+            
+            ingredient.setUnitProtein(newValue);
             updateNutritionPreview();
         });
 
@@ -365,7 +395,17 @@ public class RecipeCreateFXMLController implements Initializable {
         fatColumn.setCellFactory(column -> new TextFieldTableCell<>(new FloatStringConverter()));
         fatColumn.setOnEditCommit(event -> {
             RecipeIngredient ingredient = event.getRowValue();
-            ingredient.setUnitFat(event.getNewValue());
+            Float newValue = event.getNewValue();
+            
+            // Validate nutrition value
+            if (newValue != null && newValue < 0) {
+                Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Fat cannot be negative!");
+                // Reset to previous value
+                tableView.refresh();
+                return;
+            }
+            
+            ingredient.setUnitFat(newValue);
             updateNutritionPreview();
         });
 
@@ -375,7 +415,17 @@ public class RecipeCreateFXMLController implements Initializable {
         carbsColumn.setCellFactory(column -> new TextFieldTableCell<>(new FloatStringConverter()));
         carbsColumn.setOnEditCommit(event -> {
             RecipeIngredient ingredient = event.getRowValue();
-            ingredient.setUnitCarbohydrates(event.getNewValue());
+            Float newValue = event.getNewValue();
+            
+            // Validate nutrition value
+            if (newValue != null && newValue < 0) {
+                Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Carbohydrates cannot be negative!");
+                // Reset to previous value
+                tableView.refresh();
+                return;
+            }
+            
+            ingredient.setUnitCarbohydrates(newValue);
             updateNutritionPreview();
         });
 

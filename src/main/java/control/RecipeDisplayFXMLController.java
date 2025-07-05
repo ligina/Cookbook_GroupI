@@ -259,8 +259,18 @@ public class RecipeDisplayFXMLController implements Initializable {
                 }
             }));
         quantityColumn.setOnEditCommit(event -> {
+            Float newValue = event.getNewValue();
+            
+            // Validate quantity value
+            if (newValue != null && newValue < 0) {
+                Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Quantity cannot be negative!");
+                // Reset to previous value
+                ingredientsTableView.refresh();
+                return;
+            }
+            
             float servingSize = getServingSize();
-            float baseQuantity = event.getNewValue() / servingSize;
+            float baseQuantity = newValue / servingSize;
             event.getRowValue().setQuantity(baseQuantity);
             updateNutritionalDisplay();
         });
@@ -303,8 +313,18 @@ public class RecipeDisplayFXMLController implements Initializable {
                 }
             }));
         caloriesColumn.setOnEditCommit(event -> {
+            Float newValue = event.getNewValue();
+            
+            // Validate nutrition value
+            if (newValue != null && newValue < 0) {
+                Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Calories cannot be negative!");
+                // Reset to previous value
+                ingredientsTableView.refresh();
+                return;
+            }
+            
             float servingSize = getServingSize();
-            float baseCalories = event.getNewValue() / servingSize;
+            float baseCalories = newValue / servingSize;
             event.getRowValue().setTotalCalories(baseCalories);
             updateNutritionalDisplay();
         });
@@ -333,8 +353,18 @@ public class RecipeDisplayFXMLController implements Initializable {
                 }
             }));
         proteinColumn.setOnEditCommit(event -> {
+            Float newValue = event.getNewValue();
+            
+            // Validate nutrition value
+            if (newValue != null && newValue < 0) {
+                Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Protein cannot be negative!");
+                // Reset to previous value
+                ingredientsTableView.refresh();
+                return;
+            }
+            
             float servingSize = getServingSize();
-            float baseProtein = event.getNewValue() / servingSize;
+            float baseProtein = newValue / servingSize;
             event.getRowValue().setTotalProtein(baseProtein);
             updateNutritionalDisplay();
         });
@@ -363,8 +393,18 @@ public class RecipeDisplayFXMLController implements Initializable {
                 }
             }));
         fatColumn.setOnEditCommit(event -> {
+            Float newValue = event.getNewValue();
+            
+            // Validate nutrition value
+            if (newValue != null && newValue < 0) {
+                Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Fat cannot be negative!");
+                // Reset to previous value
+                ingredientsTableView.refresh();
+                return;
+            }
+            
             float servingSize = getServingSize();
-            float baseFat = event.getNewValue() / servingSize;
+            float baseFat = newValue / servingSize;
             event.getRowValue().setTotalFat(baseFat);
             updateNutritionalDisplay();
         });
@@ -393,8 +433,18 @@ public class RecipeDisplayFXMLController implements Initializable {
                 }
             }));
         carbsColumn.setOnEditCommit(event -> {
+            Float newValue = event.getNewValue();
+            
+            // Validate nutrition value
+            if (newValue != null && newValue < 0) {
+                Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Carbohydrates cannot be negative!");
+                // Reset to previous value
+                ingredientsTableView.refresh();
+                return;
+            }
+            
             float servingSize = getServingSize();
-            float baseCarbs = event.getNewValue() / servingSize;
+            float baseCarbs = newValue / servingSize;
             event.getRowValue().setTotalCarbohydrates(baseCarbs);
             updateNutritionalDisplay();
         });

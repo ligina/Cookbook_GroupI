@@ -291,18 +291,18 @@ public class Model implements ModelMethod{
             return false;
         }
         
-        // Must be pure numbers
+        // Must be pure numbers (no negative signs allowed)
         if (!serveNumber.matches("^\\d+$")) {
-            Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Serving number must contain only numbers!");
+            Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Serving number must contain only numbers and cannot be negative!");
             return false;
         }
         
         try {
             int servings = Integer.parseInt(serveNumber);
             
-            // Cannot be 0
-            if (servings == 0) {
-                Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Serving number cannot be 0!");
+            // Cannot be 0 or negative
+            if (servings <= 0) {
+                Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Serving number must be a positive number!");
                 return false;
             }
             
@@ -347,15 +347,27 @@ public class Model implements ModelMethod{
             return false;
         }
         
-        // EC V14: Must be pure numbers
+        // EC V14: Must be pure numbers (no negative signs allowed)
         if (!value.matches("^\\d*\\.?\\d+$")) {
-            Model.displayAlert(Alert.AlertType.WARNING, "Warning", fieldName + " must contain only numbers!");
+            Model.displayAlert(Alert.AlertType.WARNING, "Warning", fieldName + " must contain only numbers and cannot be negative!");
             return false;
         }
         
         // EC V15: String length cannot exceed 10 digits
         if (value.length() > 10) {
             Model.displayAlert(Alert.AlertType.WARNING, "Warning", fieldName + " cannot exceed 10 digits!");
+            return false;
+        }
+        
+        // Additional check: ensure the numeric value is not negative
+        try {
+            double numericValue = Double.parseDouble(value);
+            if (numericValue < 0) {
+                Model.displayAlert(Alert.AlertType.WARNING, "Warning", fieldName + " cannot be negative!");
+                return false;
+            }
+        } catch (NumberFormatException e) {
+            Model.displayAlert(Alert.AlertType.WARNING, "Warning", fieldName + " has invalid number format!");
             return false;
         }
         
@@ -391,9 +403,15 @@ public class Model implements ModelMethod{
             return false;
         }
         
-        // EC V8: Quantity cannot be empty
+        // EC V8: Quantity cannot be empty or zero
         if(quantity == null || quantity == 0.0){
             Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Ingredient quantity cannot be empty!");
+            return false;
+        }
+        
+        // NEW: Quantity cannot be negative
+        if(quantity < 0.0){
+            Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Ingredient quantity cannot be negative!");
             return false;
         }
         
@@ -449,15 +467,34 @@ public class Model implements ModelMethod{
             return false;
         }
         
-        // EC V5: Preparation time must be pure numbers
+        // EC V5: Preparation time must be pure numbers (no negative signs allowed)
         if (!preparationTime.matches("^\\d+$")) {
-            Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Preparation time must contain only numbers!");
+            Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Preparation time must contain only numbers and cannot be negative!");
             return false;
         }
         
-        // EC V9: Cooking time must be pure numbers
+        // EC V9: Cooking time must be pure numbers (no negative signs allowed)
         if (!cookingTime.matches("^\\d+$")) {
-            Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Cooking time must contain only numbers!");
+            Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Cooking time must contain only numbers and cannot be negative!");
+            return false;
+        }
+        
+        // Additional validation: ensure times are positive
+        try {
+            int prepTime = Integer.parseInt(preparationTime);
+            int cookTime = Integer.parseInt(cookingTime);
+            
+            if (prepTime <= 0) {
+                Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Preparation time must be a positive number!");
+                return false;
+            }
+            
+            if (cookTime <= 0) {
+                Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Cooking time must be a positive number!");
+                return false;
+            }
+        } catch (NumberFormatException e) {
+            Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Invalid time format!");
             return false;
         }
         
