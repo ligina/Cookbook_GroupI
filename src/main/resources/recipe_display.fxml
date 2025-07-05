@@ -81,28 +81,28 @@
                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
                   </columnConstraints>
 
-                  <VBox alignment="CENTER" spacing="6" style="-fx-background-color: linear-gradient(135deg, #FF6B6B, #FF5252); -fx-background-radius: 12; -fx-padding: 12;" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                  <VBox alignment="CENTER" spacing="6" style="-fx-background-color: rgba(255,255,255,0.9); -fx-background-radius: 12; -fx-padding: 12; -fx-border-color: rgba(0,0,0,0.1); -fx-border-radius: 12; -fx-border-width: 1;" GridPane.columnIndex="0" GridPane.rowIndex="0">
                      <Label style="-fx-font-size: 16;" text=" " />
-                     <Label fx:id="totalCaloriesLabel" style="-fx-font-size: 16; -fx-font-weight: bold;" text="0" textFill="white" />
-                     <Label style="-fx-font-size: 10;" text="kcal" textFill="rgba(255,255,255,0.8)" />
+                     <Label fx:id="totalCaloriesLabel" style="-fx-font-size: 16; -fx-font-weight: bold;" text="0" textFill="#333" />
+                     <Label style="-fx-font-size: 10;" text="kcal" textFill="#666" />
                   </VBox>
 
-                  <VBox alignment="CENTER" spacing="6" style="-fx-background-color: linear-gradient(135deg, #4ECDC4, #44A08D); -fx-background-radius: 12; -fx-padding: 12;" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                  <VBox alignment="CENTER" spacing="6" style="-fx-background-color: rgba(255,255,255,0.9); -fx-background-radius: 12; -fx-padding: 12; -fx-border-color: rgba(0,0,0,0.1); -fx-border-radius: 12; -fx-border-width: 1;" GridPane.columnIndex="1" GridPane.rowIndex="0">
                      <Label style="-fx-font-size: 16;" text=" " />
-                     <Label fx:id="totalProteinLabel" style="-fx-font-size: 16; -fx-font-weight: bold;" text="0.0" textFill="white" />
-                     <Label style="-fx-font-size: 10;" text="g protein" textFill="rgba(255,255,255,0.8)" />
+                     <Label fx:id="totalProteinLabel" style="-fx-font-size: 16; -fx-font-weight: bold;" text="0.0" textFill="#333" />
+                     <Label style="-fx-font-size: 10;" text="g protein" textFill="#666" />
                   </VBox>
 
-                  <VBox alignment="CENTER" prefWidth="140.0" spacing="6" style="-fx-background-color: linear-gradient(135deg, #FFA726, #FF9800); -fx-background-radius: 12; -fx-padding: 12;" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                  <VBox alignment="CENTER" prefWidth="140.0" spacing="6" style="-fx-background-color: rgba(255,255,255,0.9); -fx-background-radius: 12; -fx-padding: 12; -fx-border-color: rgba(0,0,0,0.1); -fx-border-radius: 12; -fx-border-width: 1;" GridPane.columnIndex="0" GridPane.rowIndex="1">
                      <Label style="-fx-font-size: 16;" text=" " />
-                     <Label fx:id="totalFatLabel" style="-fx-font-size: 16; -fx-font-weight: bold;" text="0.0" textFill="white" />
-                     <Label style="-fx-font-size: 10;" text="g fat" textFill="rgba(255,255,255,0.8)" />
+                     <Label fx:id="totalFatLabel" style="-fx-font-size: 16; -fx-font-weight: bold;" text="0.0" textFill="#333" />
+                     <Label style="-fx-font-size: 10;" text="g fat" textFill="#666" />
                   </VBox>
 
-                  <VBox alignment="CENTER" prefHeight="86.0" prefWidth="135.0" spacing="6" style="-fx-background-color: linear-gradient(135deg, #AB47BC, #9C27B0); -fx-background-radius: 12; -fx-padding: 12;" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <VBox alignment="CENTER" prefHeight="86.0" prefWidth="135.0" spacing="6" style="-fx-background-color: rgba(255,255,255,0.9); -fx-background-radius: 12; -fx-padding: 12; -fx-border-color: rgba(0,0,0,0.1); -fx-border-radius: 12; -fx-border-width: 1;" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <Label style="-fx-font-size: 16;" text=" " />
-                     <Label fx:id="totalCarbsLabel" style="-fx-font-size: 16; -fx-font-weight: bold;" text="0.0" textFill="white" />
-                     <Label style="-fx-font-size: 10;" text="g carbs" textFill="rgba(255,255,255,0.8)" />
+                     <Label fx:id="totalCarbsLabel" style="-fx-font-size: 16; -fx-font-weight: bold;" text="0.0" textFill="#333" />
+                     <Label style="-fx-font-size: 10;" text="g carbs" textFill="#666" />
                   </VBox>
                   <rowConstraints>
                      <RowConstraints />
