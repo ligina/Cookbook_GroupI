@@ -56,10 +56,10 @@
 
          <VBox prefWidth="320" spacing="16">
 
-            <VBox alignment="CENTER" prefHeight="172.0" prefWidth="384.0" spacing="12" style="-fx-background-color: rgba(255,255,255,0.1); -fx-background-radius: 16; -fx-padding: 16; -fx-border-color: rgba(255,255,255,0.2); -fx-border-radius: 16; -fx-border-width: 1;">
-               <ImageView fx:id="recipeImage" fitHeight="103.0" fitWidth="237.0" pickOnBounds="true" preserveRatio="true" smooth="true">
+            <VBox alignment="CENTER" prefHeight="172.0" prefWidth="317.0" spacing="12" style="-fx-background-color: rgba(255,255,255,0.1); -fx-background-radius: 16; -fx-padding: 16; -fx-border-color: rgba(255,255,255,0.2); -fx-border-radius: 16; -fx-border-width: 1;">
+               <ImageView fx:id="recipeImage" fitHeight="140.0" fitWidth="285.0" pickOnBounds="true" preserveRatio="true" smooth="true">
                   <clip>
-                     <javafx.scene.shape.Rectangle arcHeight="16" arcWidth="16" height="224" width="224" />
+                     <javafx.scene.shape.Rectangle arcHeight="16" arcWidth="16" height="140" width="285" />
                   </clip>
                </ImageView>
                <effect>
