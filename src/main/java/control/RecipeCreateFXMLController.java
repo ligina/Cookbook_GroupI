@@ -226,6 +226,22 @@ public class RecipeCreateFXMLController implements Initializable {
             model.updateRecipe(recipe);
         }
         
+        // Check for duplicate ingredient names before saving
+        if (!validateUniqueIngredientNames()) {
+            if(!isEdited) {
+                model.deleteRecipe(recipeId);
+            }
+            return false; // Validation failed, stay on current window
+        }
+        
+        // Validate all numeric fields in ingredients
+        if (!validateIngredientNumericFields()) {
+            if(!isEdited) {
+                model.deleteRecipe(recipeId);
+            }
+            return false; // Validation failed, stay on current window
+        }
+        
         // Prepare updated recipe ingredients
         List<RecipeIngredient> updatedRecipeIngredients = new ArrayList<>();
         for(RecipeIngredient recipeIngredient: tableView.getItems()){
@@ -309,7 +325,32 @@ public class RecipeCreateFXMLController implements Initializable {
         nameColumn.setPrefWidth(130);
         nameColumn.setOnEditCommit(event -> {
             RecipeIngredient ingredient = event.getRowValue();
-            ingredient.setName(event.getNewValue());
+            String newName = event.getNewValue();
+            
+            // Check for duplicate ingredient names
+            if (newName != null && !newName.trim().isEmpty()) {
+                String trimmedName = newName.trim().toLowerCase();
+                boolean isDuplicate = false;
+                
+                for (RecipeIngredient existingIngredient : tableView.getItems()) {
+                    if (existingIngredient != ingredient && 
+                        existingIngredient.getName() != null && 
+                        existingIngredient.getName().trim().toLowerCase().equals(trimmedName)) {
+                        isDuplicate = true;
+                        break;
+                    }
+                }
+                
+                if (isDuplicate) {
+                    Model.displayAlert(Alert.AlertType.WARNING, "Warning", 
+                        "Ingredient name '" + newName + "' already exists in this recipe. Please use a different name or modify the existing ingredient.");
+                    // Reset to previous value
+                    tableView.refresh();
+                    return;
+                }
+            }
+            
+            ingredient.setName(newName);
             autoFillNutrition(ingredient);
             updateNutritionPreview();
         });
@@ -317,19 +358,12 @@ public class RecipeCreateFXMLController implements Initializable {
         TableColumn<RecipeIngredient, Float> quantityColumn = new TableColumn<>("Qty");
         quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         quantityColumn.setPrefWidth(70);
-        quantityColumn.setCellFactory(column -> new TextFieldTableCell<>(new FloatStringConverter()));
+        quantityColumn.setCellFactory(column -> createValidatedFloatCell(true)); // true means required (cannot be null/empty)
         quantityColumn.setOnEditCommit(event -> {
             RecipeIngredient ingredient = event.getRowValue();
             Float newValue = event.getNewValue();
             
-            // Validate quantity value
-            if (newValue != null && newValue < 0) {
-                Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Quantity cannot be negative!");
-                // Reset to previous value
-                tableView.refresh();
-                return;
-            }
-            
+            // No validation needed here - handled by custom cell
             ingredient.setQuantity(newValue);
             autoFillNutrition(ingredient);
             updateNutritionPreview();
@@ -358,80 +392,52 @@ public class RecipeCreateFXMLController implements Initializable {
         TableColumn<RecipeIngredient, Float> caloriesColumn = new TableColumn<>("Cal/u");
         caloriesColumn.setCellValueFactory(new PropertyValueFactory<>("unitCalories"));
         caloriesColumn.setPrefWidth(65);
-        caloriesColumn.setCellFactory(column -> new TextFieldTableCell<>(new FloatStringConverter()));
+        caloriesColumn.setCellFactory(column -> createValidatedFloatCell(false)); // false means optional (can be null/empty)
         caloriesColumn.setOnEditCommit(event -> {
             RecipeIngredient ingredient = event.getRowValue();
             Float newValue = event.getNewValue();
             
-            // Validate nutrition value
-            if (newValue != null && newValue < 0) {
-                Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Calories cannot be negative!");
-                // Reset to previous value
-                tableView.refresh();
-                return;
-            }
-            
-            ingredient.setUnitCalories(newValue);
+            // No validation needed here - handled by custom cell
+            ingredient.setUnitCalories(newValue != null ? newValue : 0.0f);
             updateNutritionPreview();
         });
 
         TableColumn<RecipeIngredient, Float> proteinColumn = new TableColumn<>("Pro/u");
         proteinColumn.setCellValueFactory(new PropertyValueFactory<>("unitProtein"));
         proteinColumn.setPrefWidth(65);
-        proteinColumn.setCellFactory(column -> new TextFieldTableCell<>(new FloatStringConverter()));
+        proteinColumn.setCellFactory(column -> createValidatedFloatCell(false)); // false means optional (can be null/empty)
         proteinColumn.setOnEditCommit(event -> {
             RecipeIngredient ingredient = event.getRowValue();
             Float newValue = event.getNewValue();
             
-            // Validate nutrition value
-            if (newValue != null && newValue < 0) {
-                Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Protein cannot be negative!");
-                // Reset to previous value
-                tableView.refresh();
-                return;
-            }
-            
-            ingredient.setUnitProtein(newValue);
+            // No validation needed here - handled by custom cell
+            ingredient.setUnitProtein(newValue != null ? newValue : 0.0f);
             updateNutritionPreview();
         });
 
         TableColumn<RecipeIngredient, Float> fatColumn = new TableColumn<>("Fat/u");
         fatColumn.setCellValueFactory(new PropertyValueFactory<>("unitFat"));
         fatColumn.setPrefWidth(60);
-        fatColumn.setCellFactory(column -> new TextFieldTableCell<>(new FloatStringConverter()));
+        fatColumn.setCellFactory(column -> createValidatedFloatCell(false)); // false means optional (can be null/empty)
         fatColumn.setOnEditCommit(event -> {
             RecipeIngredient ingredient = event.getRowValue();
             Float newValue = event.getNewValue();
             
-            // Validate nutrition value
-            if (newValue != null && newValue < 0) {
-                Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Fat cannot be negative!");
-                // Reset to previous value
-                tableView.refresh();
-                return;
-            }
-            
-            ingredient.setUnitFat(newValue);
+            // No validation needed here - handled by custom cell
+            ingredient.setUnitFat(newValue != null ? newValue : 0.0f);
             updateNutritionPreview();
         });
 
         TableColumn<RecipeIngredient, Float> carbsColumn = new TableColumn<>("Carb/u");
         carbsColumn.setCellValueFactory(new PropertyValueFactory<>("unitCarbohydrates"));
         carbsColumn.setPrefWidth(65);
-        carbsColumn.setCellFactory(column -> new TextFieldTableCell<>(new FloatStringConverter()));
+        carbsColumn.setCellFactory(column -> createValidatedFloatCell(false)); // false means optional (can be null/empty)
         carbsColumn.setOnEditCommit(event -> {
             RecipeIngredient ingredient = event.getRowValue();
             Float newValue = event.getNewValue();
             
-            // Validate nutrition value
-            if (newValue != null && newValue < 0) {
-                Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Carbohydrates cannot be negative!");
-                // Reset to previous value
-                tableView.refresh();
-                return;
-            }
-            
-            ingredient.setUnitCarbohydrates(newValue);
+            // No validation needed here - handled by custom cell
+            ingredient.setUnitCarbohydrates(newValue != null ? newValue : 0.0f);
             updateNutritionPreview();
         });
 
@@ -551,8 +557,8 @@ public class RecipeCreateFXMLController implements Initializable {
             ingredient.setName("");
         }
         
-        // Clear quantity if invalid
-        if (ingredient.getQuantity() == null || ingredient.getQuantity() == 0.0f || 
+        // Clear quantity if invalid - quantity cannot be null, zero, or negative
+        if (ingredient.getQuantity() == null || ingredient.getQuantity() <= 0.0f || 
             String.valueOf(ingredient.getQuantity()).length() > 10) {
             ingredient.setQuantity(1.0f); // Set to default value instead of null
         }
@@ -610,5 +616,236 @@ public class RecipeCreateFXMLController implements Initializable {
                 e.printStackTrace();
             }
         }
+    }
+    
+    /**
+     * Validates that all ingredient names in the recipe are unique.
+     * Performs case-insensitive comparison and trims whitespace.
+     * 
+     * @return true if all ingredient names are unique, false if duplicates are found
+     */
+    private boolean validateUniqueIngredientNames() {
+        List<String> ingredientNames = new ArrayList<>();
+        
+        for (RecipeIngredient ingredient : tableView.getItems()) {
+            if (ingredient.getName() != null && !ingredient.getName().trim().isEmpty()) {
+                String trimmedName = ingredient.getName().trim().toLowerCase();
+                
+                if (ingredientNames.contains(trimmedName)) {
+                    Model.displayAlert(Alert.AlertType.WARNING, "Warning", 
+                        "Duplicate ingredient name found: '" + ingredient.getName() + 
+                        "'. Each ingredient in a recipe must have a unique name. Please remove duplicates or use different names.");
+                    return false;
+                }
+                
+                ingredientNames.add(trimmedName);
+            }
+        }
+        
+        return true;
+    }
+    
+    /**
+     * Validates that all numeric fields in ingredients are valid.
+     * Checks that quantities are positive and nutrition values are non-negative.
+     * 
+     * @return true if all numeric fields are valid, false if validation fails
+     */
+    private boolean validateIngredientNumericFields() {
+        for (int i = 0; i < tableView.getItems().size(); i++) {
+            RecipeIngredient ingredient = tableView.getItems().get(i);
+            
+            // Skip empty rows (ingredients with no name)
+            if (ingredient.getName() == null || ingredient.getName().trim().isEmpty()) {
+                continue;
+            }
+            
+            // Validate quantity - must be positive
+            if (ingredient.getQuantity() == null || ingredient.getQuantity() <= 0) {
+                Model.displayAlert(Alert.AlertType.WARNING, "Warning", 
+                    "Invalid quantity for ingredient '" + ingredient.getName() + 
+                    "' (Row " + (i + 1) + "). Quantity must be a positive number greater than 0.");
+                return false;
+            }
+            
+            // Validate nutrition values - must be non-negative if provided
+            if (ingredient.getUnitCalories() != null && ingredient.getUnitCalories() < 0) {
+                Model.displayAlert(Alert.AlertType.WARNING, "Warning", 
+                    "Invalid calories value for ingredient '" + ingredient.getName() + 
+                    "' (Row " + (i + 1) + "). Calories cannot be negative.");
+                return false;
+            }
+            
+            if (ingredient.getUnitProtein() != null && ingredient.getUnitProtein() < 0) {
+                Model.displayAlert(Alert.AlertType.WARNING, "Warning", 
+                    "Invalid protein value for ingredient '" + ingredient.getName() + 
+                    "' (Row " + (i + 1) + "). Protein cannot be negative.");
+                return false;
+            }
+            
+            if (ingredient.getUnitFat() != null && ingredient.getUnitFat() < 0) {
+                Model.displayAlert(Alert.AlertType.WARNING, "Warning", 
+                    "Invalid fat value for ingredient '" + ingredient.getName() + 
+                    "' (Row " + (i + 1) + "). Fat cannot be negative.");
+                return false;
+            }
+            
+            if (ingredient.getUnitCarbohydrates() != null && ingredient.getUnitCarbohydrates() < 0) {
+                Model.displayAlert(Alert.AlertType.WARNING, "Warning", 
+                    "Invalid carbohydrates value for ingredient '" + ingredient.getName() + 
+                    "' (Row " + (i + 1) + "). Carbohydrates cannot be negative.");
+                return false;
+            }
+        }
+        
+        return true;
+    }
+    
+    /**
+     * Creates a validated float cell that handles input validation and shows appropriate error messages.
+     * 
+     * @param isRequired true if the field is required (cannot be null/empty), false if optional
+     * @return a custom TableCell that validates float input
+     */
+    private TableCell<RecipeIngredient, Float> createValidatedFloatCell(boolean isRequired) {
+        return new TableCell<RecipeIngredient, Float>() {
+            private TextField textField;
+            private boolean isCommitting = false; // Flag to prevent duplicate commits
+            
+            @Override
+            protected void updateItem(Float item, boolean empty) {
+                super.updateItem(item, empty);
+                
+                if (empty) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    if (isEditing()) {
+                        if (textField != null) {
+                            textField.setText(item != null ? item.toString() : "");
+                        }
+                        setGraphic(textField);
+                        setText(null);
+                    } else {
+                        setText(item != null ? item.toString() : "");
+                        setGraphic(null);
+                    }
+                }
+            }
+            
+            @Override
+            public void startEdit() {
+                if (!isEditable() || !getTableView().isEditable() || !getTableColumn().isEditable()) {
+                    return;
+                }
+                
+                super.startEdit();
+                
+                if (textField == null) {
+                    createTextField();
+                }
+                
+                textField.setText(getItem() != null ? getItem().toString() : "");
+                setGraphic(textField);
+                setText(null);
+                textField.selectAll();
+                textField.requestFocus();
+            }
+            
+            @Override
+            public void cancelEdit() {
+                super.cancelEdit();
+                setText(getItem() != null ? getItem().toString() : "");
+                setGraphic(null);
+            }
+            
+            private void createTextField() {
+                textField = new TextField();
+                textField.setOnAction(event -> commitEdit());
+                textField.focusedProperty().addListener((obs, wasFocused, isNowFocused) -> {
+                    if (!isNowFocused && isEditing()) {
+                        commitEdit();
+                    }
+                });
+            }
+            
+            private void commitEdit() {
+                // Prevent duplicate commits
+                if (isCommitting) {
+                    return;
+                }
+                isCommitting = true;
+                
+                String text = textField.getText().trim();
+                
+                try {
+                    if (text.isEmpty()) {
+                        if (isRequired) {
+                            // Required field cannot be empty - show warning and reset to previous value
+                            String fieldName = getTableColumn().getText();
+                            Model.displayAlert(Alert.AlertType.WARNING, "Warning", 
+                                fieldName + " cannot be empty! Please enter a positive number.");
+                            // Reset to previous value or default
+                            Float previousValue = getItem();
+                            if (previousValue == null || previousValue <= 0) {
+                                previousValue = 1.0f; // Default for required fields
+                            }
+                            commitEdit(previousValue);
+                            return;
+                        } else {
+                            // Optional field can be empty, treat as 0
+                            commitEdit(0.0f);
+                            return;
+                        }
+                    }
+                    
+                    Float value = Float.parseFloat(text);
+                    
+                    // Validate the parsed value
+                    if (isRequired && value <= 0) {
+                        String fieldName = getTableColumn().getText();
+                        Model.displayAlert(Alert.AlertType.WARNING, "Warning", 
+                            fieldName + " must be a positive number greater than 0!");
+                        // Reset to previous value or default
+                        Float previousValue = getItem();
+                        if (previousValue == null || previousValue <= 0) {
+                            previousValue = 1.0f; // Default for required fields
+                        }
+                        commitEdit(previousValue);
+                        return;
+                    }
+                    
+                    if (!isRequired && value < 0) {
+                        String fieldName = getTableColumn().getText();
+                        Model.displayAlert(Alert.AlertType.WARNING, "Warning", 
+                            fieldName + " cannot be negative! Please enter 0 or a positive number.");
+                        // Reset to previous value or 0
+                        Float previousValue = getItem();
+                        if (previousValue == null || previousValue < 0) {
+                            previousValue = 0.0f; // Default for optional fields
+                        }
+                        commitEdit(previousValue);
+                        return;
+                    }
+                    
+                    commitEdit(value);
+                    
+                } catch (NumberFormatException e) {
+                    // Invalid number format - show warning and reset to previous value
+                    String fieldName = getTableColumn().getText();
+                    Model.displayAlert(Alert.AlertType.WARNING, "Warning", 
+                        fieldName + " must be a valid number! Please enter only digits and decimal points.");
+                    // Reset to previous value or appropriate default
+                    Float previousValue = getItem();
+                    if (previousValue == null) {
+                        previousValue = isRequired ? 1.0f : 0.0f;
+                    }
+                    commitEdit(previousValue);
+                } finally {
+                    // Reset the flag after commit is complete
+                    isCommitting = false;
+                }
+            }
+        };
     }
 }
