@@ -65,13 +65,13 @@ public class RecipeSelectFXMLController implements Initializable {
     private void handleSearchButton(ActionEvent event) {
         String recipeName = searchField.getText();
         
-        // EC V3: Search term cannot be empty
+
         if (recipeName == null || recipeName.isEmpty()) {
             Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Search term cannot be empty!");
             return;
         }
         
-        // EC V2: Search term length cannot exceed 30 characters
+
         if (recipeName.length() > 30) {
             Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Search term length cannot exceed 30 characters!");
             return;
@@ -111,11 +111,11 @@ public class RecipeSelectFXMLController implements Initializable {
 
     @FXML
     private void handleBackButton(ActionEvent event) {
-        // Close current recipe select window
+
         Stage stage = (Stage) backButton.getScene().getWindow();
         stage.close();
         
-        // Open login view
+
         view.LoginView loginView = new view.LoginView();
         loginView.show();
     }
@@ -129,7 +129,7 @@ public class RecipeSelectFXMLController implements Initializable {
     private void updateImageData(LinkedHashMap<Integer, String> newImageUrls, ArrayList<String> newImageNames) {
         this.imageUrls = newImageUrls;
         this.imageNames = newImageNames;
-        this.currentPage = 0; // Reset to first page
+        this.currentPage = 0;
         updatePageInfo();
     }
 

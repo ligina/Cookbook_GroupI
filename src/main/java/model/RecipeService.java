@@ -9,9 +9,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-/**
- * Recipe management service for CRUD operations
- */
+
 public class RecipeService {
     private DatabaseManager dbManager;
 
@@ -19,9 +17,7 @@ public class RecipeService {
         this.dbManager = dbManager;
     }
 
-    /**
-     * Get recipe image URLs by recipe name
-     */
+    
     public LinkedHashMap<Integer, String> updateImageUrls(String recipeName) {
         ArrayList<Recipe> recipes = dbManager.getRecipeMapper().getRecipeByName(recipeName);
         LinkedHashMap<Integer, String> imageHashMap = new LinkedHashMap<>();
@@ -31,9 +27,7 @@ public class RecipeService {
         return imageHashMap;
     }
 
-    /**
-     * Get recipe image names by recipe name
-     */
+    
     public ArrayList<String> updateImageNames(String recipeName) {
         ArrayList<Recipe> recipes = dbManager.getRecipeMapper().getRecipeByName(recipeName);
         ArrayList<String> imageNames = new ArrayList<>();
@@ -43,30 +37,22 @@ public class RecipeService {
         return imageNames;
     }
 
-    /**
-     * Get recipe by ID
-     */
+    
     public Recipe getRecipeByID(Integer id) {
         return dbManager.getRecipeMapper().getRecipeById(id);
     }
 
-    /**
-     * Get ingredients by recipe ID
-     */
+    
     public List<RecipeIngredient> getIngredientByID(Integer id) {
         return dbManager.getRecipeIngredientMapper().getRecipeIngredientsByRecipeId(id);
     }
 
-    /**
-     * Get preparation steps by recipe ID
-     */
+    
     public List<PreparationStep> getRecipePreparationSteps(Integer id) {
         return dbManager.getPreparationStepMapper().getPreparationStepsByRecipeId(id);
     }
 
-    /**
-     * Update ingredients by serve number
-     */
+    
     public List<RecipeIngredient> updateIngredientByServeNumber(Integer id, String serveNumber) {
         Float serveNumberInt = Float.parseFloat(serveNumber);
         List<RecipeIngredient> updatedIngredients = new ArrayList<>();
@@ -80,9 +66,7 @@ public class RecipeService {
         return updatedIngredients;
     }
 
-    /**
-     * Update existing recipe
-     */
+    
     public void updateRecipe(Recipe recipe) {
         try {
             dbManager.getRecipeMapper().updateRecipe(recipe);
@@ -92,9 +76,7 @@ public class RecipeService {
         }
     }
 
-    /**
-     * Add new recipe
-     */
+    
     public Integer addRecipe(Recipe recipe) {
         try {
             dbManager.getRecipeMapper().addRecipe(recipe);
@@ -107,9 +89,7 @@ public class RecipeService {
         }
     }
 
-    /**
-     * Add recipe ingredient
-     */
+    
     public void addRecipeIngredient(RecipeIngredient recipeIngredient) {
         try {
             dbManager.getRecipeIngredientMapper().addRecipeIngredient(recipeIngredient);
@@ -119,9 +99,7 @@ public class RecipeService {
         }
     }
 
-    /**
-     * Update recipe ingredients
-     */
+    
     public void updateRecipeIngredient(Integer recipeID, List<RecipeIngredient> recipeIngredients) {
         try {
             dbManager.getRecipeIngredientMapper().deleteRecipeIngredient(recipeID);
@@ -134,16 +112,12 @@ public class RecipeService {
         }
     }
 
-    /**
-     * Get all recipes
-     */
+    
     public List<Recipe> getAllRecipes() {
         return dbManager.getRecipeMapper().getAllRecipes();
     }
 
-    /**
-     * Add recipe preparation step
-     */
+    
     public void addRecipePreparationStep(PreparationStep preparationStep) {
         try {
             dbManager.getPreparationStepMapper().addPreparationStep(preparationStep);
@@ -153,9 +127,7 @@ public class RecipeService {
         }
     }
 
-    /**
-     * Update recipe preparation steps
-     */
+    
     public void updateRecipePreparationStep(Integer recipeID, List<PreparationStep> preparationSteps) {
         try {
             dbManager.getPreparationStepMapper().deletePreparationStep(recipeID);
@@ -168,9 +140,7 @@ public class RecipeService {
         }
     }
 
-    /**
-     * Delete recipe
-     */
+    
     public void deleteRecipe(Integer recipeID) {
         try {
             dbManager.getRecipeMapper().deleteRecipe(recipeID);

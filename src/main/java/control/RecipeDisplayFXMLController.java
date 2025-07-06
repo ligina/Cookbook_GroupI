@@ -21,10 +21,10 @@ import view.RecipeSelectView;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import java.nio.file.Files; // Add this line
-import java.nio.file.Path; // Add this line
-import java.nio.file.Paths; // Add this line
-import java.nio.file.InvalidPathException; // Add this line
+import java.nio.file.Files; 
+import java.nio.file.Path; 
+import java.nio.file.Paths; 
+import java.nio.file.InvalidPathException; 
 
 public class RecipeDisplayFXMLController implements Initializable {
 
@@ -121,11 +121,11 @@ public class RecipeDisplayFXMLController implements Initializable {
 
             alert.showAndWait().ifPresent(response -> {
                 if (response == ButtonType.YES) {
-                    // Close current window
+                    
                     Stage stage = (Stage) editRecipeButton.getScene().getWindow();
                     stage.close();
                     
-                    // Open edit view with pre-filled data
+                    
                     RecipeCreateView recipeCreateView = new RecipeCreateView(selectedRecipeNumber);
                     recipeCreateView.show();
                 }
@@ -146,7 +146,7 @@ public class RecipeDisplayFXMLController implements Initializable {
                     model.deleteRecipe(selectedRecipeNumber);
                     Model.displayAlert(Alert.AlertType.INFORMATION, "Info", "Successfully deleted this recipe");
                     
-                    // Close current window and return to recipe select
+                    
                     Stage stage = (Stage) deleteRecipeButton.getScene().getWindow();
                     stage.close();
                     
@@ -261,10 +261,10 @@ public class RecipeDisplayFXMLController implements Initializable {
         quantityColumn.setOnEditCommit(event -> {
             Float newValue = event.getNewValue();
             
-            // Validate quantity value
+            
             if (newValue != null && newValue < 0) {
                 Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Quantity cannot be negative!");
-                // Reset to previous value
+                
                 ingredientsTableView.refresh();
                 return;
             }
@@ -315,10 +315,10 @@ public class RecipeDisplayFXMLController implements Initializable {
         caloriesColumn.setOnEditCommit(event -> {
             Float newValue = event.getNewValue();
             
-            // Validate nutrition value
+            
             if (newValue != null && newValue < 0) {
                 Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Calories cannot be negative!");
-                // Reset to previous value
+                
                 ingredientsTableView.refresh();
                 return;
             }
@@ -355,10 +355,10 @@ public class RecipeDisplayFXMLController implements Initializable {
         proteinColumn.setOnEditCommit(event -> {
             Float newValue = event.getNewValue();
             
-            // Validate nutrition value
+            
             if (newValue != null && newValue < 0) {
                 Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Protein cannot be negative!");
-                // Reset to previous value
+                
                 ingredientsTableView.refresh();
                 return;
             }
@@ -395,10 +395,10 @@ public class RecipeDisplayFXMLController implements Initializable {
         fatColumn.setOnEditCommit(event -> {
             Float newValue = event.getNewValue();
             
-            // Validate nutrition value
+            
             if (newValue != null && newValue < 0) {
                 Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Fat cannot be negative!");
-                // Reset to previous value
+                
                 ingredientsTableView.refresh();
                 return;
             }
@@ -435,10 +435,10 @@ public class RecipeDisplayFXMLController implements Initializable {
         carbsColumn.setOnEditCommit(event -> {
             Float newValue = event.getNewValue();
             
-            // Validate nutrition value
+            
             if (newValue != null && newValue < 0) {
                 Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Carbohydrates cannot be negative!");
-                // Reset to previous value
+                
                 ingredientsTableView.refresh();
                 return;
             }
@@ -487,10 +487,10 @@ public class RecipeDisplayFXMLController implements Initializable {
     private float getServingSize() {
         String serveText = serveNumberTextField.getText();
         
-        // Validate serving number using Model validation
+        
         Model model = new Model();
         if (!model.validateServingNumber(serveText)) {
-            // Reset to 1 if invalid
+            
             serveNumberTextField.setText("1");
             return 1.0f;
         }
@@ -512,7 +512,7 @@ public class RecipeDisplayFXMLController implements Initializable {
 
         for (RecipeIngredient ingredient : selectedIngredients) {
             if (ingredient != null) {
-                // Calculate nutrition values for current serving size
+                
                 totalCalories += ingredient.getTotalCalories() * servingSize;
                 totalProtein += ingredient.getTotalProtein() * servingSize;
                 totalFat += ingredient.getTotalFat() * servingSize;

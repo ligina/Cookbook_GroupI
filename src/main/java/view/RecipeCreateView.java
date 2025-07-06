@@ -58,7 +58,7 @@ public class RecipeCreateView extends Stage {
             Scene scene = new Scene(loader.load());
             this.setScene(scene);
             
-            // Get the controller and set the edit parameters
+            
             controller = loader.getController();
             if (controller != null) {
                 controller.setEdited(isEdited);

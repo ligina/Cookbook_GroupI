@@ -11,12 +11,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-/**
- * The Model Class that implements ModelMethod Interface
- * This class serves as a facade that coordinates between different service classes
- * 
- * Refactored to use service-oriented architecture while maintaining backward compatibility
- */
+
 public class Model implements ModelMethod {
     private DatabaseManager dbManager;
     private UserService userService;
@@ -24,9 +19,7 @@ public class Model implements ModelMethod {
     private ValidationService validationService;
     private ImageService imageService;
 
-    /**
-     * Constructor that initializes all service components
-     */
+    
     public Model() {
         this.dbManager = new DatabaseManager();
         this.userService = new UserService(dbManager);
@@ -35,7 +28,7 @@ public class Model implements ModelMethod {
         this.imageService = new ImageService();
     }
 
-    // User Management Methods
+    
     @Override
     public boolean sign(String name, String password) {
         return userService.sign(name, password);
@@ -46,7 +39,7 @@ public class Model implements ModelMethod {
         return userService.login(name, password);
     }
 
-    // Recipe Management Methods
+    
     @Override
     public LinkedHashMap<Integer, String> updateImageUrls(String recipeName) {
         return recipeService.updateImageUrls(recipeName);
@@ -117,13 +110,13 @@ public class Model implements ModelMethod {
         recipeService.deleteRecipe(recipeID);
     }
 
-    // Image Management Methods
+    
     @Override
     public Path duplicateImage(String imageURL) {
         return imageService.duplicateImage(imageURL);
     }
 
-    // Validation Methods
+    
     @Override
     public boolean serveNumberIsInteger(String str) {
         return validationService.serveNumberIsInteger(str);
@@ -139,21 +132,17 @@ public class Model implements ModelMethod {
         return validationService.validateRecipe(recipeName, cookingTime, preparationTime, recipeImage);
     }
 
-    /**
-     * Validates serving number according to requirements
-     */
+    
     public boolean validateServingNumber(String serveNumber) {
         return validationService.validateServingNumber(serveNumber);
     }
 
-    /**
-     * Validates nutrition values (calories, protein, fat, carbs)
-     */
+    
     public boolean validateNutritionValue(String value, String fieldName) {
         return validationService.validateNutritionValue(value, fieldName);
     }
 
-    // Static utility methods (delegated to UIUtils)
+    
     public static void displayAlert(Alert.AlertType alertType, String title, String content) {
         UIUtils.displayAlert(alertType, title, content);
     }
@@ -162,7 +151,7 @@ public class Model implements ModelMethod {
         return UIUtils.textFieldFormatter(maxLength);
     }
 
-    // Additional methods for RecipeDisplayFXMLController compatibility
+    
     public void getRecipes() {
         recipeService.getRecipes();
     }

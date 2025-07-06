@@ -9,9 +9,7 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import java.io.IOException;
 import java.io.InputStream;
 
-/**
- * Database connection and session management
- */
+
 public class DatabaseManager {
     private UserMapper userMapper;
     private RecipeMapper recipeMapper;
@@ -19,9 +17,7 @@ public class DatabaseManager {
     private PreparationStepMapper preparationStepMapper;
     private SqlSession sqlSession;
 
-    /**
-     * Constructor that initializes MyBatis and connects to the database.
-     */
+    
     public DatabaseManager() {
         String resource = "mybatis-config.xml";
         try {
@@ -37,7 +33,7 @@ public class DatabaseManager {
         }
     }
 
-    // Getters
+    
     public UserMapper getUserMapper() { return userMapper; }
     public RecipeMapper getRecipeMapper() { return recipeMapper; }
     public RecipeIngredientMapper getRecipeIngredientMapper() { return recipeIngredientMapper; }

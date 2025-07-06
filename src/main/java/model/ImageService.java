@@ -5,14 +5,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-/**
- * Image processing and file management service
- */
+
 public class ImageService {
 
-    /**
-     * Get file extension from filename
-     */
+    
     private static String getFileExtension(String filename) {
         if (filename.lastIndexOf(".") != -1 && filename.lastIndexOf(".") != 0) {
             return filename.substring(filename.lastIndexOf(".") + 1);
@@ -21,9 +17,7 @@ public class ImageService {
         }
     }
 
-    /**
-     * Duplicate image to project directory
-     */
+    
     public Path duplicateImage(String imageUrl) {
         String projectPath = System.getProperty("user.dir");
         String targetPath = projectPath + "/src/images/dishes";
@@ -41,9 +35,7 @@ public class ImageService {
         return fullPath;
     }
 
-    /**
-     * Validate if a string is a valid URL format
-     */
+    
     public boolean isValidURL(String url) {
         if (url == null || url.isEmpty()) {
             return false;
