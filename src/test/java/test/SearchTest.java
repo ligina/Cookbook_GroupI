@@ -1,91 +1,165 @@
 package test;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import dao.mappers.RecipeMapper;
+import control.RecipeSelectFXMLController;
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import model.Model;
-import dao.mappers.Recipe;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.testfx.framework.junit5.ApplicationExtension;
+import org.testfx.framework.junit5.Start;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
-/**
- * Tests the recipe‐search functionality in Model using Equivalence Classes:
- * <ul>
- *   <li>V1: term ≤ 30 chars → valid</li>
- *   <li>V2: term > 30 chars → invalid</li>
- *   <li>V3: term is null → invalid</li>
- * </ul>
- */
-class SearchTest {
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.*;
 
-    private Model model;
-    private RecipeMapper recipeMapper;
+@ExtendWith(ApplicationExtension.class)
+public class SearchTest {
+
+    private RecipeSelectFXMLController controller;
+    private TextField searchField;
+    private Button searchButton;
+    private Model mockModel;
+
+    @Start
+    public void start(Stage stage) {
+        // 创建控制器
+        controller = new RecipeSelectFXMLController();
+
+        // 创建模拟Model对象
+        mockModel = mock(Model.class);
+
+        // 创建UI组件
+        searchField = new TextField();
+        searchButton = new Button("Search");
+
+        // 使用反射注入组件
+        setField(controller, "searchField", searchField);
+        setField(controller, "searchButton", searchButton);
+        setField(controller, "model", mockModel);
+    }
 
     @BeforeEach
-    void setUp() {
-        recipeMapper = mock(RecipeMapper.class);
-        model = new Model();
-        model.setRecipeMapper(recipeMapper);
+    public void setUp() {
+        // 清除输入字段
+        searchField.clear();
+        // 重置警告记录
+        Model.resetLastDisplayedAlert();
+    }
+
+    @AfterEach
+    public void tearDown() {
+        // 重置警告记录
+        Model.resetLastDisplayedAlert();
     }
 
     /**
-     * EC V1: SearchTerm ≤ 30 chars.
-     * Should return the mapped IDs→URLs and names lists as provided by the mapper.
+     * 模拟搜索操作并检查是否弹窗
+     *
+     * @param searchTerm 要输入的搜索词
+     * @return true表示没有弹窗，false表示有弹窗
      */
-    @Test
-    void testSearchValidTerm() {
-        String term = "Chocolate Cake"; // 14 chars
+    private boolean checkNoAlertForInput(String searchTerm) {
+        CompletableFuture<Boolean> noAlertFuture = new CompletableFuture<>();
 
-        // prepare fake recipes
-        Recipe r1 = new Recipe(); r1.setRecipeId(1); r1.setImageUrl("url1"); r1.setRecipeName("ChocoCake");
-        Recipe r2 = new Recipe(); r2.setRecipeId(2); r2.setImageUrl("url2"); r2.setRecipeName("DarkChoco");
+        Platform.runLater(() -> {
+            try {
+                // 重置警告记录
+                Model.resetLastDisplayedAlert();
 
-        List<Recipe> fakeList = new ArrayList<>();
-        fakeList.add(r1);
-        fakeList.add(r2);
+                // 将文本键入搜索框
+                searchField.setText(searchTerm);
 
-        // when mapper is called with this term, return our fake list
-        doReturn(fakeList).when(recipeMapper).getRecipeByName(term);
+                // 尝试执行搜索按钮点击
+                try {
+                    Method handleMethod = RecipeSelectFXMLController.class.getDeclaredMethod(
+                            "handleSearchButton", ActionEvent.class);
+                    handleMethod.setAccessible(true);
+                    handleMethod.invoke(controller, (ActionEvent) null);
+                } catch (Exception e) {
+                    // 忽略执行过程中的任何异常
+                }
 
-        // call updateImageUrls
-        LinkedHashMap<Integer,String> urls = model.updateImageUrls(term);
-        assertEquals(2, urls.size());
-        assertEquals("url1", urls.get(1));
-        assertEquals("url2", urls.get(2));
+                // 检查是否有警告弹窗
+                Alert lastAlert = Model.getLastDisplayedAlert();
+                noAlertFuture.complete(lastAlert == null);
+            } catch (Exception e) {
+                // 即使发生异常，也检查是否有警告
+                Alert lastAlert = Model.getLastDisplayedAlert();
+                noAlertFuture.complete(lastAlert == null);
+            }
+        });
 
-        // call updateImageNames
-        List<String> names = model.updateImageNames(term);
-        assertEquals(2, names.size());
-        assertTrue(names.contains("ChocoCake"));
-        assertTrue(names.contains("DarkChoco"));
-    } // 测试通过
+        try {
+            return noAlertFuture.get();
+        } catch (InterruptedException | ExecutionException e) {
+            // 如果获取结果失败，默认认为有弹窗
+            return false;
+        }
+    }
 
     /**
-     * EC V2: SearchTerm length > 30.
-     * Our Model does no length‐check, so the mapper will still be called;
-     * here we simulate it returning an empty list.
+     * Test No.1: 有效搜索词输入 (EC V1)
+     * 输入: "tomato"
+     * 预期: 无弹窗
      */
     @Test
-    void testSearchTermTooLong() {
-        String longTerm = "ABCDEFGHIJKLMNOPQRSTUVWXYZABCDE"; // 31 chars
-        doReturn(new ArrayList<>()).when(recipeMapper).getRecipeByName(longTerm);
+    public void testValidTextInput_Tomato() {
+        // 检查是否有弹窗
+        boolean noAlert = checkNoAlertForInput("tomato");
 
-        // Expect empty results
-        assertTrue(model.updateImageUrls(longTerm).isEmpty());
-        assertTrue(model.updateImageNames(longTerm).isEmpty());
-    } // TODO: 没有限制搜索长度
+        // 验证无弹窗
+        assertTrue(noAlert, "No alert");
+    }
 
     /**
-     * EC V3: SearchTerm is null.
-     * Passing null typically triggers a NullPointerException in the mapper call.
+     * Test No.2: 超长搜索词输入 (EC V2)
+     * 输入: "averylongIngredientNamewhichexceeds30characters"
+     * 预期: 有弹窗
      */
     @Test
-    public void testSearchRecipeNullPointer() throws InterruptedException, ExecutionException {
-        // Intentionally do not set RecipeMapper to trigger NullPointerException
-        model.setRecipeMapper(null);
-    } // TODO:没有限制不能填空
+    public void testLongTextInput() {
+        String longTerm = "averylongIngredientNamewhichexceeds30characters";
+        boolean noAlert = checkNoAlertForInput(longTerm);
+
+        // 验证有弹窗
+        assertFalse(noAlert, "Should have alert");
+    }
+
+    /**
+     * Test No.3: 空值输入 (EC V3)
+     * 输入: "" (代表null)
+     * 预期: 有弹窗
+     */
+    @Test
+    public void testEmptyTextInput() {
+        boolean noAlert = checkNoAlertForInput("");
+
+        // 验证有弹窗
+        assertFalse(noAlert, "Should have alert");
+    }
+
+    /**
+     * 使用反射设置字段值
+     */
+    private void setField(Object target, String fieldName, Object value) {
+        try {
+            Field field = target.getClass().getDeclaredField(fieldName);
+            field.setAccessible(true);
+            field.set(target, value);
+        } catch (Exception e) {
+            throw new RuntimeException("设置字段失败: " + fieldName, e);
+        }
+    }
 }

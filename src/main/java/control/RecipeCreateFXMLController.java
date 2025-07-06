@@ -125,13 +125,24 @@ public class RecipeCreateFXMLController implements Initializable {
 
     @FXML
     private void handleClearButton(ActionEvent event) {
-        recipeNameTextField.clear();
-        preparationTextField.clear();
-        cookingTimeTextField.clear();
-        tableView.getItems().clear();
-        instructionTableView.getItems().clear();
-        recipeImage.setImage(null);
-        updateNutritionPreview();
+        // Show confirmation dialog using project's standard format
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to remove all entered content? This action cannot be undone.", ButtonType.YES, ButtonType.NO);
+        alert.setTitle("Confirmation");
+        alert.setHeaderText(null);
+        
+        alert.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.YES) {
+                // User confirmed, proceed with clearing all content
+                recipeNameTextField.clear();
+                preparationTextField.clear();
+                cookingTimeTextField.clear();
+                tableView.getItems().clear();
+                instructionTableView.getItems().clear();
+                recipeImage.setImage(null);
+                updateNutritionPreview();
+            }
+            // If user clicked NO or closed dialog, do nothing
+        });
     }
 
     @FXML
