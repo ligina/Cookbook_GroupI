@@ -1,6 +1,6 @@
 package test;
 
-import control.TrialViewLoginpage;
+import control.LoginFXMLController;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
@@ -16,7 +16,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -41,9 +40,9 @@ import static org.mockito.Mockito.*;
  * </ul>
  */
 @ExtendWith(ApplicationExtension.class)
-public class TrialViewLoginpageTest {
+public class LoginFXMLControllerTest {
 
-    private TrialViewLoginpage controller;
+    private LoginFXMLController controller;
     private Model mockModel;
     private TextField usernameField;
     private PasswordField passwordField;
@@ -60,7 +59,7 @@ public class TrialViewLoginpageTest {
         mockModel = mock(Model.class);
 
         // 创建控制器
-        controller = new TrialViewLoginpage();
+        controller = new LoginFXMLController();
 
         // 创建UI组件
         usernameField = new TextField();
@@ -117,7 +116,7 @@ public class TrialViewLoginpageTest {
                 passwordField.setText(password);
 
                 // 使用反射调用私有方法
-                Method handleMethod = TrialViewLoginpage.class.getDeclaredMethod("handleLoginButton", ActionEvent.class);
+                Method handleMethod = LoginFXMLController.class.getDeclaredMethod("handleLoginButton", ActionEvent.class);
                 handleMethod.setAccessible(true);
                 handleMethod.invoke(controller, (ActionEvent) null);
 

@@ -15,7 +15,7 @@ import javafx.scene.Scene;
 import java.io.IOException;
 
 
-public class TrialViewLoginpage {
+public class LoginFXMLController {
 
     @FXML
     private TextField usernameField;

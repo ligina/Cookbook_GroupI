@@ -11,7 +11,7 @@ import javafx.scene.Node; // 导入 Node 类
 import javafx.scene.control.Alert; // 导入 Alert
 
 
-public class TrailViewSignuppage {
+public class SignupFXMLController {
 
     @FXML
     private TextField usernameField; // 对应 FXML 中的 fx:id="usernameField"

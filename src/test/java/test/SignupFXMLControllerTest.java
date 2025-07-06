@@ -2,7 +2,7 @@ package test;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-import control.TrailViewSignuppage;
+import control.SignupFXMLController;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
@@ -22,9 +22,9 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 @ExtendWith(ApplicationExtension.class)
-public class TrailViewSignuppageTest {
+public class SignupFXMLControllerTest {
 
-    private TrailViewSignuppage controller;
+    private SignupFXMLController controller;
     private TextField usernameField;
     private PasswordField passwordField;
     private PasswordField repeatPasswordField;
@@ -33,13 +33,13 @@ public class TrailViewSignuppageTest {
     @Start
     public void start(Stage stage) throws Exception {
         // 创建控制器
-        controller = new TrailViewSignuppage();
+        controller = new SignupFXMLController();
 
         // 创建模拟Model
         mockModel = mock(Model.class);
 
         // 使用反射替换控制器中的Model实例
-        Field modelField = TrailViewSignuppage.class.getDeclaredField("model");
+        Field modelField = SignupFXMLController.class.getDeclaredField("model");
         modelField.setAccessible(true);
         modelField.set(controller, mockModel);
 
@@ -49,15 +49,15 @@ public class TrailViewSignuppageTest {
         repeatPasswordField = new PasswordField();
 
         // 使用反射将UI组件注入控制器
-        Field usernameFieldField = TrailViewSignuppage.class.getDeclaredField("usernameField");
+        Field usernameFieldField = SignupFXMLController.class.getDeclaredField("usernameField");
         usernameFieldField.setAccessible(true);
         usernameFieldField.set(controller, this.usernameField);
 
-        Field passwordFieldField = TrailViewSignuppage.class.getDeclaredField("passwordField");
+        Field passwordFieldField = SignupFXMLController.class.getDeclaredField("passwordField");
         passwordFieldField.setAccessible(true);
         passwordFieldField.set(controller, this.passwordField);
 
-        Field repeatPasswordFieldField = TrailViewSignuppage.class.getDeclaredField("repeatPasswordField");
+        Field repeatPasswordFieldField = SignupFXMLController.class.getDeclaredField("repeatPasswordField");
         repeatPasswordFieldField.setAccessible(true);
         repeatPasswordFieldField.set(controller, this.repeatPasswordField);
 
@@ -86,7 +86,7 @@ public class TrailViewSignuppageTest {
                 repeatPasswordField.setText(repeatPassword);
 
                 // 使用反射调用私有方法
-                Method handleMethod = TrailViewSignuppage.class.getDeclaredMethod("handleCreateButton", ActionEvent.class);
+                Method handleMethod = SignupFXMLController.class.getDeclaredMethod("handleCreateButton", ActionEvent.class);
                 handleMethod.setAccessible(true); // 设置为可访问
                 handleMethod.invoke(controller, (ActionEvent) null); // 传入null作为事件
 
