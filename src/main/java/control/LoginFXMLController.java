@@ -8,11 +8,9 @@ import javafx.scene.control.Alert; // 导入 Alert 类
 import javafx.event.ActionEvent;
 import model.Model; // 导入 Model 类
 import view.RecipeSelectView; // 导入 RecipeSelectView 类
+import view.SignupView; // 导入 SignupView 类
 import javafx.stage.Stage; // 导入 Stage 类
 import javafx.scene.Node; // 导入 Node 类
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import java.io.IOException;
 
 
 public class LoginFXMLController {
@@ -63,21 +61,8 @@ public class LoginFXMLController {
 
     @FXML
     private void handleSignupButton(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/trail_view_signuppage.fxml")); // FXML 文件名要记得对应
-            Scene signupScene = new Scene(loader.load());
-            Stage signupStage = new Stage();
-            signupStage.setTitle("Sign Up");
-            signupStage.setScene(signupScene);
-            signupStage.setResizable(false);
-            signupStage.setWidth(700);
-            signupStage.setHeight(650);
-            signupStage.show();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-
-        }
+        SignupView signupView = new SignupView();
+        signupView.show();
     }
 
 }
