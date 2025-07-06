@@ -227,14 +227,26 @@ public class RecipeDisplayFXMLController implements Initializable {
     }
 
     private void setupIngredientsTable() {
-        ingredientsTableView.setEditable(true);
+        // Disable editing in display view and show warning when user tries to edit
+        ingredientsTableView.setEditable(false);
+        
+        // Add double-click listener to show warning
+        ingredientsTableView.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2) {
+                Model.displayAlert(Alert.AlertType.WARNING, "Warning", 
+                    "Cannot modify recipe in display view! Please use the 'Edit Recipe' button to make changes.");
+            }
+        });
+        
         TableColumn<RecipeIngredient, String> nameColumn = new TableColumn<>("Ingredient");
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        nameColumn.setCellFactory(javafx.scene.control.cell.TextFieldTableCell.forTableColumn());
-        nameColumn.setOnEditCommit(event -> {
-            event.getRowValue().setName(event.getNewValue());
-            updateNutritionalDisplay();
-        });
+        // Remove cell factory to prevent editing
+        // nameColumn.setCellFactory(javafx.scene.control.cell.TextFieldTableCell.forTableColumn());
+        // Remove edit commit handler since editing is disabled
+        // nameColumn.setOnEditCommit(event -> {
+        //     event.getRowValue().setName(event.getNewValue());
+        //     updateNutritionalDisplay();
+        // });
         nameColumn.setPrefWidth(140);
         TableColumn<RecipeIngredient, Float> quantityColumn = new TableColumn<>("Quantity");
         quantityColumn.setCellValueFactory(cellData -> {
@@ -243,52 +255,26 @@ public class RecipeDisplayFXMLController implements Initializable {
             float adjustedQuantity = ingredient.getQuantity() * servingSize;
             return new SimpleFloatProperty(adjustedQuantity).asObject();
         });
-        quantityColumn.setCellFactory(javafx.scene.control.cell.TextFieldTableCell.forTableColumn(
-            new javafx.util.StringConverter<Float>() {
-                @Override
-                public String toString(Float value) {
-                    return value != null ? String.format("%.1f", value) : "0.0";
-                }
-                @Override
-                public Float fromString(String string) {
-                    try {
-                        return Float.parseFloat(string);
-                    } catch (NumberFormatException e) {
-                        return 0.0f;
-                    }
-                }
-            }));
-        quantityColumn.setOnEditCommit(event -> {
-            Float newValue = event.getNewValue();
-            
-            
-            if (newValue != null && newValue < 0) {
-                Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Quantity cannot be negative!");
-                
-                ingredientsTableView.refresh();
-                return;
-            }
-            
-            float servingSize = getServingSize();
-            float baseQuantity = newValue / servingSize;
-            event.getRowValue().setQuantity(baseQuantity);
-            updateNutritionalDisplay();
-        });
+        // Remove cell factory and edit handler to prevent editing
+        // quantityColumn.setCellFactory(javafx.scene.control.cell.TextFieldTableCell.forTableColumn(...));
+        // quantityColumn.setOnEditCommit(event -> {...});
         quantityColumn.setPrefWidth(80);
         TableColumn<RecipeIngredient, String> unitColumn = new TableColumn<>("Unit");
         unitColumn.setCellValueFactory(new PropertyValueFactory<>("unit"));
-        unitColumn.setCellFactory(javafx.scene.control.cell.TextFieldTableCell.forTableColumn());
-        unitColumn.setOnEditCommit(event -> {
-            event.getRowValue().setUnit(event.getNewValue());
-            updateNutritionalDisplay();
-        });
+        // Remove cell factory and edit handler to prevent editing
+        // unitColumn.setCellFactory(javafx.scene.control.cell.TextFieldTableCell.forTableColumn());
+        // unitColumn.setOnEditCommit(event -> {
+        //     event.getRowValue().setUnit(event.getNewValue());
+        //     updateNutritionalDisplay();
+        // });
         unitColumn.setPrefWidth(60);
         TableColumn<RecipeIngredient, String> descriptionColumn = new TableColumn<>("Notes");
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
-        descriptionColumn.setCellFactory(javafx.scene.control.cell.TextFieldTableCell.forTableColumn());
-        descriptionColumn.setOnEditCommit(event -> {
-            event.getRowValue().setDescription(event.getNewValue());
-        });
+        // Remove cell factory and edit handler to prevent editing
+        // descriptionColumn.setCellFactory(javafx.scene.control.cell.TextFieldTableCell.forTableColumn());
+        // descriptionColumn.setOnEditCommit(event -> {
+        //     event.getRowValue().setDescription(event.getNewValue());
+        // });
         descriptionColumn.setPrefWidth(100);
         TableColumn<RecipeIngredient, Float> caloriesColumn = new TableColumn<>("Calories (kcal)");
         caloriesColumn.setCellValueFactory(cellData -> {
@@ -297,37 +283,9 @@ public class RecipeDisplayFXMLController implements Initializable {
             float totalCalories = ingredient.getTotalCalories() * servingSize;
             return new SimpleFloatProperty(totalCalories).asObject();
         });
-        caloriesColumn.setCellFactory(javafx.scene.control.cell.TextFieldTableCell.forTableColumn(
-            new javafx.util.StringConverter<Float>() {
-                @Override
-                public String toString(Float value) {
-                    return value != null ? String.format("%.0f", value) : "0";
-                }
-                @Override
-                public Float fromString(String string) {
-                    try {
-                        return Float.parseFloat(string);
-                    } catch (NumberFormatException e) {
-                        return 0.0f;
-                    }
-                }
-            }));
-        caloriesColumn.setOnEditCommit(event -> {
-            Float newValue = event.getNewValue();
-            
-            
-            if (newValue != null && newValue < 0) {
-                Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Calories cannot be negative!");
-                
-                ingredientsTableView.refresh();
-                return;
-            }
-            
-            float servingSize = getServingSize();
-            float baseCalories = newValue / servingSize;
-            event.getRowValue().setTotalCalories(baseCalories);
-            updateNutritionalDisplay();
-        });
+        // Remove cell factory and edit handler to prevent editing
+        // caloriesColumn.setCellFactory(javafx.scene.control.cell.TextFieldTableCell.forTableColumn(...));
+        // caloriesColumn.setOnEditCommit(event -> {...});
         caloriesColumn.setPrefWidth(100);
 
         TableColumn<RecipeIngredient, Float> proteinColumn = new TableColumn<>("Protein (g)");
@@ -337,37 +295,9 @@ public class RecipeDisplayFXMLController implements Initializable {
             float totalProtein = ingredient.getTotalProtein() * servingSize;
             return new SimpleFloatProperty(totalProtein).asObject();
         });
-        proteinColumn.setCellFactory(javafx.scene.control.cell.TextFieldTableCell.forTableColumn(
-            new javafx.util.StringConverter<Float>() {
-                @Override
-                public String toString(Float value) {
-                    return value != null ? String.format("%.1f", value) : "0.0";
-                }
-                @Override
-                public Float fromString(String string) {
-                    try {
-                        return Float.parseFloat(string);
-                    } catch (NumberFormatException e) {
-                        return 0.0f;
-                    }
-                }
-            }));
-        proteinColumn.setOnEditCommit(event -> {
-            Float newValue = event.getNewValue();
-            
-            
-            if (newValue != null && newValue < 0) {
-                Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Protein cannot be negative!");
-                
-                ingredientsTableView.refresh();
-                return;
-            }
-            
-            float servingSize = getServingSize();
-            float baseProtein = newValue / servingSize;
-            event.getRowValue().setTotalProtein(baseProtein);
-            updateNutritionalDisplay();
-        });
+        // Remove cell factory and edit handler to prevent editing
+        // proteinColumn.setCellFactory(javafx.scene.control.cell.TextFieldTableCell.forTableColumn(...));
+        // proteinColumn.setOnEditCommit(event -> {...});
         proteinColumn.setPrefWidth(90);
 
         TableColumn<RecipeIngredient, Float> fatColumn = new TableColumn<>("Fat (g)");
@@ -377,37 +307,9 @@ public class RecipeDisplayFXMLController implements Initializable {
             float totalFat = ingredient.getTotalFat() * servingSize;
             return new SimpleFloatProperty(totalFat).asObject();
         });
-        fatColumn.setCellFactory(javafx.scene.control.cell.TextFieldTableCell.forTableColumn(
-            new javafx.util.StringConverter<Float>() {
-                @Override
-                public String toString(Float value) {
-                    return value != null ? String.format("%.1f", value) : "0.0";
-                }
-                @Override
-                public Float fromString(String string) {
-                    try {
-                        return Float.parseFloat(string);
-                    } catch (NumberFormatException e) {
-                        return 0.0f;
-                    }
-                }
-            }));
-        fatColumn.setOnEditCommit(event -> {
-            Float newValue = event.getNewValue();
-            
-            
-            if (newValue != null && newValue < 0) {
-                Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Fat cannot be negative!");
-                
-                ingredientsTableView.refresh();
-                return;
-            }
-            
-            float servingSize = getServingSize();
-            float baseFat = newValue / servingSize;
-            event.getRowValue().setTotalFat(baseFat);
-            updateNutritionalDisplay();
-        });
+        // Remove cell factory and edit handler to prevent editing
+        // fatColumn.setCellFactory(javafx.scene.control.cell.TextFieldTableCell.forTableColumn(...));
+        // fatColumn.setOnEditCommit(event -> {...});
         fatColumn.setPrefWidth(80);
 
         TableColumn<RecipeIngredient, Float> carbsColumn = new TableColumn<>("Carbs (g)");
@@ -417,37 +319,9 @@ public class RecipeDisplayFXMLController implements Initializable {
             float totalCarbs = ingredient.getTotalCarbohydrates() * servingSize;
             return new SimpleFloatProperty(totalCarbs).asObject();
         });
-        carbsColumn.setCellFactory(javafx.scene.control.cell.TextFieldTableCell.forTableColumn(
-            new javafx.util.StringConverter<Float>() {
-                @Override
-                public String toString(Float value) {
-                    return value != null ? String.format("%.1f", value) : "0.0";
-                }
-                @Override
-                public Float fromString(String string) {
-                    try {
-                        return Float.parseFloat(string);
-                    } catch (NumberFormatException e) {
-                        return 0.0f;
-                    }
-                }
-            }));
-        carbsColumn.setOnEditCommit(event -> {
-            Float newValue = event.getNewValue();
-            
-            
-            if (newValue != null && newValue < 0) {
-                Model.displayAlert(Alert.AlertType.WARNING, "Warning", "Carbohydrates cannot be negative!");
-                
-                ingredientsTableView.refresh();
-                return;
-            }
-            
-            float servingSize = getServingSize();
-            float baseCarbs = newValue / servingSize;
-            event.getRowValue().setTotalCarbohydrates(baseCarbs);
-            updateNutritionalDisplay();
-        });
+        // Remove cell factory and edit handler to prevent editing
+        // carbsColumn.setCellFactory(javafx.scene.control.cell.TextFieldTableCell.forTableColumn(...));
+        // carbsColumn.setOnEditCommit(event -> {...});
         carbsColumn.setPrefWidth(80);
 
         ingredientsTableView.getColumns().addAll(nameColumn, quantityColumn, unitColumn, descriptionColumn, 
