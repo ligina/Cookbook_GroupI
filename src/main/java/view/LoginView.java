@@ -11,7 +11,7 @@ public class LoginView extends Stage {
 
     public LoginView() {
         try {
-            URL fxmlLocation = getClass().getResource("/trial_view_loginpage.fxml");
+            URL fxmlLocation = getClass().getResource("/login_view.fxml");
             FXMLLoader loader = new FXMLLoader(fxmlLocation);
 
             Pane root = loader.load();

@@ -28,9 +28,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-/**
- * FXML Controller for Recipe Create page
- */
 public class RecipeCreateFXMLController implements Initializable {
 
     @FXML private TextField recipeNameTextField;

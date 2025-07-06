@@ -11,7 +11,7 @@ public class SignupView extends Stage {
 
     public SignupView() {
         try {
-            URL fxmlLocation = getClass().getResource("/trail_view_signuppage.fxml");
+            URL fxmlLocation = getClass().getResource("/signup_view.fxml");
             FXMLLoader loader = new FXMLLoader(fxmlLocation);
 
             Pane root = loader.load();
