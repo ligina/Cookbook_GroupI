@@ -10,22 +10,44 @@ import javafx.stage.Stage;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 
-
+/**
+ * FXML Controller class for the signup view.
+ * This class handles user registration including input validation,
+ * password confirmation, and account creation.
+ * 
+ * @author Ziang Liu
+ * @version 1.0
+ * @since 1.0
+ */
 public class SignupFXMLController {
 
+    /** Text field for username input */
     @FXML
     private TextField usernameField;
+    
+    /** Password field for password input */
     @FXML
     private PasswordField passwordField;
+    
+    /** Password field for password confirmation */
     @FXML
     private PasswordField repeatPasswordField;
+    
+    /** Button to create new account */
     @FXML
     private Button createButton;
+    
+    /** Button to go back to previous view */
     @FXML
     private Button backButton;
 
+    /** Model instance for business logic operations */
     private Model model;
 
+    /**
+     * Initializes the controller after FXML loading.
+     * Creates a new Model instance for handling business logic.
+     */
     @FXML
     public void initialize() {
         model = new Model();
