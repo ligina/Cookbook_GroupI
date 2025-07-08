@@ -130,7 +130,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` (`user_id`, `user_name`, `password`) VALUES (18592666,'qweqwe','qwe'),(23561147,'qwe','qwe'),(35273678,'dddddd','ddd'),(49689913,'lzalzalzalza','password123'),(72386490,'lza123','password123'),(78135363,'lza','password123');
+INSERT INTO `users` (`user_id`, `user_name`, `password`) VALUES (11111111,'admin123','admin123'),(12343214,'lzalzalzalza','password123'),(23424366,'asdf123','asdf123'),(34243242,'zxcv123','zxcv123'),(72386490,'lza123','password123'),(78135363,'lza','password123');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -143,5 +143,5 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-07-08 19:43:14
+-- Dump completed on 2025-07-09  0:47:29
 -- Author Ziang Liu
