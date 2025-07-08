@@ -21,7 +21,15 @@ import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.*;
 
-
+/**
+ * RecipeSelectFXMLController manages the main recipe selection interface.
+ * This controller handles recipe browsing, searching, filtering, and navigation
+ * to recipe creation, editing, and detailed view functionalities.
+ * 
+ * @author Ziang Liu
+ * @version 1.0
+ * @since 1.0
+ */
 public class RecipeSelectFXMLController implements Initializable {
 
     @FXML private Label titleLabel;

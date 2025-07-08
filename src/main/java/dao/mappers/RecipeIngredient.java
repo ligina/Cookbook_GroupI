@@ -1,6 +1,14 @@
 package dao.mappers;
 
-
+/**
+ * RecipeIngredient represents an ingredient used in a recipe with its nutritional information.
+ * This class stores ingredient details including quantity, unit, and nutritional values
+ * such as calories, protein, fat, and carbohydrates per unit.
+ * 
+ * @author Ziang Liu
+ * @version 1.0
+ * @since 1.0
+ */
 public class RecipeIngredient {
     private int recipeId;
     private String name;
@@ -13,11 +21,23 @@ public class RecipeIngredient {
     private Float unitCarbohydrates;
 
     
+    /**
+     * Default constructor for RecipeIngredient.
+     */
     public RecipeIngredient() {
 
     }
 
     
+    /**
+     * Constructor for RecipeIngredient with basic information.
+     * 
+     * @param recipeId The ID of the recipe this ingredient belongs to
+     * @param name The name of the ingredient
+     * @param quantity The quantity of the ingredient
+     * @param unit The unit of measurement
+     * @param description Additional description of the ingredient
+     */
     public RecipeIngredient(int recipeId, String name, Float quantity, String unit, String description) {
         this.recipeId = recipeId;
         this.name = name;
@@ -31,6 +51,19 @@ public class RecipeIngredient {
     }
 
     
+    /**
+     * Constructor for RecipeIngredient with complete nutritional information.
+     * 
+     * @param recipeId The ID of the recipe this ingredient belongs to
+     * @param name The name of the ingredient
+     * @param quantity The quantity of the ingredient
+     * @param unit The unit of measurement
+     * @param description Additional description of the ingredient
+     * @param unitCalories Calories per unit of the ingredient
+     * @param unitProtein Protein content per unit
+     * @param unitFat Fat content per unit
+     * @param unitCarbohydrates Carbohydrate content per unit
+     */
     public RecipeIngredient(int recipeId, String name, Float quantity, String unit, String description,
                            Float unitCalories, Float unitProtein, Float unitFat, Float unitCarbohydrates) {
         this.recipeId = recipeId;
@@ -45,6 +78,11 @@ public class RecipeIngredient {
     }
 
     
+    /**
+     * Copy constructor for RecipeIngredient.
+     * 
+     * @param ingredient The RecipeIngredient object to copy
+     */
     public RecipeIngredient(RecipeIngredient ingredient) {
         this.name = ingredient.name;
         this.quantity = ingredient.quantity;

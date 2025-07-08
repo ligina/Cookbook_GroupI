@@ -28,6 +28,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+/**
+ * RecipeCreateFXMLController manages the user interface and business logic for recipe creation and editing.
+ * This controller handles ingredient management, preparation steps, nutritional calculations,
+ * image uploads, and form validation for the recipe creation/editing process.
+ * 
+ * @author Ziang Liu
+ * @version 1.0
+ * @since 1.0
+ */
 public class RecipeCreateFXMLController implements Initializable {
 
     @FXML private TextField recipeNameTextField;

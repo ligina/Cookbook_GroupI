@@ -2,15 +2,33 @@ package model;
 
 import javafx.scene.control.Alert;
 
-
+/**
+ * ValidationService provides comprehensive validation functionality for recipe-related data.
+ * This service validates user inputs including serving numbers, nutritional values, 
+ * recipe ingredients, and recipe information to ensure data integrity and user experience.
+ * 
+ * @author Ziang Liu
+ * @version 1.0
+ * @since 1.0
+ */
 public class ValidationService {
     private ImageService imageService;
 
+    /**
+     * Constructor for ValidationService.
+     * Initializes the ImageService for image validation functionality.
+     */
     public ValidationService() {
         this.imageService = new ImageService();
     }
 
     
+    /**
+     * Validates the serving number input to ensure it meets all requirements.
+     * 
+     * @param serveNumber The serving number string to validate
+     * @return true if the serving number is valid, false otherwise
+     */
     public boolean validateServingNumber(String serveNumber) {
         
         if (serveNumber == null || serveNumber.isEmpty()) {
@@ -47,6 +65,13 @@ public class ValidationService {
     }
 
     
+    /**
+     * Validates nutritional value inputs to ensure they are valid numbers.
+     * 
+     * @param value The nutritional value to validate
+     * @param fieldName The name of the field being validated (for error messages)
+     * @return true if the nutritional value is valid, false otherwise
+     */
     public boolean validateNutritionValue(String value, String fieldName) {
         
         if (value == null || value.isEmpty()) {
@@ -82,6 +107,14 @@ public class ValidationService {
     }
 
     
+    /**
+     * Validates recipe ingredient data including name, quantity, and unit.
+     * 
+     * @param recipeName The name of the ingredient
+     * @param quantity The quantity of the ingredient
+     * @param unit The unit of measurement for the ingredient
+     * @return true if all ingredient data is valid, false otherwise
+     */
     public boolean validateRecipeIngredient(String recipeName, Float quantity, String unit) {
         
         if(recipeName == null || recipeName.isEmpty()){
@@ -135,6 +168,15 @@ public class ValidationService {
     }
 
     
+    /**
+     * Validates complete recipe data including name, times, and image.
+     * 
+     * @param recipeName The name of the recipe
+     * @param cookingTime The cooking time in minutes
+     * @param preparationTime The preparation time in minutes
+     * @param recipeImage The URL or path to the recipe image
+     * @return true if all recipe data is valid, false otherwise
+     */
     public boolean validateRecipe(String recipeName, String cookingTime, String preparationTime, String recipeImage) {
         
         if (recipeName == null || recipeName.isEmpty()) {
@@ -219,6 +261,12 @@ public class ValidationService {
     }
 
     
+    /**
+     * Checks if a string represents a valid positive integer for serving numbers.
+     * 
+     * @param str The string to check
+     * @return true if the string is a valid positive integer, false otherwise
+     */
     public boolean serveNumberIsInteger(String str) {
         if (str == null) {
             return false;

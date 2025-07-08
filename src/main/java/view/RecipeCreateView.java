@@ -11,6 +11,15 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * RecipeCreateView is a JavaFX Stage that provides the user interface for creating and editing recipes.
+ * This view loads the recipe creation FXML layout and manages the interaction between the UI components
+ * and the controller for recipe creation and editing functionality.
+ * 
+ * @author Ziang Liu
+ * @version 1.0
+ * @since 1.0
+ */
 public class RecipeCreateView extends Stage {
 
     public boolean isEdited = false;
@@ -27,6 +36,10 @@ public class RecipeCreateView extends Stage {
     
     private RecipeCreateFXMLController controller;
 
+    /**
+     * Default constructor for creating a new recipe.
+     * Initializes the stage with default settings for recipe creation.
+     */
     public RecipeCreateView() {
         this.setTitle("Create Recipe");
         this.setMinWidth(1000);
@@ -39,6 +52,11 @@ public class RecipeCreateView extends Stage {
     }
 
 
+    /**
+     * Constructor for editing an existing recipe.
+     * 
+     * @param _editedRecipeId The ID of the recipe to be edited
+     */
     public RecipeCreateView(int _editedRecipeId){
         this.editedRecipeId = _editedRecipeId;
         this.isEdited = true;
@@ -52,6 +70,10 @@ public class RecipeCreateView extends Stage {
         init();
     }
 
+    /**
+     * Initializes the view by loading the FXML file and setting up the controller.
+     * Sets the editing state and recipe ID if this is an edit operation.
+     */
     private void init() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/recipe_create.fxml"));
@@ -71,6 +93,11 @@ public class RecipeCreateView extends Stage {
     }
 
 
+    /**
+     * Updates the recipe image through the controller.
+     * 
+     * @param temp The image path or URL to update
+     */
     public void updateImage(String temp) {
         if (controller != null) {
             controller.updateImage(temp);
@@ -78,6 +105,10 @@ public class RecipeCreateView extends Stage {
     }
     
 
+    /**
+     * Updates the nutrition preview display through the controller.
+     * This method refreshes the nutritional information shown in the UI.
+     */
     public void updateNutritionPreview() {
         if (controller != null) {
             controller.updateNutritionPreview();

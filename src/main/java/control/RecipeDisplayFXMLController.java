@@ -26,6 +26,15 @@ import java.nio.file.Path;
 import java.nio.file.Paths; 
 import java.nio.file.InvalidPathException; 
 
+/**
+ * RecipeDisplayFXMLController manages the user interface for displaying recipe details.
+ * This controller handles the presentation of recipe information including ingredients,
+ * instructions, nutritional data, and provides functionality for editing and deleting recipes.
+ * 
+ * @author Ziang Liu
+ * @version 1.0
+ * @since 1.0
+ */
 public class RecipeDisplayFXMLController implements Initializable {
 
     @FXML private Label recipeNameLabel;

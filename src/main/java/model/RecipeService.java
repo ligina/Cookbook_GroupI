@@ -9,15 +9,34 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-
+/**
+ * RecipeService provides comprehensive business logic for recipe management operations.
+ * This service handles recipe CRUD operations, ingredient management, preparation steps,
+ * and nutritional calculations through database interactions.
+ * 
+ * @author Ziang Liu
+ * @version 1.0
+ * @since 1.0
+ */
 public class RecipeService {
     private DatabaseManager dbManager;
 
+    /**
+     * Constructor for RecipeService.
+     * 
+     * @param dbManager The database manager instance for data operations
+     */
     public RecipeService(DatabaseManager dbManager) {
         this.dbManager = dbManager;
     }
 
     
+    /**
+     * Retrieves image URLs for recipes matching the given name.
+     * 
+     * @param recipeName The name of the recipe to search for
+     * @return A LinkedHashMap mapping recipe IDs to their image URLs
+     */
     public LinkedHashMap<Integer, String> updateImageUrls(String recipeName) {
         ArrayList<Recipe> recipes = dbManager.getRecipeMapper().getRecipeByName(recipeName);
         LinkedHashMap<Integer, String> imageHashMap = new LinkedHashMap<>();
@@ -28,6 +47,12 @@ public class RecipeService {
     }
 
     
+    /**
+     * Retrieves recipe names for recipes matching the given name pattern.
+     * 
+     * @param recipeName The name pattern to search for
+     * @return An ArrayList of recipe names
+     */
     public ArrayList<String> updateImageNames(String recipeName) {
         ArrayList<Recipe> recipes = dbManager.getRecipeMapper().getRecipeByName(recipeName);
         ArrayList<String> imageNames = new ArrayList<>();
@@ -38,11 +63,23 @@ public class RecipeService {
     }
 
     
+    /**
+     * Retrieves a recipe by its unique identifier.
+     * 
+     * @param id The unique ID of the recipe
+     * @return The Recipe object, or null if not found
+     */
     public Recipe getRecipeByID(Integer id) {
         return dbManager.getRecipeMapper().getRecipeById(id);
     }
 
     
+    /**
+     * Retrieves all ingredients for a specific recipe.
+     * 
+     * @param id The recipe ID
+     * @return A list of RecipeIngredient objects for the recipe
+     */
     public List<RecipeIngredient> getIngredientByID(Integer id) {
         return dbManager.getRecipeIngredientMapper().getRecipeIngredientsByRecipeId(id);
     }
@@ -67,6 +104,11 @@ public class RecipeService {
     }
 
     
+    /**
+     * Updates an existing recipe in the database.
+     * 
+     * @param recipe The Recipe object with updated information
+     */
     public void updateRecipe(Recipe recipe) {
         try {
             dbManager.getRecipeMapper().updateRecipe(recipe);
@@ -77,6 +119,12 @@ public class RecipeService {
     }
 
     
+    /**
+     * Adds a new recipe to the database.
+     * 
+     * @param recipe The Recipe object to add
+     * @return The ID of the newly created recipe, or 0 if failed
+     */
     public Integer addRecipe(Recipe recipe) {
         try {
             dbManager.getRecipeMapper().addRecipe(recipe);
@@ -113,6 +161,11 @@ public class RecipeService {
     }
 
     
+    /**
+     * Retrieves all recipes from the database.
+     * 
+     * @return A list of all Recipe objects
+     */
     public List<Recipe> getAllRecipes() {
         return dbManager.getRecipeMapper().getAllRecipes();
     }
@@ -141,6 +194,11 @@ public class RecipeService {
     }
 
     
+    /**
+     * Deletes a recipe from the database.
+     * 
+     * @param recipeID The ID of the recipe to delete
+     */
     public void deleteRecipe(Integer recipeID) {
         try {
             dbManager.getRecipeMapper().deleteRecipe(recipeID);

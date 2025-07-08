@@ -11,7 +11,15 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-
+/**
+ * RecipeDisplayView is a JavaFX Stage that provides the user interface for displaying recipe details.
+ * This view shows comprehensive recipe information including ingredients, instructions, nutritional data,
+ * and provides options to edit or delete the recipe.
+ * 
+ * @author Ziang Liu
+ * @version 1.0
+ * @since 1.0
+ */
 public class RecipeDisplayView extends Stage {
 
     public Button editRecipeButton;
@@ -30,6 +38,11 @@ public class RecipeDisplayView extends Stage {
     public TextArea instructionsTextArea = new TextArea();
     public Integer selectedRecipeNumber;
     private RecipeDisplayFXMLController controller;
+    /**
+     * Constructor for displaying a specific recipe.
+     * 
+     * @param recipeNumber The ID of the recipe to display
+     */
     public RecipeDisplayView(Integer recipeNumber) {
         this.setTitle("Recipe Details");
         this.setMinWidth(1000);
@@ -42,6 +55,10 @@ public class RecipeDisplayView extends Stage {
         init();
     }
 
+    /**
+     * Initializes the view by loading the FXML file and setting up the controller.
+     * Sets the recipe number and initializes the recipe data display.
+     */
     private void init() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/recipe_display.fxml"));
@@ -58,6 +75,14 @@ public class RecipeDisplayView extends Stage {
         }
     }
 
+    /**
+     * Updates the nutritional information display through the controller.
+     * 
+     * @param totalCalories Total calories for the recipe
+     * @param totalProtein Total protein content
+     * @param totalFat Total fat content
+     * @param totalCarbs Total carbohydrate content
+     */
     public void updateNutritionalDisplay(float totalCalories, float totalProtein, float totalFat, float totalCarbs) {
         if (controller != null) {
             controller.updateNutritionalDisplay();
