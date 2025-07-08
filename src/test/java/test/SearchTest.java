@@ -32,70 +32,88 @@ public class SearchTest {
     private Button searchButton;
     private Model mockModel;
 
+    /**
+     * Initializes the JavaFX environment for testing.
+     *
+     * @param stage test stage provided by ApplicationExtension
+     */
     @Start
     public void start(Stage stage) {
-        // 创建控制器
+        // Create controller instance
         controller = new RecipeSelectFXMLController();
 
-        // 创建模拟Model对象
+        // Create mock Model object
         mockModel = mock(Model.class);
 
-        // 创建UI组件
+        // Create UI components
         searchField = new TextField();
         searchButton = new Button("Search");
 
-        // 使用反射注入组件
+        // Inject components using reflection
         setField(controller, "searchField", searchField);
         setField(controller, "searchButton", searchButton);
         setField(controller, "model", mockModel);
     }
 
+    /**
+     * Prepares test environment before each test execution.
+     * <ul>
+     *   <li>Clears search input field</li>
+     *   <li>Resets alert tracking</li>
+     * </ul>
+     */
     @BeforeEach
     public void setUp() {
-        // 清除输入字段
+        // Clear input field
         searchField.clear();
-        // 重置警告记录
-        Model.resetLastDisplayedAlert();
-    }
-
-    @AfterEach
-    public void tearDown() {
-        // 重置警告记录
+        // Reset alert tracking
         Model.resetLastDisplayedAlert();
     }
 
     /**
-     * 模拟搜索操作并检查是否弹窗
+     * Cleans up test environment after each test execution.
+     * <ul>
+     *   <li>Resets alert tracking</li>
+     * </ul>
+     */
+    @AfterEach
+    public void tearDown() {
+        // Reset alert tracking
+        Model.resetLastDisplayedAlert();
+    }
+
+    /**
+     * Simulates search operation and checks for alert presence.
      *
-     * @param searchTerm 要输入的搜索词
-     * @return true表示没有弹窗，false表示有弹窗
+     * @param searchTerm search term to input
+     * @return true if no alert was shown, false if alert was displayed
      */
     private boolean checkNoAlertForInput(String searchTerm) {
         CompletableFuture<Boolean> noAlertFuture = new CompletableFuture<>();
 
         Platform.runLater(() -> {
             try {
-                // 重置警告记录
+                // Reset alert tracking
                 Model.resetLastDisplayedAlert();
 
-                // 将文本键入搜索框
+                // Enter text into search field
                 searchField.setText(searchTerm);
 
-                // 尝试执行搜索按钮点击
+                // Simulate search button click via reflection
                 try {
                     Method handleMethod = RecipeSelectFXMLController.class.getDeclaredMethod(
                             "handleSearchButton", ActionEvent.class);
                     handleMethod.setAccessible(true);
                     handleMethod.invoke(controller, (ActionEvent) null);
                 } catch (Exception e) {
-                    // 忽略执行过程中的任何异常
+                    // Ignore any invocation exceptions
                 }
 
-                // 检查是否有警告弹窗
+                // Check if alert was shown
                 Alert lastAlert = Model.getLastDisplayedAlert();
                 noAlertFuture.complete(lastAlert == null);
             } catch (Exception e) {
-                // 即使发生异常，也检查是否有警告
+                // Check alert presence even if exception occurs
                 Alert lastAlert = Model.getLastDisplayedAlert();
                 noAlertFuture.complete(lastAlert == null);
             }
@@ -104,54 +122,56 @@ public class SearchTest {
         try {
             return noAlertFuture.get();
         } catch (InterruptedException | ExecutionException e) {
-            // 如果获取结果失败，默认认为有弹窗
+            // Default to assuming alert was shown on error
             return false;
         }
     }
 
     /**
-     * Test No.1: 有效搜索词输入 (EC V1)
-     * 输入: "tomato"
-     * 预期: 无弹窗
+     * Test Case 1: Valid search term input (EC V1).
+     * <p>
+     * Input: "tomato"
+     * Expected: No alert shown
      */
     @Test
     public void testValidTextInput_Tomato() {
-        // 检查是否有弹窗
+        // Verify no alert is shown
         boolean noAlert = checkNoAlertForInput("tomato");
-
-        // 验证无弹窗
-        assertTrue(noAlert, "No alert");
+        assertTrue(noAlert, "No alert should be shown for valid input");
     }
 
     /**
-     * Test No.2: 超长搜索词输入 (EC V2)
-     * 输入: "averylongIngredientNamewhichexceeds30characters"
-     * 预期: 有弹窗
+     * Test Case 2: Overlength search term input (EC V2).
+     * <p>
+     * Input: "averylongIngredientNamewhichexceeds30characters"
+     * Expected: Alert shown
      */
     @Test
     public void testLongTextInput() {
         String longTerm = "averylongIngredientNamewhichexceeds30characters";
         boolean noAlert = checkNoAlertForInput(longTerm);
-
-        // 验证有弹窗
-        assertFalse(noAlert, "Should have alert");
+        assertFalse(noAlert, "Alert should be shown for overlength input");
     }
 
     /**
-     * Test No.3: 空值输入 (EC V3)
-     * 输入: "" (代表null)
-     * 预期: 有弹窗
+     * Test Case 3: Empty input (EC V3).
+     * <p>
+     * Input: "" (represents null)
+     * Expected: Alert shown
      */
     @Test
     public void testEmptyTextInput() {
         boolean noAlert = checkNoAlertForInput("");
-
-        // 验证有弹窗
-        assertFalse(noAlert, "Should have alert");
+        assertFalse(noAlert, "Alert should be shown for empty input");
     }
 
     /**
-     * 使用反射设置字段值
+     * Sets field value using reflection.
+     *
+     * @param target target object containing the field
+     * @param fieldName name of field to set
+     * @param value value to assign to field
+     * @throws RuntimeException if field access fails
      */
     private void setField(Object target, String fieldName, Object value) {
         try {
@@ -159,7 +179,7 @@ public class SearchTest {
             field.setAccessible(true);
             field.set(target, value);
         } catch (Exception e) {
-            throw new RuntimeException("设置字段失败: " + fieldName, e);
+            throw new RuntimeException("Field setting failed: " + fieldName, e);
         }
     }
 }

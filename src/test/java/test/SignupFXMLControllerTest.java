@@ -30,25 +30,38 @@ public class SignupFXMLControllerTest {
     private PasswordField repeatPasswordField;
     private Model mockModel;
 
+    /**
+     * Initializes JavaFX environment for testing.
+     * <ul>
+     *   <li>Creates controller instance</li>
+     *   <li>Creates mock Model object</li>
+     *   <li>Injects mock Model into controller</li>
+     *   <li>Creates and injects UI components</li>
+     *   <li>Resets alert tracking</li>
+     * </ul>
+     *
+     * @param stage test stage provided by ApplicationExtension
+     * @throws Exception if reflection fails
+     */
     @Start
     public void start(Stage stage) throws Exception {
-        // 创建控制器
+        // Create controller instance
         controller = new SignupFXMLController();
 
-        // 创建模拟Model
+        // Create mock Model
         mockModel = mock(Model.class);
 
-        // 使用反射替换控制器中的Model实例
+        // Inject mock Model using reflection
         Field modelField = SignupFXMLController.class.getDeclaredField("model");
         modelField.setAccessible(true);
         modelField.set(controller, mockModel);
 
-        // 创建UI组件
+        // Create UI components
         usernameField = new TextField();
         passwordField = new PasswordField();
         repeatPasswordField = new PasswordField();
 
-        // 使用反射将UI组件注入控制器
+        // Inject UI components into controller using reflection
         Field usernameFieldField = SignupFXMLController.class.getDeclaredField("usernameField");
         usernameFieldField.setAccessible(true);
         usernameFieldField.set(controller, this.usernameField);
@@ -61,36 +74,50 @@ public class SignupFXMLControllerTest {
         repeatPasswordFieldField.setAccessible(true);
         repeatPasswordFieldField.set(controller, this.repeatPasswordField);
 
-        // 重置警告记录
+        // Reset alert tracking
         Model.resetLastDisplayedAlert();
     }
 
+    /**
+     * Cleans up test environment after each test execution.
+     * <ul>
+     *   <li>Resets alert tracking</li>
+     * </ul>
+     */
     @AfterEach
     public void tearDown() {
-        // 每个测试后重置警告记录
+        // Reset alert tracking after each test
         Model.resetLastDisplayedAlert();
     }
 
-    // 辅助方法：模拟注册操作并返回警告消息
+    /**
+     * Simulates signup operation and returns alert message content.
+     *
+     * @param username username input
+     * @param password password input
+     * @param repeatPassword confirm password input
+     * @return content text of displayed alert, or null if no alert shown
+     */
     private String simulateSignup(String username, String password, String repeatPassword) {
         CompletableFuture<String> futureAlertMessage = new CompletableFuture<>();
 
         Platform.runLater(() -> {
             try {
-                // 重置警告记录
+                // Reset alert tracking
                 Model.resetLastDisplayedAlert();
 
-                // 设置输入字段值
+                // Set input field values
                 usernameField.setText(username);
                 passwordField.setText(password);
                 repeatPasswordField.setText(repeatPassword);
 
-                // 使用反射调用私有方法
-                Method handleMethod = SignupFXMLController.class.getDeclaredMethod("handleCreateButton", ActionEvent.class);
-                handleMethod.setAccessible(true); // 设置为可访问
-                handleMethod.invoke(controller, (ActionEvent) null); // 传入null作为事件
+                // Invoke handleCreateButton via reflection
+                Method handleMethod = SignupFXMLController.class.getDeclaredMethod(
+                        "handleCreateButton", ActionEvent.class);
+                handleMethod.setAccessible(true);
+                handleMethod.invoke(controller, (ActionEvent) null);
 
-                // 获取警告消息
+                // Retrieve alert message
                 Alert lastAlert = Model.getLastDisplayedAlert();
                 if (lastAlert != null) {
                     futureAlertMessage.complete(lastAlert.getContentText());
@@ -110,7 +137,21 @@ public class SignupFXMLControllerTest {
         }
     }
 
-    // Test Case 2: 用户名为纯数字 (EC V2)
+    /**
+     * Test Case 2: Numeric username (EC V2).
+     * <p>
+     * Inputs:
+     * <ul>
+     *   <li>Username: "123456" (pure numbers)</li>
+     *   <li>Password: "pass1234" (valid)</li>
+     *   <li>Confirm Password: "pass1234" (matches)</li>
+     * </ul>
+     * Expected:
+     * <ul>
+     *   <li>Alert: "Username cannot be pure numbers! Must contain at least one letter."</li>
+     *   <li>Model sign method not called</li>
+     * </ul>
+     */
     @Test
     public void testUsernameNumeric() {
         String alertMessage = simulateSignup("123456", "pass1234", "pass1234");
@@ -118,7 +159,21 @@ public class SignupFXMLControllerTest {
         verify(mockModel, never()).sign(any(), any());
     }
 
-    // Test Case 4: 用户名过长 (EC V4)
+    /**
+     * Test Case 4: Overlength username (EC V4).
+     * <p>
+     * Inputs:
+     * <ul>
+     *   <li>Username: "averylongUserName" (>15 characters)</li>
+     *   <li>Password: "pass1234" (valid)</li>
+     *   <li>Confirm Password: "pass1234" (matches)</li>
+     * </ul>
+     * Expected:
+     * <ul>
+     *   <li>Alert: "Username length cannot exceed 15 characters!"</li>
+     *   <li>Model sign method not called</li>
+     * </ul>
+     */
     @Test
     public void testUsernameTooLong() {
         String alertMessage = simulateSignup("averylongUserName", "pass1234", "pass1234");
@@ -126,7 +181,21 @@ public class SignupFXMLControllerTest {
         verify(mockModel, never()).sign(any(), any());
     }
 
-    // Test Case 5: 用户名为空 (EC V5)
+    /**
+     * Test Case 5: Empty username (EC V5).
+     * <p>
+     * Inputs:
+     * <ul>
+     *   <li>Username: "" (empty)</li>
+     *   <li>Password: "pass1234" (valid)</li>
+     *   <li>Confirm Password: "pass1234" (matches)</li>
+     * </ul>
+     * Expected:
+     * <ul>
+     *   <li>Alert: "Username cannot be empty!"</li>
+     *   <li>Model sign method not called</li>
+     * </ul>
+     */
     @Test
     public void testUsernameEmpty() {
         String alertMessage = simulateSignup("", "pass1234", "pass1234");
@@ -134,7 +203,21 @@ public class SignupFXMLControllerTest {
         verify(mockModel, never()).sign(any(), any());
     }
 
-    // Test Case 6: 密码为纯数字 (EC V7)
+    /**
+     * Test Case 6: Numeric password (EC V7).
+     * <p>
+     * Inputs:
+     * <ul>
+     *   <li>Username: "ezra123" (valid)</li>
+     *   <li>Password: "123456" (pure numbers)</li>
+     *   <li>Confirm Password: "123456" (matches)</li>
+     * </ul>
+     * Expected:
+     * <ul>
+     *   <li>Alert: "Password cannot contain only numbers! Must contain both letters and numbers."</li>
+     *   <li>Model sign method not called</li>
+     * </ul>
+     */
     @Test
     public void testPasswordNumeric() {
         String alertMessage = simulateSignup("ezra123", "123456", "123456");
@@ -142,7 +225,21 @@ public class SignupFXMLControllerTest {
         verify(mockModel, never()).sign(any(), any());
     }
 
-    // Test Case 7: 密码为纯字母 (EC V8)
+    /**
+     * Test Case 7: Alphabetic password (EC V8).
+     * <p>
+     * Inputs:
+     * <ul>
+     *   <li>Username: "ezra123" (valid)</li>
+     *   <li>Password: "abcd" (pure letters)</li>
+     *   <li>Confirm Password: "abcd" (matches)</li>
+     * </ul>
+     * Expected:
+     * <ul>
+     *   <li>Alert: "Password cannot contain only letters! Must contain both letters and numbers."</li>
+     *   <li>Model sign method not called</li>
+     * </ul>
+     */
     @Test
     public void testPasswordAlpha() {
         String alertMessage = simulateSignup("ezra123", "abcd", "abcd");
@@ -150,7 +247,21 @@ public class SignupFXMLControllerTest {
         verify(mockModel, never()).sign(any(), any());
     }
 
-    // Test Case 8: 密码过长 (EC V9)
+    /**
+     * Test Case 8: Overlength password (EC V9).
+     * <p>
+     * Inputs:
+     * <ul>
+     *   <li>Username: "ezra123" (valid)</li>
+     *   <li>Password: "averylongPassword" (>15 characters)</li>
+     *   <li>Confirm Password: "averylongPassword" (matches)</li>
+     * </ul>
+     * Expected:
+     * <ul>
+     *   <li>Alert: "Password length cannot exceed 15 characters!"</li>
+     *   <li>Model sign method not called</li>
+     * </ul>
+     */
     @Test
     public void testPasswordTooLong() {
         String alertMessage = simulateSignup("ezra123", "averylongPassword", "averylongPassword");
@@ -158,7 +269,21 @@ public class SignupFXMLControllerTest {
         verify(mockModel, never()).sign(any(), any());
     }
 
-    // Test Case 9: 密码为空 (EC V10)
+    /**
+     * Test Case 9: Empty password (EC V10).
+     * <p>
+     * Inputs:
+     * <ul>
+     *   <li>Username: "ezra123" (valid)</li>
+     *   <li>Password: "" (empty)</li>
+     *   <li>Confirm Password: "" (empty)</li>
+     * </ul>
+     * Expected:
+     * <ul>
+     *   <li>Alert: "Password cannot be empty!"</li>
+     *   <li>Model sign method not called</li>
+     * </ul>
+     */
     @Test
     public void testPasswordEmpty() {
         String alertMessage = simulateSignup("ezra123", "", "");
@@ -166,7 +291,21 @@ public class SignupFXMLControllerTest {
         verify(mockModel, never()).sign(any(), any());
     }
 
-    // Test Case 10: 确认密码不匹配 (EC V12)
+    /**
+     * Test Case 10: Password mismatch (EC V12).
+     * <p>
+     * Inputs:
+     * <ul>
+     *   <li>Username: "ezra123" (valid)</li>
+     *   <li>Password: "pass1234"</li>
+     *   <li>Confirm Password: "word5678" (mismatch)</li>
+     * </ul>
+     * Expected:
+     * <ul>
+     *   <li>Alert: "The passwords entered twice do not match!"</li>
+     *   <li>Model sign method not called</li>
+     * </ul>
+     */
     @Test
     public void testPasswordMismatch() {
         String alertMessage = simulateSignup("ezra123", "pass1234", "word5678");
@@ -174,7 +313,21 @@ public class SignupFXMLControllerTest {
         verify(mockModel, never()).sign(any(), any());
     }
 
-    // Test Case 11: 确认密码为空 (EC V13)
+    /**
+     * Test Case 11: Empty confirm password (EC V13).
+     * <p>
+     * Inputs:
+     * <ul>
+     *   <li>Username: "ezra123" (valid)</li>
+     *   <li>Password: "pass1234"</li>
+     *   <li>Confirm Password: "" (empty)</li>
+     * </ul>
+     * Expected:
+     * <ul>
+     *   <li>Alert: "Confirm password cannot be empty!"</li>
+     *   <li>Model sign method not called</li>
+     * </ul>
+     */
     @Test
     public void testConfirmPasswordEmpty() {
         String alertMessage = simulateSignup("ezra123", "pass1234", "");

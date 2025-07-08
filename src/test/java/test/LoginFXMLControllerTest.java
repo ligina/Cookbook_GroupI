@@ -25,18 +25,18 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 /**
- * 控制层登录页面测试类，专注于Log In表格中指定的两种场景
+ * Controller test class for login page, focusing on two scenarios specified in the Log In table.
  * <p>
- * 严格遵循EC_BVA表格中的登录测试部分：
+ * Strictly follows the login testing section from EC_BVA table:
  * <ul>
- *   <li>Test No.3: 用户名为空 (EC V3)</li>
- *   <li>Test No.5: 密码为空 (EC V6)</li>
+ *   <li>Test No.3: Empty username (EC V3)</li>
+ *   <li>Test No.5: Empty password (EC V6)</li>
  * </ul>
  *
- * 测试验证：
+ * <p>Tests verify:
  * <ul>
- *   <li>当用户名为空时，显示正确的警告信息且不调用模型层</li>
- *   <li>当密码为空时，显示正确的警告信息且不调用模型层</li>
+ *   <li>When username is empty, correct warning is shown and model layer is not invoked</li>
+ *   <li>When password is empty, correct warning is shown and model layer is not invoked</li>
  * </ul>
  */
 @ExtendWith(ApplicationExtension.class)
@@ -49,78 +49,92 @@ public class LoginFXMLControllerTest {
     private Button loginButton;
 
     /**
-     * 初始化测试环境，创建UI组件和模拟对象
+     * Initializes test environment by creating UI components and mock objects.
      *
-     * @param stage 测试舞台
+     * @param stage test stage provided by ApplicationExtension
      */
     @Start
     public void start(Stage stage) {
-        // 创建模拟Model
+        // Create mock Model
         mockModel = mock(Model.class);
 
-        // 创建控制器
+        // Create controller instance
         controller = new LoginFXMLController();
 
-        // 创建UI组件
+        // Create UI components
         usernameField = new TextField();
         passwordField = new PasswordField();
         loginButton = new Button("Login");
 
-        // 使用反射注入组件
+        // Inject components using reflection
         setField(controller, "usernameField", usernameField);
         setField(controller, "passwordField", passwordField);
         setField(controller, "loginButton", loginButton);
         setField(controller, "model", mockModel);
 
-        // 初始化控制器
+        // Initialize controller
         controller.initialize();
 
-        // 重置警告记录
-        Model.resetLastDisplayedAlert();
-    }
-
-    @BeforeEach
-    public void setUp() {
-        // 重置模拟对象
-        reset(mockModel);
-        // 清除输入字段
-        usernameField.clear();
-        passwordField.clear();
-        // 重置警告记录
-        Model.resetLastDisplayedAlert();
-    }
-
-    @AfterEach
-    public void tearDown() {
-        // 重置警告记录
+        // Reset alert tracking
         Model.resetLastDisplayedAlert();
     }
 
     /**
-     * 模拟登录操作并返回警告消息
+     * Prepares test environment before each test execution.
+     * <ul>
+     *   <li>Resets mock objects</li>
+     *   <li>Clears input fields</li>
+     *   <li>Resets alert tracking</li>
+     * </ul>
+     */
+    @BeforeEach
+    public void setUp() {
+        // Reset mock objects
+        reset(mockModel);
+        // Clear input fields
+        usernameField.clear();
+        passwordField.clear();
+        // Reset alert tracking
+        Model.resetLastDisplayedAlert();
+    }
+
+    /**
+     * Cleans up test environment after each test execution.
+     * <ul>
+     *   <li>Resets alert tracking</li>
+     * </ul>
+     */
+    @AfterEach
+    public void tearDown() {
+        // Reset alert tracking
+        Model.resetLastDisplayedAlert();
+    }
+
+    /**
+     * Simulates login operation and returns alert message.
      *
-     * @param username 用户名
-     * @param password 密码
-     * @return 显示的警告消息内容，如果没有警告则为null
+     * @param username username input
+     * @param password password input
+     * @return content text of displayed alert, or null if no alert shown
      */
     private String simulateLogin(String username, String password) {
         CompletableFuture<String> futureAlertMessage = new CompletableFuture<>();
 
         Platform.runLater(() -> {
             try {
-                // 重置警告记录
+                // Reset alert tracking
                 Model.resetLastDisplayedAlert();
 
-                // 设置输入字段值
+                // Set input field values
                 usernameField.setText(username);
                 passwordField.setText(password);
 
-                // 使用反射调用私有方法
+                // Invoke private method via reflection
                 Method handleMethod = LoginFXMLController.class.getDeclaredMethod("handleLoginButton", ActionEvent.class);
                 handleMethod.setAccessible(true);
                 handleMethod.invoke(controller, (ActionEvent) null);
 
-                // 获取警告消息
+                // Retrieve alert message
                 Alert lastAlert = Model.getLastDisplayedAlert();
                 if (lastAlert != null) {
                     futureAlertMessage.complete(lastAlert.getContentText());
@@ -141,10 +155,18 @@ public class LoginFXMLControllerTest {
     }
 
     /**
-     * 测试Log In表格中的Test No.3: 用户名为空 (EC V3)
-     * 用户名: null
-     * 密码: pass1234
-     * 预期警告: "Username cannot be empty!"
+     * Tests Test No.3 from Log In table: Empty username (EC V3).
+     * <p>
+     * Inputs:
+     * <ul>
+     *   <li>Username: null</li>
+     *   <li>Password: pass1234</li>
+     * </ul>
+     * Expected:
+     * <ul>
+     *   <li>Warning: "Username cannot be empty!"</li>
+     *   <li>Model login method not called</li>
+     * </ul>
      */
     @Test
     public void testLoginWithEmptyUsername() {
@@ -154,10 +176,18 @@ public class LoginFXMLControllerTest {
     }
 
     /**
-     * 测试Log In表格中的Test No.5: 密码为空 (EC V6)
-     * 用户名: ezra1234
-     * 密码: null
-     * 预期警告: "Password cannot be empty!"
+     * Tests Test No.5 from Log In table: Empty password (EC V6).
+     * <p>
+     * Inputs:
+     * <ul>
+     *   <li>Username: ezra1234</li>
+     *   <li>Password: null</li>
+     * </ul>
+     * Expected:
+     * <ul>
+     *   <li>Warning: "Password cannot be empty!"</li>
+     *   <li>Model login method not called</li>
+     * </ul>
      */
     @Test
     public void testLoginWithEmptyPassword() {
@@ -167,11 +197,12 @@ public class LoginFXMLControllerTest {
     }
 
     /**
-     * 使用反射设置字段值
+     * Sets field value using reflection.
      *
-     * @param target 目标对象
-     * @param fieldName 字段名称
-     * @param value 要设置的值
+     * @param target target object containing the field
+     * @param fieldName name of field to set
+     * @param value value to assign to field
+     * @throws RuntimeException if field access fails
      */
     private void setField(Object target, String fieldName, Object value) {
         try {

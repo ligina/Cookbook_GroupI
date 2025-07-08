@@ -142,10 +142,22 @@ public class Model implements ModelMethod {
         return validationService.validateNutritionValue(value, fieldName);
     }
 
+    public static Alert lastAlert; // Only for junit test
     
     public static void displayAlert(Alert.AlertType alertType, String title, String content) {
         UIUtils.displayAlert(alertType, title, content);
+
+        Alert alert = new Alert(alertType); // Only for junit test
+        lastAlert = alert; // Only for junit test
     }
+
+    public static Alert getLastDisplayedAlert() {
+        return lastAlert;
+    } // Only for junit test
+
+    public static void resetLastDisplayedAlert() {
+        lastAlert = null;
+    } // Only for junit test
 
     public static TextFormatter<String> textFieldFormatter(int maxLength) {
         return UIUtils.textFieldFormatter(maxLength);

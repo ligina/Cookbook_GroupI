@@ -7,6 +7,7 @@ import static org.mockito.Mockito.*;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import model.Model;
+import model.DatabaseManager;
 import org.apache.ibatis.session.SqlSession;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,13 +22,13 @@ import java.util.concurrent.ExecutionException;
 import java.util.regex.Pattern;
 
 /**
- * 食谱创建/编辑功能的测试类，严格遵循EC_BVA表格中的测试用例设计。
+ * Test class for recipe creation/editing functionality, strictly following the test case design from the EC_BVA table.
  * <p>
- * 覆盖Create/Edit Recipe部分的所有13个测试场景（Test No.1-13），
- * 每个测试方法对应表格中的一个测试编号，并明确标注覆盖的等价类组合。
+ * Covers all 13 test scenarios (Test No.1-13) for the Create/Edit Recipe section.
+ * Each test method corresponds to a test number in the table and clearly indicates the covered equivalence class combination.
  *
- * <p>测试使用JavaFX的Platform.runLater()确保UI操作在正确的线程上执行，
- * 并使用CompletableFuture处理异步操作和结果验证。</p>
+ * <p>Tests use JavaFX's Platform.runLater() to ensure UI operations execute on the correct thread,
+ * and use CompletableFuture for handling asynchronous operations and result verification.</p>
  */
 @ExtendWith(ApplicationExtension.class)
 public class CreateOrEditRecipeTest {
@@ -37,47 +38,47 @@ public class CreateOrEditRecipeTest {
     private Model model;
 
     /**
-     * 初始化测试环境，设置模拟数据库和模型实例。
+     * Initializes the test environment and sets up mock database and model instance.
      * <p>
-     * 在每个测试方法执行前：
+     * Before each test method:
      * <ol>
-     *   <li>创建RecipeMapper和SqlSession的模拟对象</li>
-     *   <li>创建Model实例</li>
-     *   <li>使用反射将模拟的SqlSession注入Model</li>
-     *   <li>配置SqlSession返回RecipeMapper模拟对象</li>
-     *   <li>设置RecipeMapper的默认模拟行为</li>
-     *   <li>重置警告记录</li>
+     *   <li>Creates mock objects for RecipeMapper and SqlSession</li>
+     *   <li>Instantiates the Model</li>
+     *   <li>Injects mock SqlSession into Model using reflection</li>
+     *   <li>Configures SqlSession to return mock RecipeMapper</li>
+     *   <li>Sets up default mock behaviors for RecipeMapper</li>
+     *   <li>Resets warning tracking</li>
      * </ol>
      *
-     * @throws Exception 如果反射注入失败
+     * @throws Exception if reflection injection fails
      */
     @BeforeEach
     public void setUp() throws Exception {
-        // 创建模拟对象
+        // Create mock objects
         recipeMapper = mock(RecipeMapper.class);
         sqlSession = mock(SqlSession.class);
         model = new Model();
 
-        // 使用反射注入模拟的sqlSession
+        // Inject mock sqlSession using reflection
         injectMockSqlSession();
 
-        // 配置sqlSession返回recipeMapper模拟对象
+        // Configure sqlSession to return mock recipeMapper
         when(sqlSession.getMapper(RecipeMapper.class)).thenReturn(recipeMapper);
 
-        // 配置默认的模拟行为
+        // Set up default mock behaviors
         when(recipeMapper.addRecipe(any(Recipe.class))).thenReturn(true);
         when(recipeMapper.updateRecipe(any(Recipe.class))).thenReturn(true);
 
-        // 重置警告记录
+        // Reset warning tracking
         Model.resetLastDisplayedAlert();
     }
 
     /**
-     * 使用反射将模拟的SqlSession注入Model实例。
+     * Injects mock SqlSession into the Model instance using reflection.
      * <p>
-     * 通过反射访问Model的私有字段"sqlSession"并设置其值为模拟对象。
+     * Accesses the private field "sqlSession" in Model class and sets its value to the mock object.
      *
-     * @throws Exception 如果字段访问或设置失败
+     * @throws Exception if field access or setting fails
      */
     private void injectMockSqlSession() throws Exception {
         Field sqlSessionField = Model.class.getDeclaredField("sqlSession");
@@ -86,16 +87,16 @@ public class CreateOrEditRecipeTest {
     }
 
     /**
-     * 在JavaFX应用线程中执行食谱验证。
+     * Executes recipe validation on the JavaFX application thread.
      * <p>
-     * 此方法异步执行验证逻辑并返回CompletableFuture用于获取结果。
-     * 在执行验证前会重置警告记录。
+     * Performs validation logic asynchronously and returns CompletableFuture for result retrieval.
+     * Resets warning tracking before executing validation.
      *
-     * @param recipeName 菜谱名称
-     * @param prepTime 准备时间
-     * @param cookTime 烹饪时间
-     * @param imageURL 图片URL
-     * @return CompletableFuture 包含验证结果的Future对象
+     * @param recipeName recipe name
+     * @param prepTime preparation time
+     * @param cookTime cooking time
+     * @param imageURL image URL
+     * @return CompletableFuture containing validation result
      */
     private CompletableFuture<Boolean> executeValidation(
             String recipeName, String prepTime, String cookTime, String imageURL) {
@@ -116,13 +117,13 @@ public class CreateOrEditRecipeTest {
     }
 
     /**
-     * 在JavaFX应用线程中执行份数验证。
+     * Executes serving number validation on the JavaFX application thread.
      * <p>
-     * 此方法异步执行份数验证逻辑并返回CompletableFuture用于获取结果。
-     * 在执行验证前会重置警告记录。
+     * Performs serving validation asynchronously and returns CompletableFuture for result retrieval.
+     * Resets warning tracking before executing validation.
      *
-     * @param serveNumber 份数
-     * @return CompletableFuture 包含验证结果的Future对象
+     * @param serveNumber serving number
+     * @return CompletableFuture containing validation result
      */
     private CompletableFuture<Boolean> executeServingValidation(String serveNumber) {
         CompletableFuture<Boolean> future = new CompletableFuture<>();
@@ -141,13 +142,13 @@ public class CreateOrEditRecipeTest {
     }
 
     /**
-     * 验证最后显示的警告内容是否符合预期。
+     * Verifies the content of the last displayed alert matches the expected message.
      * <p>
-     * 在JavaFX应用线程中获取最后显示的警告内容，并与预期消息进行比较。
-     * 如果未显示警告或警告内容不匹配，则测试失败。
+     * Retrieves the last displayed alert content on JavaFX thread and compares with expected message.
+     * Fails the test if no alert was shown or content doesn't match.
      *
-     * @param expectedMessage 预期的警告内容
-     * @throws Exception 如果操作超时或发生错误
+     * @param expectedMessage expected alert content
+     * @throws Exception if operation times out or error occurs
      */
     private void verifyAlertContent(String expectedMessage) throws Exception {
         CompletableFuture<String> future = new CompletableFuture<>();
@@ -162,16 +163,16 @@ public class CreateOrEditRecipeTest {
         assertEquals(expectedMessage, actualMessage);
     }
 
-    // ===================== 测试用例实现 =====================
-    // 严格遵循EC_BVA表格中的13个测试场景
+    // ===================== Test Case Implementations =====================
+    // Strictly follows 13 test scenarios from EC_BVA table
 
     /**
-     * 测试编号：1
-     * 覆盖等价类：V1, V4, V12, V16
-     * 输入：所有字段有效
-     * 预期：验证通过且无警告
+     * Test Number: 1
+     * Covered Equivalence Classes: V1, V4, V12, V16
+     * Input: All fields valid
+     * Expected: Validation passes with no warnings
      *
-     * @throws Exception 如果测试执行失败
+     * @throws Exception if test execution fails
      */
     @Test
     public void testCreateOrEditRecipe_TC1() throws Exception {
@@ -184,12 +185,12 @@ public class CreateOrEditRecipeTest {
     }
 
     /**
-     * 测试编号：2
-     * 覆盖等价类：V2, V4, V12, V16
-     * 输入：菜谱名称超长（>70字符）
-     * 预期：验证失败并显示正确警告
+     * Test Number: 2
+     * Covered Equivalence Classes: V2, V4, V12, V16
+     * Input: Recipe name exceeds length limit (>70 characters)
+     * Expected: Validation fails with correct warning
      *
-     * @throws Exception 如果测试执行失败
+     * @throws Exception if test execution fails
      */
     @Test
     public void testCreateOrEditRecipe_TC2() throws Exception {
@@ -202,12 +203,12 @@ public class CreateOrEditRecipeTest {
     }
 
     /**
-     * 测试编号：3
-     * 覆盖等价类：V3, V4, V12, V16
-     * 输入：菜谱名称为空
-     * 预期：验证失败并显示正确警告
+     * Test Number: 3
+     * Covered Equivalence Classes: V3, V4, V12, V16
+     * Input: Recipe name is empty
+     * Expected: Validation fails with correct warning
      *
-     * @throws Exception 如果测试执行失败
+     * @throws Exception if test execution fails
      */
     @Test
     public void testCreateOrEditRecipe_TC3() throws Exception {
@@ -219,12 +220,12 @@ public class CreateOrEditRecipeTest {
     }
 
     /**
-     * 测试编号：4
-     * 覆盖等价类：V1, V5, V12, V16
-     * 输入：准备时间和烹饪时间包含非数字字符
-     * 预期：验证失败并显示正确警告
+     * Test Number: 4
+     * Covered Equivalence Classes: V1, V5, V12, V16
+     * Input: Preparation/cooking time contains non-numeric characters
+     * Expected: Validation fails with correct warning
      *
-     * @throws Exception 如果测试执行失败
+     * @throws Exception if test execution fails
      */
     @Test
     public void testCreateOrEditRecipe_TC4() throws Exception {
@@ -236,12 +237,12 @@ public class CreateOrEditRecipeTest {
     }
 
     /**
-     * 测试编号：5
-     * 覆盖等价类：V1, V6, V12, V16
-     * 输入：准备时间和烹饪时间过长（>5位数字）
-     * 预期：验证失败并显示正确警告
+     * Test Number: 5
+     * Covered Equivalence Classes: V1, V6, V12, V16
+     * Input: Preparation/cooking time exceeds digit limit (>5 digits)
+     * Expected: Validation fails with correct warning
      *
-     * @throws Exception 如果测试执行失败
+     * @throws Exception if test execution fails
      */
     @Test
     public void testCreateOrEditRecipe_TC5() throws Exception {
@@ -253,12 +254,12 @@ public class CreateOrEditRecipeTest {
     }
 
     /**
-     * 测试编号：6
-     * 覆盖等价类：V1, V7, V12, V16
-     * 输入：准备时间和烹饪时间为空
-     * 预期：验证失败并显示正确警告
+     * Test Number: 6
+     * Covered Equivalence Classes: V1, V7, V12, V16
+     * Input: Preparation/cooking time is empty
+     * Expected: Validation fails with correct warning
      *
-     * @throws Exception 如果测试执行失败
+     * @throws Exception if test execution fails
      */
     @Test
     public void testCreateOrEditRecipe_TC6() throws Exception {
@@ -270,12 +271,12 @@ public class CreateOrEditRecipeTest {
     }
 
     /**
-     * 测试编号：7
-     * 覆盖等价类：V1, V4, V13, V16
-     * 输入：图片URL格式无效
-     * 预期：验证失败并显示正确警告
+     * Test Number: 7
+     * Covered Equivalence Classes: V1, V4, V13, V16
+     * Input: Image URL format is invalid
+     * Expected: Validation fails with correct warning
      *
-     * @throws Exception 如果测试执行失败
+     * @throws Exception if test execution fails
      */
     @Test
     public void testCreateOrEditRecipe_TC7() throws Exception {
@@ -287,12 +288,12 @@ public class CreateOrEditRecipeTest {
     }
 
     /**
-     * 测试编号：8
-     * 覆盖等价类：V1, V4, V14, V16
-     * 输入：图片URL为空
-     * 预期：验证失败并显示正确警告
+     * Test Number: 8
+     * Covered Equivalence Classes: V1, V4, V14, V16
+     * Input: Image URL is empty
+     * Expected: Validation fails with correct warning
      *
-     * @throws Exception 如果测试执行失败
+     * @throws Exception if test execution fails
      */
     @Test
     public void testCreateOrEditRecipe_TC8() throws Exception {
@@ -304,12 +305,12 @@ public class CreateOrEditRecipeTest {
     }
 
     /**
-     * 测试编号：9
-     * 覆盖等价类：V1, V4, V15, V16
-     * 输入：份数包含非数字字符
-     * 预期：验证失败并显示正确警告
+     * Test Number: 9
+     * Covered Equivalence Classes: V1, V4, V15, V16
+     * Input: Serving number contains non-numeric characters
+     * Expected: Validation fails with correct warning
      *
-     * @throws Exception 如果测试执行失败
+     * @throws Exception if test execution fails
      */
     @Test
     public void testCreateOrEditRecipe_TC9() throws Exception {
@@ -320,12 +321,12 @@ public class CreateOrEditRecipeTest {
     }
 
     /**
-     * 测试编号：10
-     * 覆盖等价类：V1, V4, V12, V17
-     * 输入：份数为0
-     * 预期：验证失败并显示正确警告
+     * Test Number: 10
+     * Covered Equivalence Classes: V1, V4, V12, V17
+     * Input: Serving number is 0
+     * Expected: Validation fails with correct warning
      *
-     * @throws Exception 如果测试执行失败
+     * @throws Exception if test execution fails
      */
     @Test
     public void testCreateOrEditRecipe_TC10() throws Exception {
@@ -336,12 +337,12 @@ public class CreateOrEditRecipeTest {
     }
 
     /**
-     * 测试编号：11
-     * 覆盖等价类：V1, V4, V12, V18
-     * 输入：份数超限（>10）
-     * 预期：验证失败并显示正确警告
+     * Test Number: 11
+     * Covered Equivalence Classes: V1, V4, V12, V18
+     * Input: Serving number exceeds upper limit (>10)
+     * Expected: Validation fails with correct warning
      *
-     * @throws Exception 如果测试执行失败
+     * @throws Exception if test execution fails
      */
     @Test
     public void testCreateOrEditRecipe_TC11() throws Exception {
@@ -352,12 +353,12 @@ public class CreateOrEditRecipeTest {
     }
 
     /**
-     * 测试编号：12
-     * 覆盖等价类：V1, V4, V12, V19
-     * 输入：份数为空
-     * 预期：验证失败并显示正确警告
+     * Test Number: 12
+     * Covered Equivalence Classes: V1, V4, V12, V19
+     * Input: Serving number is empty
+     * Expected: Validation fails with correct warning
      *
-     * @throws Exception 如果测试执行失败
+     * @throws Exception if test execution fails
      */
     @Test
     public void testCreateOrEditRecipe_TC12() throws Exception {
@@ -368,26 +369,26 @@ public class CreateOrEditRecipeTest {
     }
 
     /**
-     * 测试编号：13
-     * 覆盖等价类：V1, V4, V20, V21, V22
-     * 输入：准备时间、烹饪时间和份数为负数
-     * 预期：验证失败并显示正确警告
+     * Test Number: 13
+     * Covered Equivalence Classes: V1, V4, V20, V21, V22
+     * Input: Negative values for preparation time, cooking time, and serving number
+     * Expected: Validation fails with correct warnings
      *
-     * @throws Exception 如果测试执行失败
+     * @throws Exception if test execution fails
      */
     @Test
     public void testCreateOrEditRecipe_TC13() throws Exception {
-        // 准备时间和烹饪时间为负数
+        // Negative preparation and cooking times
         CompletableFuture<Boolean> recipeFuture = executeValidation(
                 "Scrambled eggs with tomatoes", "-30", "-30", "https://example.com/images/scrambled_eggs.png");
 
         assertFalse(recipeFuture.get());
         verifyAlertContent("Preparation time must contain only numbers and cannot be negative!");
 
-        // 重置警告记录
+        // Reset warning tracking
         Model.resetLastDisplayedAlert();
 
-        // 份数为负数
+        // Negative serving number
         CompletableFuture<Boolean> servingFuture = executeServingValidation("-3");
 
         assertFalse(servingFuture.get());
