@@ -15,6 +15,15 @@ import java.lang.reflect.Field;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
+/**
+ * Test class for user registration (sign up) functionality validation.
+ * This class tests the registration logic including valid registrations,
+ * duplicate username handling, and database interaction using mocked components.
+ * 
+ * @author Mengfei Chen and Ziang Liu
+ * @version 1.0
+ * @since 1.0
+ */
 @ExtendWith(ApplicationExtension.class)
 public class SignTest {
 

@@ -19,8 +19,10 @@ import java.util.concurrent.ExecutionException;
 
 /**
  * Model layer test class for login functionality, focusing on business logic validation.
- * <p>
- * Implements test cases based on the EC_BVA table design, covering all equivalence class combinations:
+ * This class tests the core login logic in the Model layer using mocked database components
+ * to ensure proper authentication behavior under various input conditions.
+ * 
+ * <p>Implements test cases based on the EC_BVA table design, covering all equivalence class combinations:
  * <ul>
  *   <li>V1: Username exists</li>
  *   <li>V2: Username does not exist</li>
@@ -32,17 +34,26 @@ import java.util.concurrent.ExecutionException;
  *
  * <p>Predefined user data in the mock database:
  * <ul>
- *   <li>Username: qwe, Password: qwe123</li>
+ *   <li>Username: qwe, Password: qwe</li>
  *   <li>Username: ezra1234, Password: pass1234</li>
  * </ul>
  *
  * <p>Test cases strictly follow the login test section from the EC_BVA table (Test No.1-5).
+ * 
+ * @author Mengfei Chen and Ziang Liu
+ * @version 1.0
+ * @since 1.0
  */
 @ExtendWith(ApplicationExtension.class)
 public class LoginTest {
 
+    /** Mock UserMapper for database operations */
     private UserMapper userMapper;
+    
+    /** Mock SqlSession for database session management */
     private SqlSession sqlSession;
+    
+    /** Model instance under test */
     private Model model;
 
     /**

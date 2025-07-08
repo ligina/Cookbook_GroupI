@@ -1,5 +1,15 @@
 package test;
 
+/**
+ * Test class for LoginFXMLController functionality validation.
+ * This class tests the login form validation, user authentication,
+ * and UI interaction behaviors using JavaFX TestFX framework.
+ * 
+ * @author Mengfei Chen and Ziang Liu
+ * @version 1.0
+ * @since 1.0
+ */
+
 import control.LoginFXMLController;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -81,11 +91,7 @@ public class LoginFXMLControllerTest {
 
     /**
      * Prepares test environment before each test execution.
-     * <ul>
-     *   <li>Resets mock objects</li>
-     *   <li>Clears input fields</li>
-     *   <li>Resets alert tracking</li>
-     * </ul>
+     * Resets mock objects, clears input fields, and resets alert tracking.
      */
     @BeforeEach
     public void setUp() {
@@ -100,9 +106,7 @@ public class LoginFXMLControllerTest {
 
     /**
      * Cleans up test environment after each test execution.
-     * <ul>
-     *   <li>Resets alert tracking</li>
-     * </ul>
+     * Resets alert tracking to ensure clean state for next test.
      */
     @AfterEach
     public void tearDown() {
@@ -203,6 +207,13 @@ public class LoginFXMLControllerTest {
      * @param fieldName name of field to set
      * @param value value to assign to field
      * @throws RuntimeException if field access fails
+     */
+    /**
+     * Helper method to set field values using reflection.
+     * 
+     * @param target The target object containing the field
+     * @param fieldName The name of the field to set
+     * @param value The value to assign to the field
      */
     private void setField(Object target, String fieldName, Object value) {
         try {

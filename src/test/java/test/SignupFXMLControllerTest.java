@@ -1,5 +1,15 @@
 package test;
 
+/**
+ * Test class for SignupFXMLController functionality validation.
+ * This class tests the signup form validation, user registration,
+ * and UI interaction behaviors using JavaFX TestFX framework.
+ * 
+ * @author Mengfei Chen and Ziang Liu
+ * @version 1.0
+ * @since 1.0
+ */
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import control.SignupFXMLController;

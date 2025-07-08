@@ -24,6 +24,15 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
+/**
+ * Test class for search functionality validation in the recipe selection interface.
+ * This class tests search input validation, including valid inputs, overlength inputs,
+ * and empty inputs using JavaFX TestFX framework.
+ * 
+ * @author Mengfei Chen and Ziang Liu
+ * @version 1.0
+ * @since 1.0
+ */
 @ExtendWith(ApplicationExtension.class)
 public class SearchTest {
 

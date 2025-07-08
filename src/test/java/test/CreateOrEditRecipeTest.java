@@ -1,5 +1,15 @@
 package test;
 
+/**
+ * Test class for recipe creation and editing functionality validation.
+ * This class tests the validation logic for recipe data including ingredients,
+ * nutritional information, and serving number validation using JavaFX TestFX framework.
+ * 
+ * @author Mengfei Chen and Ziang Liu
+ * @version 1.0
+ * @since 1.0
+ */
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -88,25 +98,26 @@ public class CreateOrEditRecipeTest {
 
     /**
      * Executes recipe validation on the JavaFX application thread.
+     * 
+     * @param recipeName The name of the recipe to validate
+     * @param cookingTime The cooking time in minutes
+     * @param preparationTime The preparation time in minutes  
+     * @param recipeImage The recipe image URL or path
+     * @return CompletableFuture containing the validation result
      * <p>
      * Performs validation logic asynchronously and returns CompletableFuture for result retrieval.
      * Resets warning tracking before executing validation.
      *
-     * @param recipeName recipe name
-     * @param prepTime preparation time
-     * @param cookTime cooking time
-     * @param imageURL image URL
-     * @return CompletableFuture containing validation result
      */
     private CompletableFuture<Boolean> executeValidation(
-            String recipeName, String prepTime, String cookTime, String imageURL) {
+            String recipeName, String cookingTime, String preparationTime, String recipeImage) {
 
         CompletableFuture<Boolean> future = new CompletableFuture<>();
 
         Platform.runLater(() -> {
             try {
                 Model.resetLastDisplayedAlert();
-                boolean result = model.validateRecipe(recipeName, cookTime, prepTime, imageURL);
+                boolean result = model.validateRecipe(recipeName, cookingTime, preparationTime, recipeImage);
                 future.complete(result);
             } catch (Exception e) {
                 future.completeExceptionally(e);
@@ -118,20 +129,21 @@ public class CreateOrEditRecipeTest {
 
     /**
      * Executes serving number validation on the JavaFX application thread.
+     * 
+     * @param servingNumber The serving number string to validate
+     * @return CompletableFuture containing the validation result
      * <p>
      * Performs serving validation asynchronously and returns CompletableFuture for result retrieval.
      * Resets warning tracking before executing validation.
      *
-     * @param serveNumber serving number
-     * @return CompletableFuture containing validation result
      */
-    private CompletableFuture<Boolean> executeServingValidation(String serveNumber) {
+    private CompletableFuture<Boolean> executeServingValidation(String servingNumber) {
         CompletableFuture<Boolean> future = new CompletableFuture<>();
 
         Platform.runLater(() -> {
             try {
                 Model.resetLastDisplayedAlert();
-                boolean result = model.validateServingNumber(serveNumber);
+                boolean result = model.validateServingNumber(servingNumber);
                 future.complete(result);
             } catch (Exception e) {
                 future.completeExceptionally(e);
