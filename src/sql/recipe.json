@@ -459,5 +459,64 @@
       "4. Stir-fry until the tomatoes become soft and juicy, then pour the eggs back into the pan and continue to stir-fry",
       "5. You can add a little tomato sauce appropriately to make the flavor more intense"
     ]
+  },
+  {
+    "dish_name": "Hong Shao Rou—Red Braised Pork Belly",
+    "ingredients": [
+      {
+        "name": "Pork belly",
+        "quantity": 125,
+        "unit": "g",
+        "description": "cut into 2-inch cubes"
+      },
+      {
+        "name": "Light soy sauce",
+        "quantity": 1,
+        "unit": "tbsp",
+        "description": "null"
+      },
+      {
+        "name": "Brown sugar",
+        "quantity": 0.5,
+        "unit": "tbsp",
+        "description": "broken if large pieces"
+      },
+      {
+        "name": "Ginger",
+        "quantity": 0.5,
+        "unit": "inch",
+        "description": "sliced"
+      },
+      {
+        "name": "Green onions",
+        "quantity": 1,
+        "unit": "pc",
+        "description": "cut into long sections"
+      },
+      {
+        "name": "Water",
+        "quantity": 0.25,
+        "unit": "cup",
+        "description": "hot"
+      },
+      {
+        "name": "Cooking oil",
+        "quantity": 0,
+        "unit": "as needed",
+        "description": "for brushing (optional)"
+      }
+    ],
+    "preparation_steps": [
+      "1. Cut pork into 2-inch cubes. Blanch in boiling water with 1/2 slice ginger and 1 green onion for 4 mins. Rinse and drain.",
+      "2. Heat oil in wok. Sear pork until golden brown. Transfer to clay pot.",
+      "3. Add soy sauce, sugar, and water to pot. Simmer covered for 50 mins.",
+      "4. Uncover and reduce sauce until thickened. Rest 5 mins before serving."
+    ],
+    "nutrition": {
+      "calories": 585,
+      "protein": 12,
+      "fat": 55,
+      "carbohydrates": 9
+    }
   }
 ]
