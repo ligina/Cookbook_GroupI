@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Recipe Select View FXML
+    Author: Ziang Liu
+    Description: User interface for browsing and selecting recipes from the collection
+-->
+
 <?import javafx.scene.control.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.layout.*?>

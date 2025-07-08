@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!--
+    Recipe Display View FXML
+    Author: Ziang Liu
+    Description: User interface for displaying recipe details, nutrition facts, and editing options
+-->
+
 <?import javafx.scene.control.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.image.*?>

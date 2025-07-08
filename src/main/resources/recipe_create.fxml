@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Recipe Create View FXML
+    Author: Ziang Liu
+    Description: User interface for creating new recipes with ingredients and instructions
+-->
+
 <?import javafx.scene.control.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.image.*?>
