@@ -22,24 +22,6 @@ import java.util.concurrent.ExecutionException;
  * This class tests the core login logic in the Model layer using mocked database components
  * to ensure proper authentication behavior under various input conditions.
  * 
- * <p>Implements test cases based on the EC_BVA table design, covering all equivalence class combinations:
- * <ul>
- *   <li>V1: Username exists</li>
- *   <li>V2: Username does not exist</li>
- *   <li>V3: Username is empty</li>
- *   <li>V4: Password matches</li>
- *   <li>V5: Password does not match</li>
- *   <li>V6: Password is empty</li>
- * </ul>
- *
- * <p>Predefined user data in the mock database:
- * <ul>
- *   <li>Username: qwe, Password: qwe</li>
- *   <li>Username: ezra1234, Password: pass1234</li>
- * </ul>
- *
- * <p>Test cases strictly follow the login test section from the EC_BVA table (Test No.1-5).
- * 
  * @author Mengfei Chen and Ziang Liu
  * @version 1.0
  * @since 1.0

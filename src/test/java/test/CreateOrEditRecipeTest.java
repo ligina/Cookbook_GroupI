@@ -1,15 +1,5 @@
 package test;
 
-/**
- * Test class for recipe creation and editing functionality validation.
- * This class tests the validation logic for recipe data including ingredients,
- * nutritional information, and serving number validation using JavaFX TestFX framework.
- * 
- * @author Mengfei Chen and Ziang Liu
- * @version 1.0
- * @since 1.0
- */
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -17,7 +7,6 @@ import static org.mockito.Mockito.*;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import model.Model;
-import model.DatabaseManager;
 import org.apache.ibatis.session.SqlSession;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,17 +17,16 @@ import dao.mappers.RecipeMapper;
 
 import java.lang.reflect.Field;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-import java.util.regex.Pattern;
+
 
 /**
- * Test class for recipe creation/editing functionality, strictly following the test case design from the EC_BVA table.
- * <p>
- * Covers all 13 test scenarios (Test No.1-13) for the Create/Edit Recipe section.
- * Each test method corresponds to a test number in the table and clearly indicates the covered equivalence class combination.
+ * Test class for recipe creation and editing functionality validation.
+ * This class tests the validation logic for recipe data including ingredients,
+ * nutritional information, and serving number validation using JavaFX TestFX framework.
  *
- * <p>Tests use JavaFX's Platform.runLater() to ensure UI operations execute on the correct thread,
- * and use CompletableFuture for handling asynchronous operations and result verification.</p>
+ * @author Mengfei Chen and Ziang Liu
+ * @version 1.0
+ * @since 1.0
  */
 @ExtendWith(ApplicationExtension.class)
 public class CreateOrEditRecipeTest {

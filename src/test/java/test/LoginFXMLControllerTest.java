@@ -1,15 +1,5 @@
 package test;
 
-/**
- * Test class for LoginFXMLController functionality validation.
- * This class tests the login form validation, user authentication,
- * and UI interaction behaviors using JavaFX TestFX framework.
- * 
- * @author Mengfei Chen and Ziang Liu
- * @version 1.0
- * @since 1.0
- */
-
 import control.LoginFXMLController;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -35,19 +25,13 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 /**
- * Controller test class for login page, focusing on two scenarios specified in the Log In table.
- * <p>
- * Strictly follows the login testing section from EC_BVA table:
- * <ul>
- *   <li>Test No.3: Empty username (EC V3)</li>
- *   <li>Test No.5: Empty password (EC V6)</li>
- * </ul>
+ * Test class for LoginFXMLController functionality validation.
+ * This class tests the login form validation, user authentication,
+ * and UI interaction behaviors using JavaFX TestFX framework.
  *
- * <p>Tests verify:
- * <ul>
- *   <li>When username is empty, correct warning is shown and model layer is not invoked</li>
- *   <li>When password is empty, correct warning is shown and model layer is not invoked</li>
- * </ul>
+ * @author Mengfei Chen and Ziang Liu
+ * @version 1.0
+ * @since 1.0
  */
 @ExtendWith(ApplicationExtension.class)
 public class LoginFXMLControllerTest {
